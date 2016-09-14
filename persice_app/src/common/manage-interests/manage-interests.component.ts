@@ -96,15 +96,15 @@ export abstract class ManageInterestsComponent {
     let item: string = this.newItemText;
     if (!this.hasMinimumLength(item)) {
       this.status = 'failure';
+      this.itemBeingAddedFromTypeahead = false;
       return;
     }
 
     if (!this.exceedsMaximumLength(item)) {
       this.status = 'failure';
+      this.itemBeingAddedFromTypeahead = false;
       return;
     }
-
-    this.status = 'success';
 
     // Clear typeahead input
     jQuery('#typeaheadInput').typeahead('val', '');
@@ -160,6 +160,7 @@ export abstract class ManageInterestsComponent {
 
   private _save() {
     if (this.interestBeingSaved) {
+      this.itemBeingAddedFromTypeahead = false;
       return;
     }
     this.interestBeingSaved = true;
@@ -175,6 +176,7 @@ export abstract class ManageInterestsComponent {
       } else {
         // Trying to select already existing and selected interest
         this.status = 'failure';
+        this.itemBeingAddedFromTypeahead = false;
         this.interestBeingSaved = false;
       }
     } else {

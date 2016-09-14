@@ -6,13 +6,11 @@
     <div class="card--event__overlay">
       <div class="card--event__overlay__spots">{{event.maxAttendees - event.attendeesGoing.length}} spots left</div>
       <hr class="hr">
-      <img
-        src="{{event.eventHost.image}}" alt="" class="avatar avatar--small">
-      <div class="card--event__overlay__hostedby">Hosted by {{event.eventHost.name}}</div>
+      <img *ngIf="event.eventHost" src="{{event.eventHost?.image}}" alt="" class="avatar avatar--small">
+      <div *ngIf="event.eventHost" class="card--event__overlay__hostedby">Hosted by {{event.eventHost?.name}}</div>
     </div>
   </div>
-
-
+  
   <div class="card--event__info">
     <div class="layout">
       <div class="layout__item 1/2 text-left eventdate"> {{event.startDate.dayNameShort}}, {{event.startDate.day}}

@@ -5,6 +5,7 @@ import { EventHost } from './event-host';
 
 export class Event {
   private _id: string;
+  private _type: string;
   private _name: string;
   private _image: string;
   private _hostedBy: string;
@@ -15,6 +16,7 @@ export class Event {
   private _latitude: string;
   private _longitude: string;
   private _mapUrl: string;
+  private _eventUrl: string;
   private _connectionsAttendeesCount: number;
   private _maxAttendees: number;
   private _attendeesGoing: any[];
@@ -40,9 +42,10 @@ export class Event {
 
   constructor(dto: any) {
     this._id = dto.id;
+    this._type = dto.event_type ? dto.event_type : 'persice';
     this._name = dto.name;
     this._image = !!dto.event_photo && dto.event_photo !== 'https://d2v6m3k9ul63ej.cloudfront.net/null' ? dto.event_photo : '/assets/images/placeholder-image.png';
-    this._hostedBy = dto.hosted_by;
+    this._eventUrl = 'https://www.facebook.com/events/204468889966075/';  //dto.event_url;
     this._description = dto.description;
     this._accessLevel = dto.access_level;
     this._similarity = dto.cumulative_match_score;
@@ -71,8 +74,10 @@ export class Event {
     this._latitude = dto.location ? dto.location.split(',')[0] : '0';
     this._longitude = dto.location ? dto.location.split(',')[1] : '0';
     this._mapUrl = `https://www.google.com/maps/place/${this._latitude}+${this._longitude}/@${this._latitude},${this._longitude},15z`;
-    this._eventHost = this._getHostForEvent(dto);
-    this._isHost = this._eventHost.username === TokenUtil.getValue('username') ? true : false;
+
+    this._eventHost = dto.organizer ? new EventHost(dto.organizer) : null;
+    this._hostedBy = this._eventHost ? this._eventHost.name : '';
+    this._isHost = this._eventHost ? (this._eventHost.username === TokenUtil.getValue('username') ? true : false) : false;
   }
 
   public rsvpOfUsername(username: string): any {
@@ -105,6 +110,14 @@ export class Event {
 
   get name(): string {
     return this._name;
+  }
+
+  get type(): string {
+    return this._type;
+  }
+
+  get eventUrl(): string {
+    return this._eventUrl;
   }
 
   get id(): string {
@@ -252,15 +265,6 @@ export class Event {
     result = ListUtil.orderBy(result, ['isHost'], 'desc');
 
     return result;
-  }
-
-  private _getHostForEvent(dto: any): EventHost {
-    let attendees = [...dto.attendees_yes, ...dto.attendees_maybe, ...dto.attendees_no];
-    let host = attendees.find(function (attendee) {
-      return attendee.is_organizer;
-    });
-
-    return new EventHost(host);
   }
 
 }

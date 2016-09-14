@@ -1,3 +1,4 @@
+import { Gender } from './gender';
 export class EventHost {
 
   private defaultImage: string = '/assets/images/empty_avatar.png';
@@ -6,18 +7,18 @@ export class EventHost {
   private _image: string;
   private _username: string;
   private _age: number;
-  private _gender: string;
-  private _distance: string;
+  private _gender: Gender;
   private _description: string;
+  private _link: string;
 
-  constructor(dbo: any) {
-    this._name = dbo.first_name;
-    this._image = dbo.image || this.defaultImage;
-    this._username = dbo.username;
-    this._age = dbo.age;
-    this._gender = dbo.gender;
-    this._distance = dbo.distance == null ? '' : dbo.distance[0];
-    this._description = dbo.about_me;
+  constructor(dto: any) {
+    this._name = dto.name;
+    this._image = dto.image || this.defaultImage;
+    this._username = dto.username;
+    this._age = dto.age;
+    this._gender = dto.gender ? new Gender(dto.gender) : null;
+    this._description = dto.about_me || '';
+    this._link = dto.link;
   }
 
   get name(): string {
@@ -36,15 +37,15 @@ export class EventHost {
     return this._age;
   }
 
-  get gender(): string {
+  get gender(): Gender {
     return this._gender;
-  }
-
-  get distance(): string {
-    return this._distance;
   }
 
   get description(): string {
     return this._description;
+  }
+
+  get link(): string {
+    return this._link;
   }
 }

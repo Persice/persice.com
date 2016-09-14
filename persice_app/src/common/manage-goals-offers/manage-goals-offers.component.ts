@@ -85,20 +85,21 @@ export abstract class ManageGoalsOffersComponent {
     let item: string = this.newItemText;
     if (!this.hasMinimumLength(item)) {
       this.status = 'failure';
+      this.itemBeingAddedFromTypeahead = false;
       return;
     }
 
     if (!this.exceedsMaximumLength(item)) {
       this.status = 'failure';
+      this.itemBeingAddedFromTypeahead = false;
       return;
     }
 
     if (this.exists(item)) {
       this.status = 'failure';
+      this.itemBeingAddedFromTypeahead = false;
       return;
     }
-
-    this.status = 'success';
 
     // Create new interests or select existing
     this._save();
@@ -205,19 +206,11 @@ export abstract class ManageGoalsOffersComponent {
 
   private exists(subject: string): boolean {
     let idx = findIndex(this.items, {'subject': subject});
-    if (idx > -1) {
-      return true;
-    } else {
-      return false;
-    }
+    return idx > -1;
   }
 
   private checkIfListEmpty() {
-    if (this.total_count === 0) {
-      this.isListEmpty = true;
-    } else {
-      this.isListEmpty = false;
-    }
+    this.isListEmpty = this.total_count === 0 ? true : false;
   }
 
 }
