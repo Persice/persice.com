@@ -1,127 +1,137 @@
-import { EventServiceTemp, NotificationService } from '../../shared/services';
-import { EventModel, EventOpenTo } from '../../shared/models';
-import { GoogleUtil, ObjectUtil, DateUtil } from '../../../common/core';
+import { NotificationService } from '../../shared/services';
+import { GoogleUtil, DateUtil } from '../../../common/core';
+import { Event } from '../../../common/models/event/index';
+import { Location } from '../../../common/models/event/location';
+import { EventService } from '../../../common/events/event.service';
 
 export abstract class BaseEventComponent {
 
-  selectedOpenTo: string = 'Public (all Persice users)';
+  protected selectedOpenTo: string = 'Public (all Persice users)';
+  protected event: Event;
 
-  model;
-  action: string;
-  validationErrors = {};
-  showValidationError: boolean = false;
-  notification = {
+  protected validationErrors = {};
+  protected showValidationError: boolean = false;
+
+  protected notification = {
     title: 'There are some errors. Please correct them below.',
     body: '',
     type: 'error'
   };
 
-  openTo: any = EventOpenTo;
+  protected start_date_picker: number;
+  protected end_date_picker: number;
+  protected start_time_picker: number;
+  protected end_time_picker: number;
 
-  START_DATE = null;
-  END_DATE = null;
-
-  START_TIME = null;
-  END_TIME = null;
-  full = true;
+  protected start_date: string;
+  protected start_time: string;
+  protected end_date: string;
+  protected end_time: string;
 
   constructor(
-    public service: EventServiceTemp,
-    public notificationService: NotificationService,
-    action: string
-  ) {
-    this.model = new EventModel();
-    this.action = action;
+    protected eventService: EventService,
+    protected notificationService: NotificationService,
+    protected action: string
+  ) { }
+
+  protected initForCreate(): void {
+    this.start_date_picker = DateUtil.todayRoundUp().unix() * 1000;
+    this.end_date_picker = DateUtil.todayAddHourRoundUp().unix() * 1000;
+    this.start_time_picker = DateUtil.todayRoundUp().hour() * 60 + DateUtil.todayRoundUp().minute();
+    this.end_time_picker = DateUtil.todayAddHourRoundUp().hour() * 60 + DateUtil.todayAddHourRoundUp().minute();
   }
 
-  changeOpenTo(event) {
-    this.model.access_level = event;
+  protected initForEdit(): void {
+    let startDate = DateUtil.convertToLocal(this.event.startDateRaw);
+    let endDate = DateUtil.convertToLocal(this.event.endDateRaw);
+
+    this.start_date_picker = startDate.unix() * 1000;
+    this.end_date_picker = endDate && endDate.unix() * 1000;
+    this.start_time_picker = startDate.hour() * 60 + startDate.minute();
+    this.end_time_picker = endDate && (endDate.hour() * 60 + endDate.minute());
   }
 
-  changeStartDate(event) {
-    if (event !== 'Invalid date') {
-      this.model.starts_on_date = event;
-      this.combineDateTime('starts_on');
+  protected setEvent(event: Event) {
+    this.event = event;
+  }
+
+  protected changeOpenTo(event): void {
+    this.event.accessLevel = event;
+  }
+
+  protected changeStartDate(start: string): void {
+    if (start !== 'Invalid date') {
+      this.start_date = start;
+      this.combineDateTime('start');
     } else {
-      this.model.starts_on_date = '';
-      this.model.starts_on = '';
-
+      this.start_date = '';
+      this.event.startDateRaw = '';
     }
-
   }
 
-  changeStartTime(event) {
-    if (event !== 'Invalid time') {
-      this.model.starts_on_time = event;
-      this.combineDateTime('starts_on');
+  protected changeStartTime(start: string): void {
+    if (start !== 'Invalid time') {
+      this.start_time = start;
+      this.combineDateTime('start');
     } else {
-      this.model.starts_on_time = '';
-      this.model.starts_on = '';
-
+      this.start_time = '';
+      this.event.startDateRaw = '';
     }
-
   }
 
-  changeEndDate(event) {
-    if (event !== 'Invalid date') {
-      this.model.ends_on_date = event;
-      this.combineDateTime('ends_on');
+  protected changeEndDate(end: string): void {
+    if (end !== 'Invalid date') {
+      this.end_date = end;
+      this.combineDateTime('end');
     } else {
-      this.model.ends_on_date = '';
-      this.model.ends_on = '';
-
+      this.end_date = '';
+      this.event.endDateRaw = '';
     }
-
   }
 
-  changeEndTime(event) {
-
-    if (event !== 'Invalid time') {
-      this.model.ends_on_time = event;
-      this.combineDateTime('ends_on');
+  protected changeEndTime(end: string): void {
+    if (end !== 'Invalid time') {
+      this.end_time = end;
+      this.combineDateTime('end');
     } else {
-      this.model.ends_on_time = '';
-      this.model.ends_on = '';
-
+      this.end_time = '';
+      this.event.endDateRaw = '';
     }
-
   }
 
-  changeLocation(event) {
-    let loc = GoogleUtil.parseLocation(event);
-    this.model = ObjectUtil.merge(this.model, loc);
+  protected changeLocation(loc): void {
+    let location: Location = GoogleUtil.parseLocation(loc);
+    this.event.updateLocation(location);
   }
 
-  combineDateTime(type) {
-    if (this.model[type + '_date'] && this.model[type + '_time']) {
-      let dateParts = this.model[type + '_date'].split('/');
+  private combineDateTime(type: string): void {
+    if (this[type + '_date'] && this[type + '_time']) {
+      let dateParts = this[type + '_date'].split('/');
       let datePartsSorted = [dateParts[2], dateParts[0], dateParts[1]];
-      let timeParts = this.model[type + '_time'].split(':');
+      let timeParts = this[type + '_time'].split(':');
       if (datePartsSorted && timeParts) {
         datePartsSorted[1] -= 1;
-        this.model[type] = DateUtil.formatUTC(datePartsSorted.concat(timeParts), 'YYYY-MM-DDTHH:mm:ss');
+        this.event[type + 'DateRaw'] = DateUtil.formatUTC(datePartsSorted.concat(timeParts), 'YYYY-MM-DDTHH:mm:ss');
         //ensure that end date/time on is always after start date/time
-        if (type === 'starts_on' && DateUtil.moment(this.model.starts_on) >= DateUtil.moment(this.model.ends_on)) {
-          let startDate = DateUtil.convertToLocal(this.model.starts_on).add(1, 'hours');
+        if (type === 'start' && DateUtil.moment(this.event.startDateRaw) >= DateUtil.moment(this.event.endDateRaw)) {
+          let startDate = DateUtil.convertToLocal(this.event.startDateRaw).add(1, 'hours');
 
-          this.END_DATE = startDate.unix() * 1000;
-          this.END_TIME = startDate.hour() * 60 + startDate.minute();
+          this.end_date_picker = startDate.unix() * 1000;
+          this.end_time_picker = startDate.hour() * 60 + startDate.minute();
 
-          this.model.ends_on_date = startDate.format('MM/DD/YYYY');
-          this.model.ends_on_time = startDate.format('hh:mm');
+          this.end_date = startDate.format('MM/DD/YYYY');
+          this.end_time = startDate.format('hh:mm');
 
           setTimeout(() => {
-            jQuery('#ends_on_date').pickadate('picker').set('select', this.END_DATE);
-            jQuery('#ends_on_time').pickatime('picker').set('select', this.END_TIME);
+            jQuery('#end_date').pickadate('picker').set('select', this.end_date_picker);
+            jQuery('#end_time').pickatime('picker').set('select', this.end_time_picker);
           }, 400);
-
         }
-
       }
     }
   }
 
-  _notifySuccess(body) {
+  protected _notifySuccess(body): void {
     this.notificationService.push({
       type: 'success',
       title: 'Success',
@@ -129,5 +139,4 @@ export abstract class BaseEventComponent {
       autoclose: 4000
     });
   }
-
 }

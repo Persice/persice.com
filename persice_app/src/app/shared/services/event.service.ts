@@ -142,7 +142,7 @@ export class EventServiceTemp {
 
     return Observable.create(observer => {
 
-      if (!this._validateData(event)) {
+      if (!this.validate(event)) {
         observer.error({
           validationErrors: this.validationErrors
         });
@@ -157,9 +157,7 @@ export class EventServiceTemp {
             observer.error(err);
           });
       }
-
     });
-
   }
 
   public updateByUri(data, resourceUri): Observable<any> {
@@ -244,20 +242,16 @@ export class EventServiceTemp {
 
   }
 
-  private _validateData(data): boolean {
+  private _validateData(event: Event): boolean {
     this.validationErrors = {};
-
-    let errors = validate(data, this.constraints, EventServiceTemp.VALIDATION_OPTIONS);
-
+    let errors = validate(event, this.constraints, EventServiceTemp.VALIDATION_OPTIONS);
     this.validationErrors = errors;
-
     if (this.validationErrors && Object.keys(this.validationErrors).length > 0) {
       return false;
     } else {
       return true;
     }
   }
-
 }
 
 export var eventServiceInjectables: Array<any> = [

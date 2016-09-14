@@ -55,6 +55,6 @@
   </div>
 </div>
 <div class="remodal--common" data-remodal-id="edit-event" remodal>
-  <prs-event-edit *ngIf="(event$ | async).isHost" [type]="'edit-event'" [event]="(event$ | async)"
+  <prs-event-edit *ngIf="(event$ | async).isHost" [type]="'edit-event'" [eventToEdit]="(event$ | async)"
                   (refreshEvent)="refreshEvent($event)"></prs-event-edit>
 </div>
