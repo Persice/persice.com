@@ -12,11 +12,11 @@ class Migration(DataMigration):
             type='public'
         )
         for fb_event in fb_events:
-            event = orm.Event.objects.filter(eid=fb_event.fid).first()
+            event = orm.Event.objects.filter(eid=fb_event.facebook_id).first()
             if event:
                 orm.Membership.objects.filter(
                     event=event, is_organizer=True, rsvp=u'yes'
-                ).update(user_id=fb_events.user_id)
+                ).update(user=fb_event.user_id)
 
     def backwards(self, orm):
         pass

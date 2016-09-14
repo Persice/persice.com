@@ -36,7 +36,8 @@ from friends.utils import NeoFourJ
 from goals.models import Goal, Offer
 from goals.utils import (calculate_age, get_current_position, get_lives_in)
 from interests import Interest
-from matchfeed.utils import MatchQuerySet, MatchEvent, NonMatchUser
+from matchfeed.utils import MatchQuerySet, MatchEvent, NonMatchUser, \
+    build_organizer
 from members.models import FacebookCustomUserActive
 from photos.api.resources import UserResource
 from photos.models import FacebookPhoto
@@ -194,6 +195,7 @@ class EventResource(MultiPartResource, ModelResource):
             )[0].distance
         except IndexError:
             bundle.data['distance'] = [10000, 'mi']
+        bundle.data['organizer'] = build_organizer(bundle.obj)
         return bundle
 
     def prepend_urls(self):
