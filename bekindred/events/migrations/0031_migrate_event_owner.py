@@ -12,7 +12,7 @@ class Migration(DataMigration):
             type='public'
         )
         for fb_event in fb_events:
-            event = orm.Event.objects.filter(fid=fb_event.fid).first()
+            event = orm.Event.objects.filter(eid=fb_event.fid).first()
             if event:
                 orm.Membership.objects.filter(
                     event=event, is_organizer=True, rsvp=u'yes'
