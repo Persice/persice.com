@@ -44,10 +44,7 @@
           <prs-event-host [host]="(event$ | async).eventHost" [eventType]="(event$ | async).type"></prs-event-host>
         </div>
         <div class="layout__item" *ngIf="!!(event$ | async).eventUrl">
-          <h3 class="module-title">More info</h3>
-          <p>
-            <a target="_new" style="color: #bcc7cd; letter-spacing: none; text-transform: none; font-size: 15px;" class="link-blank" [href]="(event$ | async).eventUrl">{{(event$ | async).eventUrl}}</a>
-          </p>
+          <prs-event-url [eventUrl]="(event$ | async).eventUrl"></prs-event-url>
         </div>
       </div>
     </div>

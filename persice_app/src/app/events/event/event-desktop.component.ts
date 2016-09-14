@@ -14,6 +14,7 @@ import { EventService } from '../../../common/events/event.service';
 import { RemodalDirective } from '../../shared/directives';
 import { EventComponent } from '../../../common/events/event.component';
 import { NotificationService } from '../../shared/services/notification.service';
+import { EventUrlComponent } from './event-url/event-url.component';
 
 @Component({
   selector: 'prs-event',
@@ -22,6 +23,7 @@ import { NotificationService } from '../../shared/services/notification.service'
     EventInfoComponent,
     EventHostComponent,
     EventDescriptionComponent,
+    EventUrlComponent,
     EventPhotoMapComponent,
     EventDiscussionComponent,
     EventAttendeesComponent,
