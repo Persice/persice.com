@@ -2,7 +2,7 @@ import { Distance } from '../distance';
 import { DateUtil, ListUtil, TokenUtil } from '../../core/util';
 import { EventDate } from './event-date';
 import { EventHost } from './event-host';
-import {Location} from "./location";
+import { Location } from './location';
 
 export class Event {
   private _id: string;
