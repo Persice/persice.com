@@ -5,6 +5,7 @@ import { EventHost } from './event-host';
 
 export class Event {
   private _id: string;
+  private _type: string;
   private _name: string;
   private _image: string;
   private _hostedBy: string;
@@ -41,9 +42,9 @@ export class Event {
 
   constructor(dto: any) {
     this._id = dto.id;
+    this._type = dto.type ? dto.type : 'persice';
     this._name = dto.name;
     this._image = !!dto.event_photo && dto.event_photo !== 'https://d2v6m3k9ul63ej.cloudfront.net/null' ? dto.event_photo : '/assets/images/placeholder-image.png';
-    this._hostedBy = dto.hosted_by;
     this._eventUrl = dto.event_url;
     this._description = dto.description;
     this._accessLevel = dto.access_level;
@@ -73,8 +74,9 @@ export class Event {
     this._latitude = dto.location ? dto.location.split(',')[0] : '0';
     this._longitude = dto.location ? dto.location.split(',')[1] : '0';
     this._mapUrl = `https://www.google.com/maps/place/${this._latitude}+${this._longitude}/@${this._latitude},${this._longitude},15z`;
-    this._eventHost = this._getHostForEvent(dto);
-    this._isHost = this._eventHost.username === TokenUtil.getValue('username') ? true : false;
+    this._eventHost = dto.owner ? new EventHost(dto.owner) : null;
+    this._hostedBy = this._eventHost ? this._eventHost.name : '';
+    this._isHost = this._eventHost ? (this._eventHost.username === TokenUtil.getValue('username') ? true : false) : false;
   }
 
   public rsvpOfUsername(username: string): any {
@@ -107,6 +109,10 @@ export class Event {
 
   get name(): string {
     return this._name;
+  }
+
+  get type(): string {
+    return this._type;
   }
 
   get eventUrl(): string {

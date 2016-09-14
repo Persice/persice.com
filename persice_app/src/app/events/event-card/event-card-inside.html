@@ -3,12 +3,12 @@
     <div class="card--event__img__holder js-image-liquid" default="/assets/images/placeholder-image.png"
          checkimage="{{event.image}}" [suffix]="'.300x200_q100_crop.jpg'">
     </div>
-    <div class="card--event__overlay">
+    <div class="card--event__overlay" *ngIf="event.eventHost">
       <div class="card--event__overlay__spots">{{event.maxAttendees - event.attendeesGoing.length}} spots left</div>
       <hr class="hr">
       <img
-        src="{{event.eventHost.image}}" alt="" class="avatar avatar--small">
-      <div class="card--event__overlay__hostedby">Hosted by {{event.eventHost.name}}</div>
+        src="{{event.eventHost?.image}}" alt="" class="avatar avatar--small">
+      <div class="card--event__overlay__hostedby">Hosted by {{event.eventHost?.name}}</div>
     </div>
   </div>
 
