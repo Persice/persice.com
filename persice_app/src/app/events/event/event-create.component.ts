@@ -7,11 +7,11 @@ import {
   TimepickerDirective }
 from '../../shared/directives';
 import { BaseEventComponent } from './base-event.component';
-import { EventModel } from '../../shared/models';
 import { NotificationComponent } from '../../shared/components/notification';
 import { LoadingComponent } from '../../shared/components/loading';
-import { DateUtil } from '../../../common/core';
-import { EventServiceTemp, NotificationService } from '../../shared/services';
+import { NotificationService } from '../../shared/services';
+import { Event } from '../../../common/models/event/index';
+import { EventService } from '../../../common/events/event.service';
 
 @Component({
   selector: 'prs-event-create',
@@ -24,28 +24,26 @@ import { EventServiceTemp, NotificationService } from '../../shared/services';
     TimepickerDirective,
     LoadingComponent
   ],
-  providers: [EventServiceTemp]
+  providers: [EventService, NotificationService]
 })
-export class EventCreateComponent extends BaseEventComponent {
-  @Input() type;
-  loading: boolean = false;
-  START_DATE = DateUtil.todayRoundUp().unix() * 1000;
-  END_DATE = DateUtil.todayAddHourRoundUp().unix() * 1000;
-  START_TIME = DateUtil.todayRoundUp().hour() * 60 + DateUtil.todayRoundUp().minute();
-  END_TIME = DateUtil.todayAddHourRoundUp().hour() * 60 + DateUtil.todayAddHourRoundUp().minute();
+export class EventCreateComponent extends BaseEventComponent implements OnInit {
+  @Input() type: string;
+
+  private loading: boolean = false;
+  private full = true;
 
   constructor(
-    public service: EventServiceTemp,
-    public notificationService: NotificationService,
-    public router: Router
+    service: EventService,
+    notificationService: NotificationService,
+    private router: Router
   ) {
-    super(service, notificationService, 'create');
-    setTimeout(() => {
-      this.model.starts_on_date = DateUtil.todayRoundUp().format('MM/DD/YYYY');
-      this.model.ends_on_date = DateUtil.todayAddHourRoundUp().format('MM/DD/YYYY');
-      this.model.starts_on_time = DateUtil.todayRoundUp().format('hh:mm');
-      this.model.ends_on_time = DateUtil.todayAddHourRoundUp().format('hh:mm');
-    });
+    super(service, notificationService,  'create');
+
+    this.event = Event.empty();
+  }
+
+  ngOnInit(): any {
+    this.initForCreate();
   }
 
   saveEvent(event) {
@@ -55,7 +53,7 @@ export class EventCreateComponent extends BaseEventComponent {
 
     this.loading = true;
     this.showValidationError = false;
-    this.service.create(this.model).subscribe((res) => {
+    this.eventService.create(this.event).subscribe((res) => {
       this.validationErrors = {};
       this.loading = false;
       this._notifySuccess('Your event has been created.');
@@ -73,7 +71,6 @@ export class EventCreateComponent extends BaseEventComponent {
           this.notification.body = 'There has been an error during saving this event.';
         }
         this.showValidationError = true;
-
       }
     });
   }

@@ -125,6 +125,6 @@ export class EventsService {
 
   //noinspection JSMethodCanBeStatic
   private _toEvent(dto: any): Event {
-    return new Event(dto);
+    return Event.fromDto(dto);
   }
 }

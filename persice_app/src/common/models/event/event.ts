@@ -2,6 +2,7 @@ import { Distance } from '../distance';
 import { DateUtil, ListUtil, TokenUtil } from '../../core/util';
 import { EventDate } from './event-date';
 import { EventHost } from './event-host';
+import { Location } from './location';
 
 export class Event {
   private _id: string;
@@ -28,6 +29,13 @@ export class Event {
   private _locationRaw: string;
   private _fullAddress: string;
   private _mergedAddress: string;
+  private _country: string;
+  private _city: string;
+  private _zipcode: string;
+  private _state: string;
+  private _street: string;
+  private _address: string;
+  private _eventLocation: string;
   private _startDate: EventDate;
   private _endDate: EventDate;
   private _startDateRaw: string;
@@ -36,16 +44,33 @@ export class Event {
   private _eventHost: EventHost;
   private _isHost: boolean;
 
-  public static fromDto(dto: any) {
-    return new Event(dto);
+  constructor() {}
+
+  public static fromDto(dto: any): Event {
+    let event: Event = new Event();
+    event.initFromDto(dto);
+
+    return event;
   }
 
-  constructor(dto: any) {
+  public static empty(): Event {
+    let event: Event = new Event();
+
+    return event;
+  }
+
+  private initFromDto(dto: any): void {
     this._id = dto.id;
     this._type = dto.event_type ? dto.event_type : 'persice';
     this._name = dto.name;
     this._image = !!dto.event_photo && dto.event_photo !== 'https://d2v6m3k9ul63ej.cloudfront.net/null' ? dto.event_photo : '/assets/images/placeholder-image.png';
     this._eventUrl = dto.event_url;
+
+    // Fix url if it doesn't contain http[s]
+    if (!!this._eventUrl && this._eventUrl.indexOf('http') === -1) {
+      this._eventUrl = '//' + this._eventUrl;
+    }
+
     this._description = dto.description;
     this._accessLevel = dto.access_level;
     this._similarity = dto.cumulative_match_score;
@@ -60,11 +85,14 @@ export class Event {
     this._locationName = dto.location_name ? dto.location_name : '';
     this._fullAddress = dto.full_address ? dto.full_address : '';
     this._mergedAddress = this._fullAddress ? this._fullAddress : this._locationName;
-
     if (this._fullAddress && this._locationName && this._fullAddress.indexOf(this._locationName) === -1) {
       this._mergedAddress = this._locationName + ', ' + this._fullAddress;
     }
-
+    this._eventLocation = this._mergedAddress;
+    this._country = dto.country;
+    this._city = dto.city;
+    this._zipcode = dto.zipcode;
+    this._state = dto.state;
     this._startDate = this._parseEventDateFromField(dto.starts_on);
     this._endDate = this._parseEventDateFromField(dto.ends_on);
     this._startDateRaw = dto.starts_on;
@@ -100,8 +128,38 @@ export class Event {
     return {};
   }
 
-  public host(eventHost: EventHost): void {
-    this._eventHost = eventHost;
+  public updateLocation(location: Location): void {
+    this.street = location.street;
+    this.zipcode = location.zipcode;
+    this.state = location.state;
+    this.address = location.address;
+    this.fullAddress = location.full_address;
+    this.city = location.city;
+    this.country = location.country;
+    this.locationRaw = location.location;
+    this.locationName = location.location_name;
+  }
+
+  public exportData(): any {
+    return {
+      name: this.name,
+      description: this.description,
+      access_level: 'public',
+      starts_on: this.startDateRaw,
+      ends_on: this.endDateRaw,
+      repeat: 'w',
+      event_photo: '',
+      street: this.street,
+      city: this.city,
+      zipcode: this.zipcode || '',
+      state: this.state,
+      full_address: this.fullAddress,
+      location_name: this.locationName,
+      country: this.country,
+      address: this.address || this.fullAddress,
+      location: this.locationRaw,
+      max_attendees: this.maxAttendees
+    }
   }
 
   public get isHost(): boolean {
@@ -112,12 +170,20 @@ export class Event {
     return this._name;
   }
 
+  set name(name: string) {
+    this._name = name;
+  }
+
   get type(): string {
     return this._type;
   }
 
   get eventUrl(): string {
     return this._eventUrl;
+  }
+
+  set eventUrl(eventUrl: string) {
+    this._eventUrl = eventUrl;
   }
 
   get id(): string {
@@ -128,6 +194,10 @@ export class Event {
     return this._image;
   }
 
+  set image(image: string) {
+    this._image = image;
+  }
+
   get hostedBy(): string {
     return this._hostedBy;
   }
@@ -136,8 +206,16 @@ export class Event {
     return this._description;
   }
 
+  set description(description: string) {
+    this._description = description;
+  }
+
   get accessLevel(): string {
     return this._accessLevel;
+  }
+
+  set accessLevel(accessLevel: string) {
+    this._accessLevel = accessLevel;
   }
 
   get similarity(): string {
@@ -154,6 +232,10 @@ export class Event {
 
   get maxAttendees(): number {
     return this._maxAttendees;
+  }
+
+  set maxAttendees(maxAttendees: number) {
+    this._maxAttendees = maxAttendees;
   }
 
   get attendeesGoing(): any[] {
@@ -176,12 +258,68 @@ export class Event {
     return this._locationName;
   }
 
+  set locationName(locationName: string) {
+    this._locationName = locationName;
+  }
+
   get fullAddress(): string {
     return this._fullAddress;
   }
 
+  set fullAddress(fullAddress: string) {
+    this._fullAddress = fullAddress;
+  }
+
   get mergedAddress(): string {
     return this._mergedAddress;
+  }
+
+  get country(): string {
+    return this._country;
+  }
+
+  set country(country: string) {
+    this._country = country;
+  }
+
+  get city(): string {
+    return this._city;
+  }
+
+  set city(city: string) {
+    this._city = city;
+  }
+
+  get zipcode(): string {
+    return this._zipcode;
+  }
+
+  set zipcode(zipcode: string) {
+    this._zipcode = zipcode;
+  }
+
+  get state(): string {
+    return this._state;
+  }
+
+  set state(state: string) {
+    this._state = state;
+  }
+
+  get street(): string {
+    return this._street;
+  }
+
+  set street(street: string) {
+    this._street = street;
+  }
+
+  get eventLocation(): string {
+    return this._eventLocation;
+  }
+
+  set eventLocation(eventLocation: string) {
+    this._eventLocation = eventLocation;
   }
 
   get startDate(): EventDate {
@@ -196,12 +334,32 @@ export class Event {
     return this._startDateRaw;
   }
 
+  set startDateRaw(startDateRow: string) {
+    this._startDateRaw = startDateRow;
+  }
+
   get endDateRaw(): string {
     return this._endDateRaw;
   }
 
+  set endDateRaw(endDateRow: string) {
+    this._endDateRaw = endDateRow;
+  }
+
   get locationRaw(): string {
     return this._locationRaw;
+  }
+
+  set locationRaw(locationRaw: string) {
+    this._locationRaw = locationRaw;
+  }
+
+  get address(): string {
+    return this._address;
+  }
+
+  set address(address: string) {
+    this._address = address;
   }
 
   get timezone(): string {

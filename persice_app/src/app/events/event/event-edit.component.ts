@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   SelectDirective,
@@ -9,9 +9,9 @@ import {
 import { BaseEventComponent } from './base-event.component';
 import { NotificationComponent } from '../../shared/components/notification';
 import { LoadingComponent } from '../../shared/components/loading';
-import { DateUtil } from '../../../common/core';
-import { EventServiceTemp, NotificationService } from '../../shared/services';
-import { EventModel } from '../../shared/models';
+import { NotificationService } from '../../shared/services';
+import { EventService } from '../../../common/events/event.service';
+import { Event } from '../../../common/models/event/index';
 
 @Component({
   selector: 'prs-event-edit',
@@ -24,98 +24,32 @@ import { EventModel } from '../../shared/models';
     TimepickerDirective,
     LoadingComponent
   ],
-  providers: [EventServiceTemp]
+  providers: [EventService, NotificationService]
 })
-export class EventEditComponent extends BaseEventComponent {
+export class EventEditComponent extends BaseEventComponent implements OnInit {
 
-  @Input() set event(data: any) {
-    this.eventOriginal = data;
-    this.setEvent(data);
+  @Input() set eventToEdit(eventToEdit: Event) {
+    this.setEvent(eventToEdit);
   }
-
   @Input() type: string;
   @Output() refreshEvent: EventEmitter<any> = new EventEmitter();
 
-  eventOriginal: any;
-  eventId: number = null;
-  resourceUri: string = null;
-
-  START_DATE = null;
-  END_DATE = null;
-
-  START_TIME = null;
-  END_TIME = null;
-
-  loading: boolean = false;
+  private loading: boolean = false;
 
   constructor(
-    public service: EventServiceTemp,
-    public notificationService: NotificationService,
-    public router: Router
+    eventService: EventService,
+    notificationService: NotificationService,
+    private router: Router
   ) {
-    super(service, notificationService, 'edit');
+    super(eventService, notificationService, 'edit');
   }
 
-  setEvent(data) {
-    let ev = data;
-    this.eventId = ev.id;
-    this.resourceUri = ev.resourceUri;
-    this.model.name = ev.name;
-    this.model.description = ev.description;
-    this.model.starts_on = ev.startDateRaw;
-    this.model.ends_on = ev.endDateRaw;
-    this.model.event_photo = ev.image;
-    this.model.event_url = ev.eventUrl;
-    this.model.location = ev.locationRaw;
-    this.model.location_name = ev.locationName;
-    this.model.event_location = ev.mergedAddress;
-    this.model.full_address = ev.fullAddress;
+  ngOnInit(): any {
+    this.initForEdit();
+  }
 
-    this.model.max_attendees = ev.maxAttendees;
-    this.model.access_level = ev.accessLevel;
-
-    let selectOpenTo = [
-      {
-        'label': 'Only my connections (default)',
-        'value': 'connections',
-        'selected': false
-      },
-      {
-        'label': 'Public (all Persice users)',
-        'value': 'public',
-        'selected': false
-      },
-      {
-        'label': 'Private (only invited)',
-        'value': 'private',
-        'selected': false
-      }
-    ];
-
-    for (var i = 0; i < selectOpenTo.length; ++i) {
-      if (selectOpenTo[i].value === this.model.access_level) {
-        selectOpenTo[i].selected = true;
-        this.selectedOpenTo = selectOpenTo[i].label;
-      }
-    }
-
-    this.openTo = selectOpenTo;
-
-    //assign dates
-    let startDate = DateUtil.convertToLocal(this.model.starts_on);
-
-    let endDate = DateUtil.convertToLocal(this.model.ends_on);
-
-    this.START_DATE = startDate.unix() * 1000;
-    this.END_DATE = endDate && endDate.unix() * 1000;
-    this.START_TIME = startDate.hour() * 60 + startDate.minute();
-    this.END_TIME = endDate && (endDate.hour() * 60 + endDate.minute());
-
-    this.model.starts_on_date = startDate.format('MM/DD/YYYY');
-    this.model.ends_on_date = endDate && endDate.format('MM/DD/YYYY');
-    this.model.starts_on_time = startDate.format('hh:mm');
-    this.model.ends_on_time = endDate && endDate.format('hh:mm');
-
+  ngOnDestroy(): void {
+    jQuery('select.js-select-rep-create-event').minimalect('destroy');
   }
 
   saveEvent(event) {
@@ -124,7 +58,7 @@ export class EventEditComponent extends BaseEventComponent {
     }
     this.loading = true;
     this.showValidationError = false;
-    this.service.updateByUri(this.model, this.resourceUri).subscribe((res) => {
+    this.eventService.updateByUri(this.event,).subscribe((res) => {
       this.loading = false;
       this.validationErrors = {};
       this._notifySuccess('Event has been updated.');
@@ -136,7 +70,6 @@ export class EventEditComponent extends BaseEventComponent {
       if ('validationErrors' in err) {
         this.validationErrors = err.validationErrors;
       }
-
       if ('status' in err && err.status === 400) {
         let parseError = JSON.parse(err.responseText);
         if ('event' in parseError) {
@@ -145,18 +78,16 @@ export class EventEditComponent extends BaseEventComponent {
           this.notification.body = 'There has been an error during saving this event.';
         }
         this.showValidationError = true;
-
       }
-
-    }, () => {
+      }, () => {
     });
   }
 
-  deleteEvent(event) {
+  deleteEvent() {
     this.showValidationError = false;
-    this.service.deleteByUri(this.resourceUri).subscribe((res) => {
+    this.eventService.deleteByUri(this.event.resourceUri).subscribe((res) => {
       this.showValidationError = false;
-      this._notifySuccess(`Your event ${this.model.name} has been deleted.`);
+      this._notifySuccess(`Your event ${this.event.name} has been deleted.`);
       this.router.navigateByUrl('/events/all/list');
     }, (err) => {
       if ('status' in err) {
@@ -165,5 +96,4 @@ export class EventEditComponent extends BaseEventComponent {
       }
     });
   }
-
 }

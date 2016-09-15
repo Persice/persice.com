@@ -4,10 +4,13 @@ import { Subscription, BehaviorSubject, Observable } from 'rxjs';
 import { Event } from '../models/event/index';
 import { HttpClient } from '../core/http-client';
 import { TokenUtil, FormUtil } from '../core/util';
+import { EventValidator } from './event-validator';
 
 @Injectable()
 export class EventService {
   public static API_URL = '/api/v1/event/';
+
+  private validationErrors = {};
 
   public event$: Observable<Event>;
   public isLoading$: Observable<boolean>;
@@ -31,6 +34,97 @@ export class EventService {
 
   public load(eventId: string): void {
     this._getEvent(eventId);
+  }
+
+  public updateImageByUri(data, resourceUri): void {
+    let image = data;
+    let userId = TokenUtil.getValue('user_id');
+    image.user = '/api/v1/auth/user/' + userId + '/';
+    let body = FormUtil.formData(image);
+
+    let options = {headers: new Headers()};
+    options.headers.set('Content-Type', 'multipart/form-data');
+
+    this._isImageUploading$.next(true);
+    this.http.put(`${resourceUri}?format=json`, <any>body, options)
+      .map((res: Response) => this._toEvent(res))
+      .subscribe((data: Event) => {
+        this._isImageUploading$.next(false);
+        this._event$.next(data);
+      }, (err) => {
+        console.log('Image upload went wrong');
+        console.log(err);
+      });
+  }
+
+  public create(e: Event): Observable<any> {
+    let event = e.exportData();
+
+    let userId = TokenUtil.getValue('user_id');
+    event.user = '/api/v1/auth/user/' + userId + '/';
+
+    //fix location if not found by autocomplete
+    if (event.location === '' || event.location === undefined || event.location === null) {
+      event.location = '0,0';
+      event.location_name = event.eventLocation;
+    }
+
+    let body = FormUtil.formData(event);
+
+    return Observable.create(observer => {
+      if (!this._validateData(e)) {
+        observer.error({
+          validationErrors: this.validationErrors
+        });
+      } else {
+        let options = {headers: new Headers()};
+        options.headers.set('Content-Type', 'multipart/form-data');
+        this.http.post(`${EventService.API_URL}?format=json`, <any>body, options).map((res: Response) => res.json())
+          .subscribe((res) => {
+            observer.next(res);
+            observer.complete();
+          }, (err) => {
+            observer.error(err);
+          });
+      }
+    });
+  }
+
+  public deleteByUri(resourceUri: string): Observable<any> {
+    return this.http.delete(`${resourceUri}?format=json`);
+  }
+
+  public updateByUri(e: Event): Observable<any> {
+    let event = e.exportData();
+
+    let userId = TokenUtil.getValue('user_id');
+    event.user = '/api/v1/auth/user/' + userId + '/';
+
+    //fix location if not found by autocomplete
+    if (event.location === '' || event.location === undefined || event.location === null) {
+      event.location = '0,0';
+      event.location_name = event.eventLocation;
+    }
+
+    let body = FormUtil.formData(event);
+
+    return Observable.create(observer => {
+      if (!this._validateData(e)) {
+        observer.error({
+          validationErrors: this.validationErrors
+        });
+      } else {
+        let options = { headers: new Headers() };
+        options.headers.set('Content-Type', 'multipart/form-data');
+        this.http.put(`${e.resourceUri}?format=json`, <any>body, options).map((res: Response) => res.json())
+          .subscribe((res) => {
+            observer.next(res);
+            observer.complete();
+          }, (err) => {
+            observer.error(err);
+          });
+      }
+    });
   }
 
   private _getEvent(eventId: string): void {
@@ -66,31 +160,19 @@ export class EventService {
       });
   }
 
-  public updateImageByUri(data, resourceUri): void {
-
-    let image = data;
-    let userId = TokenUtil.getValue('user_id');
-    image.user = '/api/v1/auth/user/' + userId + '/';
-    let body = FormUtil.formData(image);
-
-    let options = {headers: new Headers()};
-    options.headers.set('Content-Type', 'multipart/form-data');
-
-    this._isImageUploading$.next(true);
-    this.http.put(`${resourceUri}?format=json`, <any>body, options)
-      .map((res: Response) => this._toEvent(res))
-      .subscribe((data: Event) => {
-        this._isImageUploading$.next(false);
-        this._event$.next(data);
-      }, (err) => {
-        console.log('Image upload went wrong');
-        console.log(err);
-      });
+  private _toEvent(dto: any): Event {
+    return Event.fromDto(dto.json());
   }
 
-  private _toEvent(dto: any): Event {
-    let event: Event = new Event(dto.json());
+  private _validateData(event: Event): boolean {
+    this.validationErrors = {};
+    let errors = new EventValidator().validateData(event);
+    this.validationErrors = errors;
 
-    return event;
+    if (this.validationErrors && Object.keys(this.validationErrors).length > 0) {
+      return false;
+    } else {
+      return true;
+    }
   }
 }

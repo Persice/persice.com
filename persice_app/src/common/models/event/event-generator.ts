@@ -57,6 +57,7 @@ export class EventGenerator {
           "first_name": "SaÅ¡a",
           "image": "https://d2v6m3k9ul63ej.cloudfront.net/images/facebook_profiles/2016/05/25/fb_image_560101450791647_1464153126.jpg",
           "is_connection": true,
+          "is_organizer": true,
           "match_score": 9,
           "username": "sasamacakanja"
         },
@@ -389,6 +390,6 @@ export class EventGenerator {
   }
 
   public static givenAnyEvent(): Event {
-    return new Event(this.givenAnyEventDto());
+    return Event.fromDto(this.givenAnyEventDto());
   }
 }
