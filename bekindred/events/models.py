@@ -167,6 +167,7 @@ class FacebookEvent(models.Model):
     cover = models.TextField(blank=True, null=True)
     picture = models.TextField(blank=True, null=True)
     location = GeopositionField(blank=True, null=True)
+    location_name = models.TextField(blank=True, null=True)
     place = models.TextField(blank=True, null=True)
     raw_data = models.TextField(blank=True, null=True)
 

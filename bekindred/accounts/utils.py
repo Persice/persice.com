@@ -78,6 +78,7 @@ def _store_fb_events(user):
             place = event.get('place')
             place_text = json.dumps(place) if place else None
 
+            location_name = place.get('name') if place else None
             location = event.get('place', {}).get('location')
             location_gp = None
             if location:
@@ -102,7 +103,8 @@ def _store_fb_events(user):
                 start_time=start_time,
                 end_time=end_time,
                 type=event.get('type'),
-                location=location_gp
+                location=location_gp,
+                location_name=location_name
             )
         current_events, inserted_events = mass_get_or_create(
             FacebookEvent, base_queryset, id_field, default_dict,
