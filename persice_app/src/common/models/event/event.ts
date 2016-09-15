@@ -192,6 +192,7 @@ export class Event {
       ends_on: this.endDateRaw,
       repeat: 'w',
       event_photo: '',
+      event_url: this.eventUrl,
       street: this.street,
       city: this.city,
       zipcode: this.zipcode || '',
