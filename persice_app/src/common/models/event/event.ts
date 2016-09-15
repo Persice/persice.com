@@ -18,6 +18,7 @@ export class Event {
   private _longitude: string;
   private _mapUrl: string;
   private _eventUrl: string;
+  private _eventUrlAsLink: string;
   private _connectionsAttendeesCount: number;
   private _maxAttendees: number;
   private _attendeesGoing: any[];
@@ -65,10 +66,11 @@ export class Event {
     this._name = dto.name;
     this._image = !!dto.event_photo && dto.event_photo !== 'https://d2v6m3k9ul63ej.cloudfront.net/null' ? dto.event_photo : '/assets/images/placeholder-image.png';
     this._eventUrl = dto.event_url;
+    this._eventUrlAsLink = dto.event_url;
 
     // Fix url if it doesn't contain http[s]
     if (!!this._eventUrl && this._eventUrl.indexOf('http') === -1) {
-      this._eventUrl = '//' + this._eventUrl;
+      this._eventUrlAsLink  = '//' + this._eventUrl;
     }
 
     this._description = dto.description;
@@ -232,6 +234,10 @@ export class Event {
 
   get eventUrl(): string {
     return this._eventUrl;
+  }
+
+  get eventUrlAsLink(): string {
+    return this._eventUrlAsLink;
   }
 
   set eventUrl(eventUrl: string) {
