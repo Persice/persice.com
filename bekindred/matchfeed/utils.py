@@ -559,12 +559,13 @@ def build_organizer(event):
         return persice_organizer(event.organizer)
     else:
         fb_event = FacebookEvent.objects.filter(facebook_id=event.eid).first()
-        prs_user = FacebookCustomUserActive.objects.filter(
-            facebook_id=event.eid
-        ).first()
+        if fb_event:
+            prs_user = FacebookCustomUserActive.objects.filter(
+                facebook_id=fb_event.owner_info.get('id', -11)
+            ).first()
+            if prs_user:
+                return persice_organizer(prs_user)
 
-        if prs_user:
-            return persice_organizer(prs_user)
         elif fb_event:
             return {
                 'name': fb_event.owner_info.get('name'),

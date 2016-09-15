@@ -71,6 +71,7 @@ class Event(models.Model):
     event_photo = ThumbnailerImageField(null=True,
                                         upload_to='event_photos/%Y/%m/%d')
     eid = models.BigIntegerField(blank=True, null=True)
+    event_url = models.URLField(blank=True, null=True)
 
     search_index = VectorField()
 
