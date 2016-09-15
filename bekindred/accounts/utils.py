@@ -78,14 +78,17 @@ def _store_fb_events(user):
             place = event.get('place')
             place_text = json.dumps(place) if place else None
 
-            location_name = place.get('name') if place else None
-            location = event.get('place', {}).get('location')
             location_gp = None
+            location_name = None
+            location = event.get('place', {}).get('location')
             if location:
                 location_gp = Geoposition(
                     location.get('latitude', 0),
                     location.get('longitude', 0)
                 )
+            else:
+                location_name = place.get('name') if place else None
+
             description = event.get('description')
             description_text = description[:1000] if description else None
 
