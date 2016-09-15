@@ -38,4 +38,8 @@ export class EventDate {
   get year(): string {
     return this._year;
   }
+
+  public clone(): EventDate {
+    return new EventDate(this.hour, this.day, this.dayName, this.dayNameShort, this.month, this.year);
+  }
 }

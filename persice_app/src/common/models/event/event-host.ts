@@ -48,4 +48,18 @@ export class EventHost {
   get link(): string {
     return this._link;
   }
+
+  public clone(): EventHost {
+    let dto = {
+      name: this.name,
+      image: this.image,
+      username: this.username,
+      age: this.age,
+      gender: this.gender,
+      description: this.description,
+      link: this.link
+    };
+
+    return new EventHost(dto);
+  }
 }

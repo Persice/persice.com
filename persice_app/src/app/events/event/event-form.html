@@ -3,7 +3,7 @@
     <div class="layout__item 1/2">
       <h5 class="remodal__title">{{action}} event</h5></div>
   </div>
-  <button data-remodal-action="close" class="remodal-close">
+  <button data-remodal-action="close" class="remodal-close" (click)="applyBackup()">
     <svg role="img" class="icon">
       <use xlink:href="/assets/icons/icons.svg#icon-close"></use>
     </svg>
@@ -149,7 +149,9 @@
       <a (click)="deleteEvent()" class="link-blank link-blank--red">Delete event</a>
     </div>
     <div class="layout__item 1/2" style="position: relative;">
-      <button class="btn btn-1 btn-1--small btn-1--darkblue mr--" data-remodal-action="cancel">Cancel</button>
+      <button class="btn btn-1 btn-1--small btn-1--darkblue mr--" data-remodal-action="cancel" (click)="applyBackup()">
+        Cancel
+      </button>
       <button (click)="saveEvent()" class="btn btn-1 btn-1--small btn-1--filled btn-1--blue">Save</button>
       <div class="loader" *ngIf="loading" style="right: 113px; top: 5px;">
         <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 40 40" enable-background="new 0 0 40 40" xml:space="preserve">

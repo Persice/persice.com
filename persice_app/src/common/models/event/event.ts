@@ -108,6 +108,49 @@ export class Event {
     this._isHost = this._eventHost ? (this._eventHost.username === TokenUtil.getValue('username') ? true : false) : false;
   }
 
+  public clone(): Event {
+    let event: Event = new Event();
+
+    event.id = this.id;
+    event.type = this.type;
+    event.name = this.name;
+    event.image = this.image;
+    event.eventUrl = this.eventUrl;
+    event.description = this.description;
+    event.accessLevel = this.accessLevel;
+    event.similarity = this.similarity;
+    event.distance = this.distance;
+    event.connectionsAttendeesCount = this.connectionsAttendeesCount;
+    event.maxAttendees = this.maxAttendees;
+    event.attendeesGoing = this.attendeesGoing;
+    event.attendeesMaybe = this.attendeesMaybe;
+    event.attendeesNotGoing = this.attendeesNotGoing;
+    event.attendeesPreview = this.attendeesPreview;
+    event.spotsRemaining = this.spotsRemaining;
+    event.locationName = this.locationName;
+    event.fullAddress = this.fullAddress;
+    event.mergedAddress = this.mergedAddress;
+    event.eventLocation = this.eventLocation;
+    event.country = this.country;
+    event.city = this.city;
+    event.zipcode = this.zipcode;
+    event.state = this.state;
+    event.startDate = this.startDate.clone();
+    event.endDate = this.endDate.clone();
+    event.startDateRaw = this.startDateRaw;
+    event.endDateRaw = this.endDateRaw;
+    event.locationRaw = this.locationRaw;
+    event.resourceUri = this.resourceUri;
+    event.longitude = this.longitude;
+    event.latitude = this.latitude;
+    event.mapUrl = this.mapUrl;
+    event.eventHost = this.eventHost.clone();
+    event.hostedBy = this.hostedBy;
+    event.isHost = this.isHost;
+
+    return event;
+  }
+
   public rsvpOfUsername(username: string): any {
     for (let user of this._attendeesGoing) {
       if (user.username === username) {
@@ -162,8 +205,12 @@ export class Event {
     }
   }
 
-  public get isHost(): boolean {
+  get isHost(): boolean {
     return this._isHost;
+  }
+
+  set isHost(isHost: boolean) {
+    this._isHost = isHost;
   }
 
   get name(): string {
@@ -178,6 +225,10 @@ export class Event {
     return this._type;
   }
 
+  set type(type: string) {
+    this._type = type;
+  }
+
   get eventUrl(): string {
     return this._eventUrl;
   }
@@ -190,6 +241,10 @@ export class Event {
     return this._id;
   }
 
+  set id(id: string) {
+    this._id = id;
+  }
+
   get image(): string {
     return this._image;
   }
@@ -200,6 +255,10 @@ export class Event {
 
   get hostedBy(): string {
     return this._hostedBy;
+  }
+
+  set hostedBy(hostedBy: string) {
+    this._hostedBy = hostedBy;
   }
 
   get description(): string {
@@ -222,12 +281,24 @@ export class Event {
     return this._similarity;
   }
 
+  set similarity(similarity: string) {
+    this._similarity = similarity;
+  }
+
   get distance(): Distance {
     return this._distance;
   }
 
+  set distance(distance: Distance) {
+    this._distance = distance;
+  }
+
   get connectionsAttendeesCount(): number {
     return this._connectionsAttendeesCount;
+  }
+
+  set connectionsAttendeesCount(count: number) {
+    this._connectionsAttendeesCount = count;
   }
 
   get maxAttendees(): number {
@@ -242,16 +313,32 @@ export class Event {
     return this._attendeesGoing;
   }
 
+  set attendeesGoing(attendesGoing: any[]) {
+    this._attendeesGoing = attendesGoing;
+  }
+
   get attendeesMaybe(): any[] {
     return this._attendeesMaybe;
+  }
+
+  set attendeesMaybe(attendeesMaybe: any[]) {
+    this._attendeesMaybe = attendeesMaybe;
   }
 
   get attendeesNotGoing(): any[] {
     return this._attendeesNotGoing;
   }
 
+  set attendeesNotGoing(attendeesNotGoing: any[]) {
+    this._attendeesNotGoing = attendeesNotGoing;
+  }
+
   get spotsRemaining(): number {
     return this._spotsRemaining;
+  }
+
+  set spotsRemaining(spotsRemaining: number) {
+    this._spotsRemaining = spotsRemaining;
   }
 
   get locationName(): string {
@@ -272,6 +359,10 @@ export class Event {
 
   get mergedAddress(): string {
     return this._mergedAddress;
+  }
+
+  set mergedAddress(mergedAddress: string) {
+    this._mergedAddress = mergedAddress;
   }
 
   get country(): string {
@@ -326,8 +417,16 @@ export class Event {
     return this._startDate;
   }
 
+  set startDate(startDate: EventDate) {
+    this._startDate = startDate;
+  }
+
   get endDate(): EventDate {
     return this._endDate;
+  }
+
+  set endDate(endDate: EventDate) {
+    this._endDate = endDate;
   }
 
   get startDateRaw(): string {
@@ -370,12 +469,24 @@ export class Event {
     return this._attendeesPreview;
   }
 
+  set attendeesPreview(attendeesPreview: any[]) {
+    this._attendeesPreview = attendeesPreview;
+  }
+
   get resourceUri(): string {
     return this._resourceUri;
   }
 
+  set resourceUri(resourceUri: string) {
+    this._resourceUri = resourceUri;
+  }
+
   get latitude(): string {
     return this._latitude;
+  }
+
+  set latitude(latitude: string) {
+    this._latitude = latitude;
   }
 
   get latitudeNumber(): number {
@@ -390,8 +501,16 @@ export class Event {
     return this._longitude;
   }
 
+  set longitude(longitude: string) {
+    this._longitude = longitude;
+  }
+
   get mapUrl(): string {
     return this._mapUrl;
+  }
+
+  set mapUrl(mapUrl: string) {
+    this._mapUrl = mapUrl;
   }
 
   get eventHost(): EventHost {

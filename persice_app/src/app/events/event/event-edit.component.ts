@@ -28,8 +28,11 @@ import { Event } from '../../../common/models/event/index';
 })
 export class EventEditComponent extends BaseEventComponent implements OnInit {
 
+  // View event component and edit event component share same event model, but event model object should not be the same
   @Input() set eventToEdit(eventToEdit: Event) {
-    this.setEvent(eventToEdit);
+    if (!this.event) {
+      this.setEvent(eventToEdit.clone());
+    }
   }
   @Input() type: string;
   @Output() refreshEvent: EventEmitter<any> = new EventEmitter();
@@ -52,17 +55,18 @@ export class EventEditComponent extends BaseEventComponent implements OnInit {
     jQuery('select.js-select-rep-create-event').minimalect('destroy');
   }
 
-  saveEvent(event) {
+  saveEvent() {
     if (this.loading) {
       return;
     }
     this.loading = true;
     this.showValidationError = false;
-    this.eventService.updateByUri(this.event,).subscribe((res) => {
+    this.eventService.updateByUri(this.event).subscribe((res) => {
       this.loading = false;
       this.validationErrors = {};
       this._notifySuccess('Event has been updated.');
       this.refreshEvent.emit(true);
+      this.refreshBackup();
       let remodal = jQuery('[data-remodal-id=edit-event]').remodal();
       remodal.close();
     }, (err) => {

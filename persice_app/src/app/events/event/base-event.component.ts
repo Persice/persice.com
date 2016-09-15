@@ -8,6 +8,7 @@ export abstract class BaseEventComponent {
 
   protected selectedOpenTo: string = 'Public (all Persice users)';
   protected event: Event;
+  protected eventBackup: Event;
 
   protected validationErrors = {};
   protected showValidationError: boolean = false;
@@ -53,6 +54,15 @@ export abstract class BaseEventComponent {
 
   protected setEvent(event: Event) {
     this.event = event;
+    this.eventBackup = this.event.clone();
+  }
+
+  protected applyBackup() {
+    this.event = this.eventBackup.clone();
+  }
+
+  protected refreshBackup() {
+    this.eventBackup = this.event.clone();
   }
 
   protected changeOpenTo(event): void {
