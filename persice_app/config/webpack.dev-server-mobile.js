@@ -148,27 +148,15 @@ module.exports = webpackMerge(commonConfig, {
         target: 'http://test-local.com:8000',
         secure: false
       },
-      '/goals': {
-        target: 'http://test-local.com:8000',
-        secure: false
-      },
-      '/social': {
-        target: 'http://test-local.com:8000',
-        secure: false
-      },
-      '/linkedin/connect': {
-        target: 'http://test-local.com:8000',
-        secure: false
-      },
-      '/twitter/connect': {
-        target: 'http://test-local.com:8000',
-          secure: false
-      },
       '/media': {
         target: 'http://test-local.com:8000',
         secure: false
       },
       '/static': {
+        target: 'http://test-local.com:8000',
+        secure: false
+      },
+      '/assets': {
         target: 'http://test-local.com:8000',
         secure: false
       }

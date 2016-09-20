@@ -22,11 +22,11 @@ import { ActivatedRoute } from '@angular/router';
 export class EventsListViewComponent extends EventsComponent implements OnInit, OnDestroy {
 
   constructor(
-    protected eventsService: EventsService,
-    protected filterService: FilterService,
+    eventsService: EventsService,
+    private filterService: FilterService,
     private route: ActivatedRoute
   ) {
-    super(eventsService, filterService);
+    super(eventsService);
   }
 
   ngOnInit() {
@@ -43,9 +43,7 @@ export class EventsListViewComponent extends EventsComponent implements OnInit, 
         this.filterService.addObserver(`events${this.eventsType}`);
         this.filterService.observer(`events${this.eventsType}`)
           .subscribe((data) => this.loadEvents());
-
       });
-
   }
 
   ngOnDestroy() {

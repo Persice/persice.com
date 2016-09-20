@@ -3,8 +3,9 @@ import { DateUtil } from '../../../common/core/util';
 export class EventModel {
   constructor(
     public name: string = '',
+    public event_url: string = '',
     public description: string = '',
-    public access_level: string = 'connections',
+    public access_level: string = 'public',
     public starts_on: string = DateUtil.todayRoundUp().utc().format(),
     public ends_on: string = DateUtil.todayAddHourRoundUp().utc().format(),
     public repeat: string = 'w',
@@ -18,10 +19,10 @@ export class EventModel {
     public country: string = '',
     public address: string = '',
     public location: string = '',
-    public starts_on_date: string = '',
-    public starts_on_time: string = '',
-    public ends_on_date: string = '',
-    public ends_on_time: string = '',
+    // public starts_on_date: string = '',
+    // public starts_on_time: string = '',
+    // public ends_on_date: string = '',
+    // public ends_on_time: string = '',
     public max_attendees?: number
   ) {
 
@@ -32,12 +33,12 @@ export const EventOpenTo: Object[] = [
   {
     'label': 'Only my connections (default)',
     'value': 'connections',
-    'selected': true
+    'selected': false
   },
   {
     'label': 'Public (all Persice users)',
     'value': 'public',
-    'selected': false
+    'selected': true
   },
   {
     'label': 'Private (only invited)',

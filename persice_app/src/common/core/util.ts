@@ -1,4 +1,5 @@
 import { take, slice, keysIn, forEach, merge, filter, orderBy, find, findIndex } from 'lodash';
+import { Location } from '../models/event/location';
 
 const moment = require('moment');
 require('moment-timezone/builds/moment-timezone-with-data.min');
@@ -17,7 +18,7 @@ export class ListUtil {
   }
 
   static filter(arr: any[], property, value): any[] {
-    return filter(arr, {property: value});
+    return filter(arr, { property: value });
   }
 
   static findIndex(arr: any[], props): number {
@@ -29,7 +30,7 @@ export class ListUtil {
   }
 
   static filterAndCount(arr: any[], property, value): number {
-    return filter(arr, {property: value}).length;
+    return filter(arr, { property: value }).length;
   }
 
 }
@@ -248,45 +249,34 @@ export class GoogleUtil {
 
   }
 
-  static parseLocation(loc) {
-    let model = {
-      street: '',
-      zipcode: '',
-      state: '',
-      address: '',
-      full_address: '',
-      city: '',
-      country: '',
-      location: '',
-      location_name: ''
-    };
+  static parseLocation(loc: any): Location {
+    let location: Location = new Location();
 
     if (loc !== null && typeof loc === 'object' && loc.hasOwnProperty('address_components') && loc.hasOwnProperty('geometry')) {
-      let location = loc.address_components;
+      let locationTemp = loc.address_components;
 
-      model.street = GoogleUtil.extractFromAddress(location, 'route', 'long_name') + ' ' + GoogleUtil.extractFromAddress(location, 'street_number', 'long_name');
-      model.zipcode = GoogleUtil.extractFromAddress(location, 'postal_code', 'long_name');
-      if (model.zipcode === '') {
-        model.zipcode = null;
+      location.street = GoogleUtil.extractFromAddress(locationTemp, 'route', 'long_name') + ' ' + GoogleUtil.extractFromAddress(locationTemp, 'street_number', 'long_name');
+      location.zipcode = GoogleUtil.extractFromAddress(locationTemp, 'postal_code', 'long_name');
+      if (location.zipcode === '') {
+        location.zipcode = null;
       }
-      model.location_name = loc.name;
-      model.full_address = loc.formatted_address;
-      model.state = GoogleUtil.extractFromAddress(location, 'administrative_area_level_1', 'short_name');
-      model.country = GoogleUtil.extractFromAddress(location, 'country', 'short_name');
-      model.city = GoogleUtil.extractFromAddress(location, 'locality', 'long_name');
-      if (model.state.length > 3) {
-        model.state = model.country;
+      location.location_name = loc.name;
+      location.full_address = loc.formatted_address;
+      location.state = GoogleUtil.extractFromAddress(locationTemp, 'administrative_area_level_1', 'short_name');
+      location.country = GoogleUtil.extractFromAddress(locationTemp, 'country', 'short_name');
+      location.city = GoogleUtil.extractFromAddress(locationTemp, 'locality', 'long_name');
+      if (location.state.length > 3) {
+        location.state = location.country;
       }
-      model.location = loc.geometry.location.lat() + ',' + loc.geometry.location.lng();
+      location.location = loc.geometry.location.lat() + ',' + loc.geometry.location.lng();
     } else {
-      model.address = loc;
-      model.full_address = '';
-      model.location_name = loc;
-      model.location = '0,0';
+      location.address = loc;
+      location.full_address = '';
+      location.location_name = loc;
+      location.location = '0,0';
     }
 
-    return model;
-
+    return location;
   }
 
 }
@@ -426,24 +416,36 @@ export class DateUtil {
     return time.replace(/(AM|PM)/, '');
   }
 
-  static format<T extends Date, S extends string>(data: T, format: S): S {
-    let tz = jstz.determine();
-    let tzName = tz.name();
-    let formatedDate = moment.utc(data).tz(tzName).format(format);
+  static format(data: any, format: string): string {
+    let formatedDate: string = '';
+
+    if (data !== null) {
+      let tz = <any>jstz.determine();
+      let tzName = tz.name();
+      formatedDate = moment.utc(data).tz(tzName).format(format);
+    }
 
     return formatedDate;
   }
 
-  static formatUTC<A extends any[], S extends string>(data: A, format: S): S {
-    let formatedDate = moment(data).utc().format(format);
+  static formatUTC(data: any, format: string): string {
+    let formatedDate: string = '';
+
+    if (data !== null) {
+      formatedDate = moment(data).utc().format(format);
+    }
 
     return formatedDate;
   }
 
-  static convertToLocal(data): any {
-    let tz = jstz.determine();
-    let tzName = tz.name();
-    let localDate = moment.utc(data).tz(tzName);
+  static convertToLocal(data: any): any {
+    let localDate: any = '';
+
+    if (data !== null) {
+      let tz = jstz.determine();
+      let tzName = tz.name();
+      localDate = moment.utc(data).tz(tzName);
+    }
 
     return localDate;
   }

@@ -5,14 +5,14 @@ import { Component, Input } from '@angular/core';
   template: <any>require('./notification.html')
 })
 export class NotificationComponent {
-  @Input() body;
-  @Input() title;
-  @Input() active = false;
-  @Input() type;
-  @Input() main;
-  @Input() full;
+  @Input() body: string;
+  @Input() title: string;
+  @Input() active: boolean = false;
+  @Input() type: string;
+  @Input() main: boolean;
+  @Input() full: boolean;
 
-  close(event) {
+  close(): void {
     this.active = false;
   }
 

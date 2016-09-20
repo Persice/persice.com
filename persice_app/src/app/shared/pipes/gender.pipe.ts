@@ -1,5 +1,5 @@
 import { Pipe, Injectable, PipeTransform } from '@angular/core';
-import { Gender } from '../../../app-mobile/shared/model/gender';
+import { Gender } from '../../../common/models/event/gender';
 
 @Injectable()
 @Pipe({

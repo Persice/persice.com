@@ -17,6 +17,7 @@ from django_facebook.models import FacebookLike
 from social_auth.db.django_models import UserSocialAuth
 
 from events import Event
+from events.models import FacebookEvent
 from friends.models import Friend, FacebookFriendUser, TwitterListFriends, \
     TwitterListFollowers
 from friends.utils import NeoFourJ
@@ -532,11 +533,60 @@ class ShortMatchUser(MatchUser):
                                                     user_object)
 
 
+def get_attendee_photo(user):
+    try:
+        image = FacebookPhoto.objects.filter(
+            user_id=user.id, order=0)[0].cropped_photo.url
+    except IndexError:
+        image = None
+    return image
+
+
+def persice_organizer(user):
+    return {
+        'name': user.facebook_name,
+        'image': get_attendee_photo(user),
+        'username': user.username,
+        'age': calculate_age(user.date_of_birth),
+        'gender': user.gender,
+        'about_me': user.about_me,
+        'link': None
+    }
+
+
+def build_organizer(event):
+    if event.event_type == 'persice':
+        return persice_organizer(event.organizer)
+    else:
+        fb_event = FacebookEvent.objects.filter(facebook_id=event.eid).first()
+        if fb_event:
+            prs_user = FacebookCustomUserActive.objects.filter(
+                facebook_id=fb_event.owner_info.get('id', -11)
+            ).first()
+            if prs_user:
+                return persice_organizer(prs_user)
+
+        elif fb_event:
+            return {
+                'name': fb_event.owner_info.get('name'),
+                'image': None,
+                'link': 'https://www.facebook.com/{}/'.format(
+                    fb_event.owner_info.get('id')
+                ),
+                'username': None,
+                'age': None,
+                'gender': None,
+                'about_me': None
+            }
+        return None
+
+
 class MatchEvent(object):
     def __init__(self, current_user_id, event_object, matched_users):
         self.event = MatchEvent.get_event_info(event_object)
         self.current_user_id = current_user_id
         self.matched_users = matched_users
+        self.organizer = build_organizer(self.event)
         self.names = self.highlight(event_object, 'name')
         self.descriptions = self.highlight(event_object, 'description')
         self.id = self.event.id

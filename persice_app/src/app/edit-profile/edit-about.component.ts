@@ -27,19 +27,19 @@ export class EditAboutComponent implements OnInit, OnDestroy {
     this.observable = Observable.fromEvent(this.el.nativeElement, 'keyup')
       .map((e: any) => e.target.value)
       .debounceTime(500)
-      .do(() => this.loading.next(true))
+      .do(() => this.loading.emit(true))
       .map((value: string) => this.service.update({about_me: value}))
       .switch()
       .subscribe(
         (res: any) => {
-          this.loading.next(false);
+          this.loading.emit(false);
         },
         (err: any) => {
           console.log(err);
-          this.loading.next(false);
+          this.loading.emit(false);
         },
         () => {
-          this.loading.next(false);
+          this.loading.emit(false);
         }
       );
   }

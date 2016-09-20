@@ -8,17 +8,17 @@ let validate: any = <any>require('validate.js');
 const moment = require('moment');
 
 validate.extend(<any>validate.validators.datetime, {
-  parse: function (value, options) {
+  parse: function(value, options) {
     return moment.utc(value);
   },
-  format: function (value, options) {
+  format: function(value, options) {
     let format = options.dateOnly ? 'YYYY-MM-DD' : 'YYYY-MM-DDThh:mm:ss';
     return moment.utc(value).format(format);
   }
 });
 
 @Injectable()
-export class EventService {
+export class EventServiceTemp {
   static API_URL: string = '/api/v1/event/';
   static VALIDATION_OPTIONS = {
     fullMessages: true
@@ -32,6 +32,15 @@ export class EventService {
       length: {
         maximum: 300
       }
+    },
+    event_url: {
+      presence: false,
+      length: {
+        maximum: 1024
+      },
+      url: {
+        message: '^Please enter a valid url.'
+      },
     },
     max_attendees: {
       presence: true,
@@ -91,7 +100,7 @@ export class EventService {
         `offset=0`,
       ].join('&');
 
-      let apiUrl = `${EventService.API_URL}`;
+      let apiUrl = `${EventServiceTemp.API_URL}`;
       this.next = `${apiUrl}?${params}`;
     } else {
       this.next = url;
@@ -110,7 +119,7 @@ export class EventService {
       `format=json`,
     ].join('&');
 
-    let apiUrl = `${EventService.API_URL}${id}/`;
+    let apiUrl = `${EventServiceTemp.API_URL}${id}/`;
     let url = `${apiUrl}?${params}`;
     return this.http.get(url).map((res: Response) => res.json());
   }
@@ -133,14 +142,14 @@ export class EventService {
 
     return Observable.create(observer => {
 
-      if (!this._validateData(event)) {
+      if (!this.validate(event)) {
         observer.error({
           validationErrors: this.validationErrors
         });
       } else {
-        let options = {headers: new Headers()};
+        let options = { headers: new Headers() };
         options.headers.set('Content-Type', 'multipart/form-data');
-        this.http.post(`${EventService.API_URL}?format=json`, <any>body, options).map((res: Response) => res.json())
+        this.http.post(`${EventServiceTemp.API_URL}?format=json`, <any>body, options).map((res: Response) => res.json())
           .subscribe((res) => {
             observer.next(res);
             observer.complete();
@@ -148,9 +157,7 @@ export class EventService {
             observer.error(err);
           });
       }
-
     });
-
   }
 
   public updateByUri(data, resourceUri): Observable<any> {
@@ -177,7 +184,7 @@ export class EventService {
           validationErrors: this.validationErrors
         });
       } else {
-        let options = {headers: new Headers()};
+        let options = { headers: new Headers() };
         options.headers.set('Content-Type', 'multipart/form-data');
         this.http.put(`${resourceUri}?format=json`, <any>body, options).map((res: Response) => res.json())
           .subscribe((res) => {
@@ -200,7 +207,7 @@ export class EventService {
     let body = FormUtil.formData(event);
 
     return Observable.create(observer => {
-      let options = {headers: new Headers()};
+      let options = { headers: new Headers() };
       options.headers.set('Content-Type', 'multipart/form-data');
       this.http.put(`${resourceUri}?format=json`, <any>body, options).map((res: Response) => res.json())
         .subscribe((res) => {
@@ -235,22 +242,18 @@ export class EventService {
 
   }
 
-  private _validateData(data): boolean {
+  private _validateData(event: Event): boolean {
     this.validationErrors = {};
-
-    let errors = validate(data, this.constraints, EventService.VALIDATION_OPTIONS);
-
+    let errors = validate(event, this.constraints, EventServiceTemp.VALIDATION_OPTIONS);
     this.validationErrors = errors;
-
     if (this.validationErrors && Object.keys(this.validationErrors).length > 0) {
       return false;
     } else {
       return true;
     }
   }
-
 }
 
 export var eventServiceInjectables: Array<any> = [
-  {provide: EventService, useClass: EventService}
+  { provide: EventServiceTemp, useClass: EventServiceTemp }
 ];

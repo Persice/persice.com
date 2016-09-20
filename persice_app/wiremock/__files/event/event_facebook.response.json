@@ -1,0 +1,69 @@
+{
+  "access_level": "public",
+  "access_user_list": "",
+  "attendees": [
+    {
+      "event": "/api/v1/event/197/",
+      "id": 606,
+      "is_invited": false,
+      "is_organizer": true,
+      "resource_uri": "/api/v1/member/606/",
+      "rsvp": "yes",
+      "updated": "2016-09-08T17:18:11.278464",
+      "user": "/api/v1/auth/user/58/"
+    }
+  ],
+  "attendees_maybe": [],
+  "attendees_no": [],
+  "attendees_yes": [
+    {
+      "first_name": "Thomas",
+      "image": "https://d2v6m3k9ul63ej.cloudfront.net/images/facebook_profiles/2016/03/17/fb_image_10152489084433844_1.jpg",
+      "is_connection": true,
+      "is_organizer": true,
+      "match_score": 12,
+      "membership_id": 606,
+      "username": "sasamacakanja"
+    }
+  ],
+  "city": null,
+  "country": null,
+  "cumulative_match_score": 12,
+  "description": "The 30th annual AIA Austin Homes Tour highlights 12 homes that all show the value of using an architect. Showcasing design excellence, quality craftsmanship, and innovative use of materials, each project demonstrates the relationship between the owner and the architect and the results of their collaborative process.\n\nThis year's tour features the incredible work of Burton Baldridge Architects, Faye and Walker Architecture, Furman + Keil Architects, Lake|Flato Architects, McKinney York Architects, Mell Lawrence Architects, Nick Deaver Architect, Rauser Design, Rick & Cindy Black Architects, Tom Hurt Architecture, Tornbjerg Design, LLC, and Webber + Studio, Architects.\n\n*Tickets will go on sale September 15th and will be available to purchase online, and at AIA Austin, Nannie Inez, NEST Modern, and Zinger Hardware. $35 in advance; $40 day of the Tour at the four listed locations only.",
+  "distance": [
+    3315,
+    "miles"
+  ],
+  "eid": "1155720714499566",
+  "ends_on": null,
+  "event_photo": null,
+  "friend_attendees_count": 1,
+  "full_address": null,
+  "hosted_by": "Thomas Tracey",
+  "id": 197,
+  "location": "0,0",
+  "location_name": null,
+  "max_attendees": 10,
+  "members": [
+    {
+      "event": "/api/v1/event/197/",
+      "id": 606,
+      "is_invited": false,
+      "is_organizer": true,
+      "resource_uri": "/api/v1/member/606/",
+      "rsvp": "yes",
+      "updated": "2016-09-08T17:18:11.278464",
+      "user": "/api/v1/auth/user/58/"
+    }
+  ],
+  "name": "AIA Austin Homes Tour 2016",
+  "point": "POINT (0.0000000000000000 0.0000000000000000)",
+  "repeat": "",
+  "resource_uri": "/api/v1/event/197/",
+  "spots_remaining": 9,
+  "starts_on": "2016-10-15T05:00:00",
+  "state": null,
+  "street": null,
+  "total_attendees": 1,
+  "zipcode": null
+}

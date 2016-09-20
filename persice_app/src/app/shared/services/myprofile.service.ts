@@ -26,8 +26,7 @@ export class MyProfileService {
     let url = this.buildUrl(userId);
     let body = JSON.stringify(data);
 
-    return this.http.patch(url, body)
-      .map((res: Response) => res.json());
+    return this.http.patch(url, body);
   }
 
   private buildUrl(userId: string) {

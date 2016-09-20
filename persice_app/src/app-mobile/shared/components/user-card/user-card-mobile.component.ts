@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { CheckImageDirective } from '../../../../app/shared/directives';
-import { Person } from '../../model/person';
+import { Person } from '../../../../common/models/person/index';
 import { InterestsCardMobileComponent } from '../interests-card/interests-card-mobile.component';
 import { GenderPipe } from '../../../../app/shared/pipes/gender.pipe.ts';
 

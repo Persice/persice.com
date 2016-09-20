@@ -1,0 +1,13 @@
+<h3 class="module-title">Event host</h3>
+<div class="flag flag--small mb" id="eventHost" (click)="openProfile($event)">
+  <div class="flag__img">
+    <div class="avatar-holder" checkimage="{{host?.image}}" [suffix]="'.56x56_q100_crop.jpg'" [onchanges]="1">
+    </div>
+  </div>
+  <div class="flag__body">
+    <h5 class="host-name">{{host?.name}}</h5>
+    <p class="single-title-subinfo single-title-subinfo--small">{{host?.gender?.value}} <span
+      *ngIf="host?.age">/ Age</span> {{host?.age}}</p>
+  </div>
+</div>
+<p class="module-type" [innerHTML]="host?.description | markup"></p>

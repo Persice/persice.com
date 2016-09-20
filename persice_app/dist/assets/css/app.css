@@ -1031,3 +1031,7 @@ li.features-list__match {
 .card--event__inside {
   display: block;
 }
+
+.minict_wrapper.preselected:after {
+  display: none !important;
+}

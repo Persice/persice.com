@@ -83,7 +83,7 @@
     "moment-timezone": "^0.5.4",
     "rxjs": "5.0.0-beta.6",
     "socket.io-client": "^1.4.5",
-    "validate.js": "^0.10.0",
+    "validate.js": "https://github.com/sasha7/validate.js.git",
     "zone.js": "0.6.12"
   },
   "devDependencies": {

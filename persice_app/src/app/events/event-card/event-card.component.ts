@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Event } from '../../../app-mobile/shared/model/event';
+import { Event } from '../../../common/models/event/event';
 import { EventCardInsideComponent } from './event-card-inside.component';
 import { RsvpElementComponent } from '../../../common/events/rsvp-element/rsvp-element.component';
 
@@ -10,6 +10,6 @@ import { RsvpElementComponent } from '../../../common/events/rsvp-element/rsvp-e
 })
 export class EventCardComponent {
   @Input() event: Event;
-  @Input() username;
-  @Input() userId;
+  @Input() username: string;
+  @Input() userId: string;
 }

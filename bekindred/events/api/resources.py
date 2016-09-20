@@ -36,7 +36,8 @@ from friends.utils import NeoFourJ
 from goals.models import Goal, Offer
 from goals.utils import (calculate_age, get_current_position, get_lives_in)
 from interests import Interest
-from matchfeed.utils import MatchQuerySet, MatchEvent, NonMatchUser
+from matchfeed.utils import MatchQuerySet, MatchEvent, NonMatchUser, \
+    build_organizer
 from members.models import FacebookCustomUserActive
 from photos.api.resources import UserResource
 from photos.models import FacebookPhoto
@@ -194,6 +195,7 @@ class EventResource(MultiPartResource, ModelResource):
             )[0].distance
         except IndexError:
             bundle.data['distance'] = [10000, 'mi']
+        bundle.data['organizer'] = build_organizer(bundle.obj)
         return bundle
 
     def prepend_urls(self):
@@ -792,7 +794,8 @@ class EventFeedResource(Resource):
     friend_attendees_count = fields.IntegerField(
         attribute='friend_attendees_count')
     description = fields.CharField(attribute='description', null=True)
-    ends_on = fields.DateTimeField(attribute='ends_on')
+    ends_on = fields.DateTimeField(attribute='ends_on', null=True)
+    event_type = fields.CharField(attribute='event_type', null=True)
     starts_on = fields.DateTimeField(attribute='starts_on')
     distance = fields.ListField(attribute='distance')
     attendees_yes = fields.ListField(attribute='attendees_yes')
@@ -800,6 +803,7 @@ class EventFeedResource(Resource):
     attendees_maybe = fields.ListField(attribute='attendees_maybe')
     event_photo = fields.FileField(attribute="event_photo", null=True,
                                    blank=True)
+    organizer = fields.DictField(null=True, attribute='organizer')
 
     class Meta:
         resource_name = 'events2'

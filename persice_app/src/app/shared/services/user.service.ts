@@ -71,6 +71,24 @@ export class UserService {
     return this.http.get(resourceUri).map((res: Response) => res.json());
   }
 
+  // public findOneById(id: string): Observable<any> {
+  //   let params = [
+  //     `format=json`
+  //   ].join('&');
+  //
+  //   let url = `${UserService.API_URL}${id}/?${params}`;
+  //
+  //   return this.http.get(url)
+  //     .map((res: Response) => {
+  //       let data = res.json();
+  //       console.log(data.first_name);
+  //       this.user = new AuthUserModel(data);
+  //       this.image = this.user.info.image;
+  //       this.name = this.user.info.first_name;
+  //       return res.json();
+  //     });
+  // }
+
   public getDefaultImage() {
     return UserService.DEFAULT_IMAGE;
   }

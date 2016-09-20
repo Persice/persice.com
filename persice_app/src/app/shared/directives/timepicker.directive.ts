@@ -27,9 +27,9 @@ export class TimepickerDirective implements AfterViewInit {
         }
 
         if (timeString !== 'NaN:NaN') {
-          this.selectedValue.next(timeString);
+          this.selectedValue.emit(timeString);
         } else {
-          this.selectedValue.next('Invalid time');
+          this.selectedValue.emit('Invalid time');
         }
 
       },

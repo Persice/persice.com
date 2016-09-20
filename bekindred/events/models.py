@@ -2,6 +2,7 @@ from __future__ import absolute_import
 
 import logging
 
+import json
 from django.db.models.signals import post_save
 from django.utils.timezone import now
 from geoposition.fields import GeopositionField
@@ -45,11 +46,14 @@ class Event(models.Model):
 
     description = models.TextField(null=True, blank=True)
     name = models.CharField(max_length=300)
+    event_type = models.CharField(max_length=50, default='persice')
     location = GeopositionField(default="0,0",
                                 blank=True, null=True)
     point = models.PointField(null=True)
+    # "name": "Guadalupe St & W 17th St (outside of Dive Bar & Lounge)"
     location_name = models.CharField(max_length=255, null=True)
     country = models.CharField(max_length=255, null=True)
+    # "name": "Guadalupe St & W 17th St (outside of Dive Bar & Lounge)"
     full_address = models.CharField(max_length=255, null=True)
     starts_on = models.DateTimeField(null=True, blank=True)
     ends_on = models.DateTimeField(null=True, blank=True)
@@ -67,6 +71,7 @@ class Event(models.Model):
     event_photo = ThumbnailerImageField(null=True,
                                         upload_to='event_photos/%Y/%m/%d')
     eid = models.BigIntegerField(blank=True, null=True)
+    event_url = models.URLField(blank=True, null=True)
 
     search_index = VectorField()
 
@@ -87,6 +92,11 @@ class Event(models.Model):
                                               self.location.latitude))
             self.point = point
         super(Event, self).save(*args, **kwargs)
+
+    @property
+    def organizer(self):
+        organizer = self.membership_set.filter(is_organizer=True).first()
+        return organizer.user if organizer else None
 
 
 class Membership(models.Model):
@@ -157,8 +167,17 @@ class FacebookEvent(models.Model):
     cover = models.TextField(blank=True, null=True)
     picture = models.TextField(blank=True, null=True)
     location = GeopositionField(blank=True, null=True)
+    location_name = models.TextField(blank=True, null=True)
     place = models.TextField(blank=True, null=True)
     raw_data = models.TextField(blank=True, null=True)
 
     def __unicode__(self):
         return u"{} - {}".format(self.facebook_id, self.name)
+
+    @property
+    def owner_info(self):
+        try:
+            owner_info = json.loads(self.owner)
+        except (ValueError, TypeError):
+            owner_info = {}
+        return owner_info

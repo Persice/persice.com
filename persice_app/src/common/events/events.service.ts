@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Subscription, BehaviorSubject, Observable } from 'rxjs';
-import { Event, EventsType } from '../../app-mobile/shared/model/event';
+import { Event, EventsType } from '../models/event/index';
 import { HttpClient } from '../core/http-client';
 
 interface EventsMapped {
@@ -125,6 +125,6 @@ export class EventsService {
 
   //noinspection JSMethodCanBeStatic
   private _toEvent(dto: any): Event {
-    return new Event(dto);
+    return Event.fromDto(dto);
   }
 }

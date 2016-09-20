@@ -6,6 +6,7 @@ import json
 from django.conf import settings
 from django.db.utils import IntegrityError
 from django.db import transaction
+from django_facebook.connect import _update_image
 from django_facebook.utils import mass_get_or_create
 from open_facebook.api import OpenFacebook
 from geoposition import Geoposition
@@ -77,13 +78,17 @@ def _store_fb_events(user):
             place = event.get('place')
             place_text = json.dumps(place) if place else None
 
-            location = event.get('place', {}).get('location')
             location_gp = None
+            location_name = None
+            location = event.get('place', {}).get('location')
             if location:
                 location_gp = Geoposition(
                     location.get('latitude', 0),
                     location.get('longitude', 0)
                 )
+            else:
+                location_name = place.get('name') if place else None
+
             description = event.get('description')
             description_text = description[:1000] if description else None
 
@@ -101,7 +106,8 @@ def _store_fb_events(user):
                 start_time=start_time,
                 end_time=end_time,
                 type=event.get('type'),
-                location=location_gp
+                location=location_gp,
+                location_name=location_name
             )
         current_events, inserted_events = mass_get_or_create(
             FacebookEvent, base_queryset, id_field, default_dict,
@@ -129,21 +135,35 @@ def store_events(user):
 
 def refresh_events(user):
     fb_events = FacebookEvent.objects.filter(
-        type='public', start_time__gt=now()
+        type='public', start_time__gt=now(), user_id=user.id
     )
     for fb_event in fb_events:
-        event, created = Event.objects.get_or_create(
+        event = Event.objects.filter(eid=fb_event.facebook_id).first()
+        if event:
+            continue
+        image_name, image_file = (None, None)
+        try:
+            cover = json.loads(fb_event.cover)
+            if cover.get('source'):
+                image_name, image_file = _update_image(
+                    fb_event.facebook_id,
+                    cover.get('source'))
+        except (ValueError, TypeError) as err:
+            logger.error(err.msg)
+
+        event = Event.objects.create(
             eid=fb_event.facebook_id,
             name=fb_event.name,
             description=fb_event.description,
             access_level='public',
             starts_on=fb_event.start_time,
-            ends_on=fb_event.end_time
+            ends_on=fb_event.end_time,
+            event_photo=image_file,
+            event_type='facebook'
         )
-        if created:
+        if event:
             Membership.objects.create(user=user, event=event,
                                       is_organizer=True, rsvp=u'yes')
             users = FacebookCustomUserActive.objects.all()
             from events.tasks import assign_perm_task
             assign_perm_task.delay('view_event', users, event)
-
