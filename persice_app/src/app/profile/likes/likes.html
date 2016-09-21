@@ -1,9 +1,8 @@
 <div class="match-profile__likes">
   <div class="match-profile__likes__top">
-    <a class="module-title mr+" href="#">Likes <span>({{count}})</span></a>
+    <a class="module-title mr+" href="#">Likes <span>({{likes.length}})</span></a>
   </div>
-
-  <div class="swiper-container js-profile-swiper-2 pt likes" *ngIf="count > 0" swiper="{{swiperOptions}}">
+  <div class="swiper-container js-profile-swiper-2 pt likes" *ngIf="likes.length > 0" swiper="{{swiperOptions}}">
     <div class="swiper-wrapper">
       <div class="swiper-slide" *ngFor="let item of likes">
         <div class="flag flag--small flag--fix">

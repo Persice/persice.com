@@ -8,10 +8,10 @@ declare var Swiper: any;
 export class GalleryComponent implements OnDestroy, AfterViewInit {
   @Input() photos;
   @Input() defaultPhoto;
-  galleryTop;
-  galleryThumbs;
+  private galleryTop: any;
+  private galleryThumbs: any;
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): any {
     setTimeout(() => {
       this.galleryTop = new Swiper('.gallery-top', {
         nextButton: '.modal-gallery__arrow--next',
@@ -29,10 +29,9 @@ export class GalleryComponent implements OnDestroy, AfterViewInit {
       this.galleryTop.params.control = this.galleryThumbs;
       this.galleryThumbs.params.control = this.galleryTop;
     }, 500);
-
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): any {
     if (this.galleryTop) {
       this.galleryTop.destroy(true, true);
     }
@@ -40,6 +39,5 @@ export class GalleryComponent implements OnDestroy, AfterViewInit {
     if (this.galleryThumbs) {
       this.galleryThumbs.destroy(true, true);
     }
-
   }
 }

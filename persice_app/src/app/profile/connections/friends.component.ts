@@ -1,6 +1,7 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { ROUTER_DIRECTIVES } from '@angular/router';
-import { SwiperDirective, CheckImageDirective } from '../shared/directives';
+import { SwiperDirective } from '../../shared/directives/swiper.directive';
+import { CheckImageDirective } from '../../shared/directives/checkimage.directive';
 
 @Component({
   template: <any>require('./friends.html'),
@@ -9,11 +10,10 @@ import { SwiperDirective, CheckImageDirective } from '../shared/directives';
   directives: [SwiperDirective, ROUTER_DIRECTIVES, CheckImageDirective]
 })
 export class FriendsComponent {
-  @Input() title;
-  @Input() type;
-  @Input() friends;
-  @Input() count;
-  swiperOptions = JSON.stringify({
+  @Input() title: string;
+  @Input() friends: any[];
+
+  private swiperOptions = JSON.stringify({
     slidesPerView: 6,
     spaceBetween: 5,
     nextButton: '.js-slide-users__next-3',

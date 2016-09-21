@@ -189,6 +189,14 @@ export class Person {
     return this._linkedin.url;
   }
 
+  get networks() {
+    return {
+      facebook: this.facebookUrl,
+      twitter: this.twitterUrl,
+      linkedin: this.linkedinUrl
+    }
+  }
+
   get interests(): any[] {
     return this._interests;
   }

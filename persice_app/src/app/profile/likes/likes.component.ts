@@ -1,6 +1,5 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { SwiperDirective } from '../shared/directives';
-
+import { SwiperDirective } from '../../shared/directives/swiper.directive';
 @Component({
   template: <any>require('./likes.html'),
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -8,10 +7,9 @@ import { SwiperDirective } from '../shared/directives';
   directives: [SwiperDirective]
 })
 export class LikesComponent {
-  @Input() likes;
-  @Input() count;
+  @Input() likes: any[];
 
-  swiperOptions = JSON.stringify({
+  private swiperOptions = JSON.stringify({
     slidesPerView: 3,
     spaceBetween: 5,
     nextButton: '.js-slide-users__next-2',

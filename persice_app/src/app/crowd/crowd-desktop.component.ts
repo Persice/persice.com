@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UsersListComponent } from '../shared/components/users-list';
 import { LoadingComponent } from '../shared/components/loading';
 import { FilterDesktopComponent } from '../shared/components/filter';
-import { ProfileCrowdComponent } from '../profile';
+import { UserProfileDesktopCrowdPalsComponent } from '../profile';
 import { InfiniteScrollDirective } from '../../common/directives';
 import { FriendService, FilterService } from '../shared/services';
 import { CrowdService, CrowdComponent } from '../../common/crowd';
@@ -18,11 +18,13 @@ const LIST_REFRESH_TIMEOUT: number = 300;
     FilterDesktopComponent,
     UsersListComponent,
     LoadingComponent,
-    ProfileCrowdComponent,
+    UserProfileDesktopCrowdPalsComponent,
     InfiniteScrollDirective
   ]
 })
 export class CrowdDesktopComponent extends CrowdComponent implements OnDestroy, OnInit {
+
+  private profileType: string = "crowd";
 
   constructor(
     protected listService: CrowdService,
@@ -32,16 +34,16 @@ export class CrowdDesktopComponent extends CrowdComponent implements OnDestroy, 
     super(listService, filterService, LIST_REFRESH_TIMEOUT);
   }
 
-  ngOnInit() {
+  ngOnInit(): any {
     this.getList();
     this.subscribeToFilterServiceUpdates();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): any {
     this.clearServicesSubscriptions();
   }
 
-  pass(event) {
+  protected pass(event): void {
     this.removeItemById(event.user);
     if (event.next) {
       this.nextItem(true);
@@ -62,7 +64,7 @@ export class CrowdDesktopComponent extends CrowdComponent implements OnDestroy, 
       });
   }
 
-  accept(event) {
+  protected accept(event): void {
     this.removeItemById(event.user);
     if (event.next) {
       this.nextItem(true);
@@ -81,15 +83,15 @@ export class CrowdDesktopComponent extends CrowdComponent implements OnDestroy, 
       });
   }
 
-  beforeItemSelected() {
+  protected beforeItemSelected() {
     this.saveScrollPosition();
   }
 
-  afterItemSelected() {
+  protected afterItemSelected() {
     this.setLocation(this.selectedItem[this.urlProperty]);
   }
 
-  afterItemClosed() {
+  protected afterItemClosed() {
     this.setLocation(this.listType);
     this.restoreScrollPosition();
   }

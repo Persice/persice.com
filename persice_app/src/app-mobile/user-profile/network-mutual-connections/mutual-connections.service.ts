@@ -100,6 +100,19 @@ export class MutualConnectionsService {
       });
   }
 
+  public get(userId: string, limit: number): Observable<any> {
+    const params: string = [
+      `format=json`,
+      `user_id=${userId}`,
+      `offset=0`,
+      `limit=${limit}`
+    ].join('&');
+
+    let url = `${MutualConnectionsService.API_URL}?${params}`;
+
+    return this.http.get(url).map((res: Response) => res.json());
+  }
+
   private _getConnections(userId: string, loadingInitial: boolean): void {
 
     if (!!this._isLoading$.getValue()) {

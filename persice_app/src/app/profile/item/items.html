@@ -1,0 +1,50 @@
+<h4 class="module-title" *ngIf="!editable">{{title}}
+  <span>({{items.length}})</span>
+</h4>
+<h4 class="module-title" *ngIf="editable">
+  <a (click)="openEdit.next(title)" class="edit-link">{{title}} <span>({{items.length}})</span>
+    <span class="edit-link__icon">
+      <svg role="img" class="icon ">
+        <use xlink:href="/assets/icons/icons.svg#icon-edit_info"></use>
+      </svg>
+      </span>
+  </a>
+</h4>
+<div class="layout" *ngIf="!editable">
+  <div class="layout__item 1/2">
+    <ul class="features-list">
+      <li class="features-list__match" *ngFor="let item of itemsLeft" [ngClass]="{'features-list__match': item.match}">
+        {{item.value}}
+      </li>
+    </ul>
+  </div>
+  <div class="layout__item 1/2">
+    <ul class="features-list">
+      <li *ngFor="let item of itemsRight" [ngClass]="{'features-list__match': item.match}">
+        {{item.value}}
+      </li>
+    </ul>
+    <a *ngIf="!showAllItems && items.length > 7" (click)="toggleAll()" class="link-blank">Show all</a>
+  </div>
+</div>
+<div class="layout" *ngIf="editable">
+  <div class="layout__item 1/2">
+    <ul class="features-list">
+      <a (click)="openEdit.next(title)" class="edit-link">
+        <li *ngFor="let item of itemsLeft" [ngClass]="{'features-list__match': item.match}">
+          {{item.value}}
+        </li>
+      </a>
+    </ul>
+  </div>
+  <div class="layout__item 1/2">
+    <ul class="features-list">
+      <a (click)="openEdit.next(title)" class="edit-link">
+        <li *ngFor="let item of itemsRight" [ngClass]="{'features-list__match': item.match}">
+          {{item.value}}
+        </li>
+      </a>
+    </ul>
+    <a *ngIf="!showAllItems && items.length > 7" (click)="toggleAll()" class="link-blank">Show all</a>
+  </div>
+</div>

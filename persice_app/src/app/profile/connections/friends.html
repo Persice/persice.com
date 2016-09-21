@@ -3,14 +3,14 @@
     <div class="layout mb">
       <div class="layout__item 1/2">
         <h4 class="module-title">{{title}}
-          <span>({{count}})</span>
+          <span>({{friends.length}})</span>
         </h4>
       </div>
     </div>
   </div>
-  <div class="swiper-container js-profile-swiper-3 pt" *ngIf="count > 0" swiper="{{swiperOptions}}">
+  <div class="swiper-container js-profile-swiper-3 pt" *ngIf="friends.length > 0" swiper="{{swiperOptions}}">
     <div class="swiper-wrapper">
-      <div class="swiper-slide" *ngFor="let item of friends.mutual_bk_friends">
+      <div class="swiper-slide" *ngFor="let item of friends">
         <a class="user-listed user-listed--1" [routerLink]="['/' + item.username]">
           <div class="listed-user-avatar-place">
             <div class="avatar avatar--medium">

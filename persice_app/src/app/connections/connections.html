@@ -15,7 +15,7 @@
     <prs-filters [type]="LIST_TYPE"></prs-filters>
   </div>
 </div>
-<prs-profile-friend [currentIndex]="currentIndex" [count]="total_count" (previousEvent)="previousItem($event)"
-                    (nextEvent)="nextItem($event)" *ngIf="itemViewActive" [user]="selectedItem"
-                    (closeprofileEvent)="closeItemView($event)">
-</prs-profile-friend>
+<prs-profile-crowd-pals [profileType]="profileType" [currentIndex]="currentIndex" [count]="total_count"
+                        (previousEvent)="previousItem($event)" (nextEvent)="nextItem($event)" *ngIf="itemViewActive"
+                        [user]="selectedItem" (closeprofileEvent)="closeItemView($event)">
+</prs-profile-crowd-pals>
