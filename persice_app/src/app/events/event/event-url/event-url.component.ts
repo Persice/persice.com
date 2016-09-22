@@ -1,6 +1,6 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { UrlDomainPipe } from '../../../../common/pipes/url-domain.pipe';
-
+import { Event } from '../../../../common/models/event';
 @Component({
   selector: 'prs-event-url',
   template: <any>require('./event-url.html'),
@@ -8,6 +8,6 @@ import { UrlDomainPipe } from '../../../../common/pipes/url-domain.pipe';
   pipes: [UrlDomainPipe]
 })
 export class EventUrlComponent {
-  @Input() eventUrl: string;
+  @Input() event: Event;
 
 }

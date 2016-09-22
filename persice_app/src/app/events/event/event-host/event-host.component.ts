@@ -19,12 +19,12 @@ export class EventHostComponent {
 
   public openProfile(event: MouseEvent): void {
     if (this.eventType === 'persice') {
-      if (!!this.host.username) {
+      if (!!this.host && !!this.host.username) {
         this._router.navigateByUrl('/' + this.host.username);
       }
     } else {
       // Open outside link for event host
-      if (!!this.host.link) {
+      if (!!this.host && !!this.host.link) {
         let win = window.open(this.host.link, '_blank');
         win.focus();
       }
