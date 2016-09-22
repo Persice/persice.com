@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
-import { CropDirective } from '../shared/directives';
+import {CropDirective} from '../../shared/directives/crop.directive';
 
 @Component({
   selector: 'prs-edit-crop',
@@ -9,13 +9,13 @@ import { CropDirective } from '../shared/directives';
 export class EditCropComponent implements OnChanges {
   @Output() close: EventEmitter<any> = new EventEmitter();
   @Output() cropAndSave: EventEmitter<any> = new EventEmitter();
-  @Input() isHidden;
+  @Input() isHidden: boolean;
   @Input() image;
 
-  croppedImage;
-
-  loading: boolean = false;
-  croppieOptions = JSON.stringify({
+  private croppedImage;
+  private imageUri: string = '';
+  private loading: boolean = false;
+  private croppieOptions = JSON.stringify({
     viewport: {
       width: 200,
       height: 200
@@ -25,7 +25,6 @@ export class EditCropComponent implements OnChanges {
       height: 340
     }
   });
-  imageUri = '';
 
   ngOnChanges(values) {
     if (values.image && values.image.currentValue) {
@@ -34,8 +33,7 @@ export class EditCropComponent implements OnChanges {
   }
 
   savePhoto(event) {
-
-    this.cropAndSave.next({
+    this.cropAndSave.emit({
       cropped: this.croppedImage,
       original: this.imageUri
     });

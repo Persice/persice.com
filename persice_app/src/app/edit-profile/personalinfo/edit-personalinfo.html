@@ -8,7 +8,7 @@
       </div>
       <div class="tableize__cell 1/2">
         <div class="tableize__content text-right">
-          <span class="pers-data__value">{{user?.first_name}}</span>
+          <span class="pers-data__value">{{person?.firstName}}</span>
         </div>
       </div>
     </div>
@@ -22,7 +22,7 @@
       </div>
       <div class="tableize__cell 1/2">
         <div class="tableize__content text-right">
-          <span class="pers-data__value">{{user?.last_name}}</span>
+          <span class="pers-data__value">{{person?.lastName}}</span>
         </div>
       </div>
     </div>
@@ -36,7 +36,7 @@
       </div>
       <div class="tableize__cell 1/2">
         <div class="tableize__content text-right">
-          <span class="pers-data__value">{{user?.gender | gender}}</span>
+          <span class="pers-data__value">{{person?.gender}}</span>
         </div>
       </div>
     </div>
@@ -50,7 +50,7 @@
       </div>
       <div class="tableize__cell 1/2">
         <div class="tableize__content text-right">
-          <span class="pers-data__value">{{user?.age}}</span>
+          <span class="pers-data__value">{{person?.age}}</span>
         </div>
       </div>
     </div>
@@ -64,7 +64,7 @@
       </div>
       <div class="tableize__cell 1/2">
         <div class="tableize__content text-right">
-          <span class="pers-data__value">{{user?.lives_in}}</span>
+          <span class="pers-data__value">{{person?.livesIn}}</span>
         </div>
       </div>
     </div>
@@ -78,7 +78,7 @@
       </div>
       <div class="tableize__cell 2/5">
         <div class="tableize__content text-right">
-          <span class="pers-data__value">{{user?.profession}}</span>
+          <span class="pers-data__value">{{person?.job}}</span>
         </div>
       </div>
     </div>
@@ -98,8 +98,10 @@
                 <button class="btn reselect__done js-reselect__done">Done</button>
               </header>
               <ul class="reselect__drop__list">
-                <li class="reselect__drop__list__item" (click)="toggle({idx: i, list: 'religious'})"
-                    [ngClass]="{'is-selected': item.selected}" *ngFor="let item of religiousViews;  let i = index">
+                <li class="reselect__drop__list__item"
+                    *ngFor="let item of religionList"
+                    [ngClass]="{'is-selected': isReligionSelected(item.name)}"
+                    (click)="toggleReligion(item.name)">
                   {{item.name}}
                 </li>
               </ul>
@@ -124,8 +126,10 @@
                 <button class="btn reselect__done js-reselect__done">Done</button>
               </header>
               <ul class="reselect__drop__list">
-                <li class="reselect__drop__list__item" (click)="toggle({idx: i, list: 'political'})"
-                    [ngClass]="{'is-selected': item.selected}" *ngFor="let item of politicalViews; let i = index">
+                <li class="reselect__drop__list__item"
+                    *ngFor="let item of politicalList"
+                    [ngClass]="{'is-selected': isPoliticsSelected(item.name)}"
+                    (click)="togglePolitics(item.name)">
                   {{item.name}}
                 </li>
               </ul>
@@ -137,7 +141,7 @@
   </div>
   <div class="pers-data">
     <span class="pers-data__label mt mb--">About</span>
-    <prs-edit-about [about]="user?.about_me" (loading)="loading = $event"></prs-edit-about>
+    <prs-edit-about [about]="person?.about" (loading)="loading = $event"></prs-edit-about>
   </div>
 </div>
-<prs-edit-footer [loadingEdit]="loading" (close)="close.next($event)"></prs-edit-footer>
+<prs-edit-footer [loadingEdit]="loading" (close)="close.emit($event)"></prs-edit-footer>

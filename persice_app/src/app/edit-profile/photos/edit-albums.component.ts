@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
-import { LoadingComponent } from '../shared/components/loading';
-import { FacebookAlbumsService } from '../shared/services';
+import { FacebookAlbumsService } from '../../shared/services/facebook_albums.service';
+import { LoadingComponent } from '../../shared/components/loading/loading.component';
 
 @Component({
   selector: 'prs-edit-albums',
@@ -16,13 +16,13 @@ export class EditAlbumsComponent implements OnDestroy, OnInit {
   @Output() close: EventEmitter<any> = new EventEmitter();
   @Output() openCrop: EventEmitter<any> = new EventEmitter();
   @Input() isHidden;
-  loading: boolean = false;
-  loadingPhotos: boolean = false;
-  loadingFinished: boolean = false;
-  isEmpty: boolean = false;
-  next;
-  facebookAlbumsServiceInstance;
-  albums = [];
+  private loading: boolean = false;
+  private loadingPhotos: boolean = false;
+  private loadingFinished: boolean = false;
+  private isEmpty: boolean = false;
+  private next;
+  private facebookAlbumsServiceInstance;
+  private albums: any[] = [];
 
   constructor(private facebookAlbumsService: FacebookAlbumsService) {
 

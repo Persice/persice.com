@@ -39,4 +39,4 @@
         *ngFor="let item of items">{{item.description}}</span>
   <prs-loading [status]="loading"></prs-loading>
 </div>
-<prs-edit-footer [loadingEdit]="saveLoading" (close)="close.next($event)"></prs-edit-footer>
+<prs-edit-footer [loadingEdit]="saveLoading" (close)="close.emit($event)"></prs-edit-footer>

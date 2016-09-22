@@ -163,12 +163,10 @@
   </div>
 </div>
 <div class="remodal remodal--common remodal--medium-large profile-edit" data-remodal-id="profile-edit" remodal>
-  <prs-edit-profile *ngIf="active" [loadingPhotosAction]="loadingPhotosAction"
-                    (changeProfilePhoto)="changeProfilePhoto($event)" (reorderPhoto)="reorderPhoto($event)"
-                    (deletePhoto)="deletePhoto($event)" (cropAndSavePhoto)="cropAndSavePhoto($event)"
-                    (refreshUser)="refreshUser($event)" [activeSection]="section"
-                    [politicalViews]="profilePoliticalIndex" [religiousViews]="profileReligiousIndex"
-                    [loadingPhotos]="loadingPhotos" [photos]="profilePhotos" [user]="userEdit"></prs-edit-profile>
+  <prs-edit-profile *ngIf="active" [activeSection]="section" [loadingPhotos]="loadingPhotos" [photos]="profilePhotos"
+                    [user]="person" (changeProfilePhoto)="changeProfilePhoto($event)"
+                    (reorderPhoto)="reorderPhoto($event)" (deletePhoto)="deletePhoto($event)"
+                    (cropAndSavePhoto)="cropAndSavePhoto($event)" (refreshUser)="refreshUser($event)"></prs-edit-profile>
 </div>
 <div class="remodal modal-gallery" data-remodal-id="modal-gallery" remodal="{{galleryOptions}}">
   <prs-profile-gallery *ngIf="galleryActive" [defaultPhoto]="person.image"

@@ -7,7 +7,7 @@
     <div class="layout layout--middle">
       <div class="layout__item">
         <button class="btn btn-1 btn-1--small btn-1--darkblue mr-- js-close-crop-photo-window"
-                (click)="close.next($close)">Cancel
+                (click)="close.emit($close)">Cancel
         </button>
         <button class="btn btn-1 btn-1--small btn-1--filled btn-1--blue" (click)="savePhoto($event)">Crop &amp; Save
         </button>

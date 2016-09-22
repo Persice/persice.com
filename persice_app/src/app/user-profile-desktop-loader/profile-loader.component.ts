@@ -65,6 +65,19 @@ export class UserProfileDesktopLoader implements OnInit, OnDestroy {
   }
 
   ngOnInit(): any {
+    this._loadUser();
+  }
+
+  ngOnDestroy(): any {
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
+    if (this.userProfilesub) {
+      this.userProfilesub.unsubscribe();
+    }
+  }
+
+  private _loadUser(): void {
     this.sub = this.route.params.subscribe(params => {
       this.isProfileNotFound = false;
       this.usernameFromUrl = params['username'];
@@ -93,15 +106,9 @@ export class UserProfileDesktopLoader implements OnInit, OnDestroy {
       }, () => {
       });
     });
-
   }
 
-  ngOnDestroy(): any {
-    if (this.sub) {
-      this.sub.unsubscribe();
-    }
-    if (this.userProfilesub) {
-      this.userProfilesub.unsubscribe();
-    }
+  private refreshUser(event): void {
+    this._loadUser();
   }
 }
