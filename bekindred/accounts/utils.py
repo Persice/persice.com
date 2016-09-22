@@ -11,6 +11,7 @@ from django_facebook.utils import mass_get_or_create
 from open_facebook.api import OpenFacebook
 from geoposition import Geoposition
 from django.utils.timezone import now
+import googlemaps
 
 from events.models import FacebookEvent, Event, Membership
 from members.models import FacebookCustomUserActive
@@ -42,8 +43,21 @@ def get_fb_events(user, fb_access_token=None, limit=5000):
     return events
 
 
+def get_google_maps_geocode(client, query):
+    clean_query = query.split(')')[0]
+    try:
+        response = client.geocode(clean_query)
+        latitude = response[0]['geometry']['location']['lat']
+        longitude = response[0]['geometry']['location']['lng']
+    except Exception:
+        latitude = 0
+        longitude = 0
+    return latitude, longitude
+
+
 def _store_fb_events(user):
     events = get_fb_events(user)
+    maps_client = googlemaps.Client(key=settings.GOOGLE_PLACES_API_KEY)
     if events:
         FacebookEvent.objects.filter(user_id=user.id).delete()
         base_queryset = []
@@ -88,6 +102,12 @@ def _store_fb_events(user):
                 )
             else:
                 location_name = place.get('name') if place else None
+                if location_name:
+                    latitude, longitude = get_google_maps_geocode(
+                        maps_client, location_name
+                    )
+                    if latitude and longitude:
+                        location_gp = Geoposition(latitude, longitude)
 
             description = event.get('description')
             description_text = description[:1000] if description else None

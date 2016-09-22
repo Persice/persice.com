@@ -75,3 +75,4 @@ django-storages==1.4.1
 py2neo==2.0.8
 django-webpack-loader==0.3.0
 django-jwt-auth==0.0.2
+googlemaps==2.4.4
