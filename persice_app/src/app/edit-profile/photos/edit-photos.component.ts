@@ -2,27 +2,31 @@ import { Component, Input, Output, EventEmitter, OnChanges, OnDestroy } from '@a
 import { EditFooterComponent } from '../footer/edit-footer.component';
 import { CheckImageDirective } from '../../shared/directives/checkimage.directive';
 import { ListUtil } from '../../../common/core/util';
+import { PhotosService } from '../../shared/services/photos.service';
+import { UserService } from '../../shared/services/user.service';
+import { Subscription}  from 'rxjs';
 
 @Component({
   selector: 'prs-edit-photos',
   template: <any>require('./edit-photos.html'),
-  directives: [
-    EditFooterComponent,
-    CheckImageDirective
-  ]
+  directives: [ EditFooterComponent, CheckImageDirective ],
+  providers: [ PhotosService, UserService ]
 })
 export class EditPhotosComponent implements OnChanges, OnDestroy {
   @Input() photos: any[];
   @Input() loading: boolean;
   @Input() default;
   @Output() close: EventEmitter<any> = new EventEmitter();
-  @Output() delete: EventEmitter<any> = new EventEmitter();
-  @Output() reorder: EventEmitter<any> = new EventEmitter();
-  @Output() changeProfilePhoto: EventEmitter<any> = new EventEmitter();
+  @Output() refreshPhotos: EventEmitter<any> = new EventEmitter();
+  @Output() loadingPhotos: EventEmitter<any> = new EventEmitter();
   @Output() openAlbums: EventEmitter<any> = new EventEmitter();
+
   private profilePhotos: any[] = [];
   private drakeInstance;
   private deleteDisabled: boolean = false;
+  private photosServiceSubscriberUpdate: Subscription;
+
+  constructor(private photosService: PhotosService, private userService: UserService) { }
 
   ngOnChanges(values) {
     if (values.photos && values.photos.currentValue) {
@@ -34,11 +38,6 @@ export class EditPhotosComponent implements OnChanges, OnDestroy {
     if (this.drakeInstance) {
       this.drakeInstance.destroy();
     }
-
-  }
-
-  deletePhoto(photo) {
-    this.delete.emit(photo);
   }
 
   assignPhotos(photos) {
@@ -109,14 +108,13 @@ export class EditPhotosComponent implements OnChanges, OnDestroy {
   checkOrderAndOpenAlbums(event) {
     for (var j = 0; j < this.profilePhotos.length; ++j) {
       if (this.profilePhotos[j].id === null) {
-        this.openAlbums.next(this.profilePhotos[j].order);
+        this.openAlbums.emit(this.profilePhotos[j].order);
         return;
       }
     }
   }
 
   initializeDragAndDrop() {
-
     if (this.drakeInstance) {
       this.drakeInstance.destroy();
     }
@@ -139,7 +137,7 @@ export class EditPhotosComponent implements OnChanges, OnDestroy {
         let arrayOfIds = jQuery.map(items, (n, i) => {
           return parseInt(n.id.match(/\d+/g)[0], 10);
         });
-        this.reorder.emit(arrayOfIds);
+        this.reorderPhoto(arrayOfIds);
         return true;
       }
       // Cancel default behavior
@@ -155,7 +153,7 @@ export class EditPhotosComponent implements OnChanges, OnDestroy {
       jQuery(`#${el.id}`).css('background-image', styleSibling);
       jQuery(`#${sibling.id}`).css('background-image', styleEl);
 
-      this.changeProfilePhoto.emit({
+      this.changeProfileImage({
         src: parseInt(el.id.match(/\d+/g)[0], 10),
         dst: parseInt(sibling.id.match(/\d+/g)[0], 10)
       });
@@ -166,6 +164,85 @@ export class EditPhotosComponent implements OnChanges, OnDestroy {
       // Add class to element as soon as it gets added to the target container.
       // It makes sure that image is proper size for the target container.
       jQuery(el).toggleClass('is-over-target', target.id !== source.id);
+    });
+  }
+
+  private deletePhoto(photo): void {
+    this.loadingPhotos.emit(true);
+    this.photosService.delete(photo.resource_uri, (res) => {
+      if (res === -1) {
+        this.loadingPhotos.emit(false);
+        return;
+      }
+      this.refreshPhotos.emit(true);
+      // if deleting main profile photo, refresh profile photo in upper right corner
+      if (photo.order === 0) {
+        this.userService.getProfileUpdates();
+      }
+    });
+  }
+
+  private reorderPhoto(event): void {
+    this.loadingPhotos.emit(true);
+    if (this.photosServiceSubscriberUpdate) {
+      this.photosServiceSubscriberUpdate.unsubscribe();
+    }
+
+    for (var i = 1; i < this.profilePhotos.length; ++i) {
+      for (var j = 0; j < event.length; ++j) {
+        if (this.profilePhotos[i].id === event[j]) {
+          let order = j + 1;
+          this.profilePhotos[i].order = order;
+        }
+      }
+    }
+    let data = this.profilePhotos.slice(1);
+
+    this.photosServiceSubscriberUpdate = this.photosService.batchUpdateOrder(data)
+      .subscribe(() => {
+        this.loadingPhotos.emit(false);
+      }, err => {
+        console.log('could not update order of photos ', err);
+        this.loadingPhotos.emit(false);
+      });
+  }
+
+  private changeProfileImage(event): void {
+    this.loadingPhotos.emit(true);
+    let srcIdx = ListUtil.findIndex(this.profilePhotos, {id: event.src});
+    let dstIdx = ListUtil.findIndex(this.profilePhotos, {id: event.dst});
+
+    let srcImg = JSON.parse(JSON.stringify(this.profilePhotos[srcIdx]));
+    let dstImg = JSON.parse(JSON.stringify(this.profilePhotos[dstIdx]));
+
+    srcImg.order = this.profilePhotos[dstIdx].order;
+    dstImg.order = this.profilePhotos[srcIdx].order;
+
+    let profilePhoto;
+    let otherPhoto;
+    if (srcImg.order === 0) {
+      profilePhoto = srcImg;
+      otherPhoto = dstImg;
+    } else {
+      profilePhoto = dstImg;
+      otherPhoto = srcImg;
+    }
+
+    this.photosService.updateOrder(otherPhoto, otherPhoto.resource_uri, (res) => {
+      if (res === -1) {
+        this.loadingPhotos.emit(false);
+        return;
+      }
+
+      this.photosService.updateOrder({order: 0, resource_uri: profilePhoto.resource_uri},
+        profilePhoto.resource_uri, (res) => {
+          if (res === -1) {
+            this.loadingPhotos.emit(false);
+            return;
+          }
+          this.userService.getProfileUpdates();
+          this.refreshPhotos.emit(true);
+        });
     });
   }
 }

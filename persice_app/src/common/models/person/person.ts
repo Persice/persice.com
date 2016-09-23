@@ -153,6 +153,10 @@ export class Person {
     return this._image;
   }
 
+  set image(image: string) {
+    this._image = image;
+  }
+
   get score(): number {
     return this._score;
   }
@@ -199,6 +203,10 @@ export class Person {
 
   get interests(): any[] {
     return this._interests;
+  }
+
+  set interests(interests: any[]) {
+    this._interests = interests;
   }
 
   get interestsCount(): number {
@@ -255,6 +263,24 @@ export class Person {
 
   set about(text: string) {
     this._about = text;
+  }
+
+  public addReligion(religion: string): void {
+    this._religiousViews.push(religion);
+  }
+
+  public removeReligion(religion: string): void {
+    let index = this._religiousViews.indexOf(religion);
+    this._religiousViews.splice(index, 1);
+  }
+
+  public addPolitics(politics: string): void {
+    this._politicalViews.push(politics);
+  }
+
+  public removePolitics(politics: string): void {
+    let index = this._politicalViews.indexOf(politics);
+    this._politicalViews.splice(index, 1);
   }
 
   public toDto(): any {
