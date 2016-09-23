@@ -179,7 +179,8 @@ def refresh_events(user):
             starts_on=fb_event.start_time,
             ends_on=fb_event.end_time,
             event_photo=image_file,
-            event_type='facebook'
+            event_type='facebook',
+            location=fb_event.location
         )
         if event:
             Membership.objects.create(user=user, event=event,
