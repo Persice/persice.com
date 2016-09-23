@@ -50,7 +50,7 @@
       </div>
       <prs-edit-photos [loading]="loadingPhotos" [defaultPhoto]="defaultPhoto" [photos]="profilePhotos"
                        (openAlbums)="openAlbums($event)" (close)="closeModal($event)"
-                       (refreshPhotos)="refreshPhotos($event)" (loadingPhotos)="loading($event)"></prs-edit-photos>
+                       (refreshPhotos)="refreshPhotos.emit($event)" (loadingPhotos)="loading($event)"></prs-edit-photos>
     </div>
     <div class="tab-content tab-content--blue" [ngClass]="{'is-active': activeTab === 'interests' }"
          id="pr-edit-interests" *ngIf="activeTab === 'interests'">
