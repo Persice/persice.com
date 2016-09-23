@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { ListUtil } from '../../common/core/';
 import { AvatarComponent } from './avatar/avatar.component';
 import { AboutComponent } from './about/about.component';
@@ -51,9 +51,9 @@ export class UserProfileDesktopComponent implements OnInit, OnDestroy {
       this._setState(value);
     }
   }
+  @Output() reloadUser: EventEmitter<any> = new EventEmitter();
 
   private person: Person;
-  private userEdit: any;
   private section: string = 'profile';
 
   private profilePhotos: any[] = [];
@@ -66,7 +66,6 @@ export class UserProfileDesktopComponent implements OnInit, OnDestroy {
 
   private active = false;
   private photosServiceSubscriberUpdate;
-  private loadingPhotosAction: boolean = false;
 
   private galleryActive: boolean = false;
   private galleryOptions = JSON.stringify({
@@ -105,6 +104,7 @@ export class UserProfileDesktopComponent implements OnInit, OnDestroy {
   }
 
   openGallery(event) {
+    console.log('OPENGALERY');
     let remodal = jQuery('[data-remodal-id=modal-gallery]').remodal();
     remodal.open();
     this.galleryActive = true;
@@ -114,9 +114,12 @@ export class UserProfileDesktopComponent implements OnInit, OnDestroy {
     return this.type === 'my-profile' ? 'Connections' : 'Mutual Connections';
   }
 
+  private refreshUser(event): void {
+    this.reloadUser.emit(true);
+  }
+
   protected _setState(user: any): void {
     this.person = new Person(user);
-    this.userEdit = user;
 
     if (this.type !== 'my-profile') {
       this.getMutualConnections();
@@ -222,7 +225,7 @@ export class UserProfileDesktopComponent implements OnInit, OnDestroy {
   }
 
   private reorderPhoto(event): void {
-    this.loadingPhotosAction = true;
+    this.loadingPhotos = true;
     if (this.photosServiceSubscriberUpdate) {
       this.photosServiceSubscriberUpdate.unsubscribe();
     }
@@ -239,10 +242,10 @@ export class UserProfileDesktopComponent implements OnInit, OnDestroy {
 
     this.photosServiceSubscriberUpdate = this.photosService.batchUpdateOrder(data)
       .subscribe(data => {
-        this.loadingPhotosAction = false;
+        this.loadingPhotos = false;
       }, err => {
         console.log('could not update order of photos ', err);
-        this.loadingPhotosAction = false;
+        this.loadingPhotos = false;
       });
   }
 

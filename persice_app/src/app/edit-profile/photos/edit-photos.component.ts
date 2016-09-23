@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnChanges, OnDestroy } from '@angular/core';
-import { ListUtil } from '../../common/core';
-import { EditFooterComponent } from './edit-footer.component';
-import { CheckImageDirective } from '../shared/directives';
+import { EditFooterComponent } from '../footer/edit-footer.component';
+import { CheckImageDirective } from '../../shared/directives/checkimage.directive';
+import { ListUtil } from '../../../common/core/util';
 
 @Component({
   selector: 'prs-edit-photos',
@@ -12,17 +12,17 @@ import { CheckImageDirective } from '../shared/directives';
   ]
 })
 export class EditPhotosComponent implements OnChanges, OnDestroy {
-  @Input() photos;
-  @Input() loading;
+  @Input() photos: any[];
+  @Input() loading: boolean;
   @Input() default;
   @Output() close: EventEmitter<any> = new EventEmitter();
   @Output() delete: EventEmitter<any> = new EventEmitter();
   @Output() reorder: EventEmitter<any> = new EventEmitter();
   @Output() changeProfilePhoto: EventEmitter<any> = new EventEmitter();
   @Output() openAlbums: EventEmitter<any> = new EventEmitter();
-  profilePhotos = [];
-  drakeInstance;
-  deleteDisabled = false;
+  private profilePhotos: any[] = [];
+  private drakeInstance;
+  private deleteDisabled: boolean = false;
 
   ngOnChanges(values) {
     if (values.photos && values.photos.currentValue) {
@@ -38,7 +38,7 @@ export class EditPhotosComponent implements OnChanges, OnDestroy {
   }
 
   deletePhoto(photo) {
-    this.delete.next(photo);
+    this.delete.emit(photo);
   }
 
   assignPhotos(photos) {

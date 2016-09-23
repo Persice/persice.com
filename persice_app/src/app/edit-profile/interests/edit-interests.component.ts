@@ -1,9 +1,11 @@
 import { Component, Output, EventEmitter, OnInit } from '@angular/core';
-import { ManageInterestsComponent } from '../../common/manage-interests';
-import { LoadingComponent } from '../shared/components/loading';
-import { EditFooterComponent } from './edit-footer.component';
-import { AutocompleteDirective, InfiniteScrollElementDirective } from '../../common/directives';
-import { InterestsService, KeywordsService } from '../shared/services';
+import { EditFooterComponent } from '../footer/edit-footer.component';
+import { AutocompleteDirective } from '../../../common/directives/autocomplete.directive';
+import { InfiniteScrollElementDirective } from '../../../common/directives/infinite-scroll-element.directive';
+import { InterestsService } from '../../shared/services/interests.service';
+import { KeywordsService } from '../../shared/services/keywords.service';
+import { ManageInterestsComponent} from '../../../common/manage-interests/manage-interests.component';
+import { LoadingComponent } from '../../shared/components/loading/loading.component';
 
 @Component({
   selector: 'prs-edit-interests',

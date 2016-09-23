@@ -5,6 +5,6 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   template: <any>require('./edit-footer.html')
 })
 export class EditFooterComponent {
-  @Input() loadingEdit;
+  @Input() loadingEdit: boolean;
   @Output() close: EventEmitter<any> = new EventEmitter();
 }

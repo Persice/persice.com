@@ -1,12 +1,13 @@
 import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
-import { EditPersonalInfoComponent } from './edit-personalinfo.component';
-import { EditPhotosComponent } from './edit-photos.component';
-import { EditInterestsComponent } from './edit-interests.component';
-import { EditGoalsComponent } from './edit-goals.component';
-import { EditOffersComponent } from './edit-offers.component';
-import { EditAlbumsComponent } from './edit-albums.component';
-import { EditCropComponent } from './edit-crop.component';
+import { EditPersonalInfoComponent } from './personalinfo/edit-personalinfo.component';
+import { EditPhotosComponent } from './photos/edit-photos.component';
+import { EditInterestsComponent } from './interests/edit-interests.component';
+import { EditGoalsComponent } from './goals/edit-goals.component';
+import { EditOffersComponent } from './offers/edit-offers.component';
+import { EditAlbumsComponent } from './photos/edit-albums.component';
+import { EditCropComponent } from './photos/edit-crop.component';
 import { LoadingComponent } from '../shared/components/loading';
+import { Person } from '../../common/models/person/person';
 
 @Component({
   selector: 'prs-edit-profile',
@@ -23,11 +24,16 @@ import { LoadingComponent } from '../shared/components/loading';
   ]
 })
 export class EditProfileComponent implements OnChanges {
-  @Input() user: { first_name: string, about_me: string, image: string };
-  @Input() politicalViews;
-  @Input() religiousViews;
-  @Input() photos;
-  @Input() loadingPhotos;
+  private person: Person;
+
+  @Input() set user(user: Person) {
+    if (!this.person) {
+      this.person = user;
+    }
+  }
+
+  @Input() photos: any[];
+  @Input() loadingPhotos: boolean;
   @Input() loadingPhotosAction;
   @Input() activeSection;
   @Output() refreshUser: EventEmitter<any> = new EventEmitter;
@@ -35,25 +41,22 @@ export class EditProfileComponent implements OnChanges {
   @Output() reorderPhoto: EventEmitter<any> = new EventEmitter;
   @Output() changeProfilePhoto: EventEmitter<any> = new EventEmitter;
   @Output() cropAndSavePhoto: EventEmitter<any> = new EventEmitter;
-  loadingEdit = false;
-  activeTab = 'profile';
-  profilePhotos = [];
-  profileGoals = [];
-  profileOffers = [];
-  profileInterests = [];
-  defaultPhoto;
-  active = '';
-  cropImage;
-  order: number = 0;
 
-  photosAlbumsActive = false;
-  photosAlbumsCrumbActive = false;
-  photosCropActive = false;
-  photosCropCrumbActive = false;
+  private activeTab: string = 'profile';
 
-  constructor() {
+  private loadingEdit: boolean = false;
+  private profilePhotos: any[] = [];
 
-  }
+  private active: string = '';
+  private cropImage;
+  private order: number = 0;
+
+  private photosAlbumsActive: boolean = false;
+  private photosAlbumsCrumbActive: boolean = false;
+  private photosCropActive: boolean = false;
+  private photosCropCrumbActive: boolean = false;
+
+  constructor() { }
 
   openAlbums(event) {
     this.order = event;
@@ -99,17 +102,16 @@ export class EditProfileComponent implements OnChanges {
       original: event.original,
       order: this.order
     };
-    this.cropAndSavePhoto.next(photo);
-
+    this.cropAndSavePhoto.emit(photo);
   }
 
   ngOnChanges(values) {
     if (values.user && values.user.currentValue) {
-      this.defaultPhoto = values.user.currentValue.image;
+      this.person.image = values.user.currentValue.image;
     }
 
     if (values.interests && values.interests.currentValue) {
-      this.profileInterests = values.interests.currentValue;
+      this.person.interests = values.interests.currentValue;
     }
 
     if (values.photos && values.photos.currentValue) {
@@ -164,9 +166,8 @@ export class EditProfileComponent implements OnChanges {
 
   closeModal(event) {
     this.closePhotos(true);
-    this.refreshUser.next(true);
+    this.refreshUser.emit(true);
     let remodal = jQuery('[data-remodal-id=profile-edit]').remodal();
     remodal.close();
   }
-
 }

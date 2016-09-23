@@ -32,11 +32,9 @@ export class PhotosService {
           }
         }
       }
-
     }
 
     return photosTemp;
-
   }
 
   /**
