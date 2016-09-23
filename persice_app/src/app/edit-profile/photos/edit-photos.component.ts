@@ -10,10 +10,12 @@ import { Subscription}  from 'rxjs';
   selector: 'prs-edit-photos',
   template: <any>require('./edit-photos.html'),
   directives: [ EditFooterComponent, CheckImageDirective ],
-  providers: [ PhotosService, UserService ]
+  providers: [ PhotosService ]
 })
-export class EditPhotosComponent implements OnChanges, OnDestroy {
-  @Input() photos: any[];
+export class EditPhotosComponent implements OnDestroy {
+  @Input() set photos(values: any[]) {
+    this.assignPhotos(values);
+  };
   @Input() loading: boolean;
   @Input() default;
   @Output() close: EventEmitter<any> = new EventEmitter();
@@ -27,12 +29,6 @@ export class EditPhotosComponent implements OnChanges, OnDestroy {
   private photosServiceSubscriberUpdate: Subscription;
 
   constructor(private photosService: PhotosService, private userService: UserService) { }
-
-  ngOnChanges(values) {
-    if (values.photos && values.photos.currentValue) {
-      this.assignPhotos(values.photos.currentValue);
-    }
-  }
 
   ngOnDestroy() {
     if (this.drakeInstance) {
@@ -102,7 +98,7 @@ export class EditPhotosComponent implements OnChanges, OnDestroy {
     this.profilePhotos = ListUtil.orderBy(this.profilePhotos, ['order'], ['asc']);
     setTimeout(() => {
       this.initializeDragAndDrop();
-    });
+    }, 100);
   }
 
   checkOrderAndOpenAlbums(event) {
@@ -115,7 +111,7 @@ export class EditPhotosComponent implements OnChanges, OnDestroy {
   }
 
   initializeDragAndDrop() {
-    if (this.drakeInstance) {
+    if (!!this.drakeInstance) {
       this.drakeInstance.destroy();
     }
 
@@ -170,10 +166,10 @@ export class EditPhotosComponent implements OnChanges, OnDestroy {
   private deletePhoto(photo): void {
     this.loadingPhotos.emit(true);
     this.photosService.delete(photo.resource_uri, (res) => {
-      if (res === -1) {
-        this.loadingPhotos.emit(false);
-        return;
-      }
+      // if (res === -1) {
+      //   this.loadingPhotos.emit(false);
+      //   return;
+      // }
       this.refreshPhotos.emit(true);
       // if deleting main profile photo, refresh profile photo in upper right corner
       if (photo.order === 0) {

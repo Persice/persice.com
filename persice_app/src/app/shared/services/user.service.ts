@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
-import { Observable, Subject } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { AuthUserModel } from '../models';
 import { HttpClient } from '../../../common/core';
 import { TokenUtil } from '../../../common/core/util';
@@ -12,14 +12,12 @@ export class UserService {
   user: AuthUserModel;
   image: string = UserService.DEFAULT_IMAGE;
   name: string = '';
-  _observer: Subject<any> = new Subject(null);
+
+  public user$: Observable<any>;
+  private _user$: BehaviorSubject<any> = new BehaviorSubject({ user: null });
 
   constructor(private http: HttpClient) {
-
-  }
-
-  public serviceObserver() {
-    return this._observer;
+    this.user$ = this._user$.asObservable();
   }
 
   public getProfileUpdates() {
@@ -37,7 +35,7 @@ export class UserService {
           this.user = new AuthUserModel(data);
           this.image = this.user.info.image;
           this.name = this.user.info.first_name;
-          this._observer.next({
+          this._user$.next({
             user: this.user
           });
           channel.unsubscribe();
@@ -71,24 +69,6 @@ export class UserService {
     return this.http.get(resourceUri).map((res: Response) => res.json());
   }
 
-  // public findOneById(id: string): Observable<any> {
-  //   let params = [
-  //     `format=json`
-  //   ].join('&');
-  //
-  //   let url = `${UserService.API_URL}${id}/?${params}`;
-  //
-  //   return this.http.get(url)
-  //     .map((res: Response) => {
-  //       let data = res.json();
-  //       console.log(data.first_name);
-  //       this.user = new AuthUserModel(data);
-  //       this.image = this.user.info.image;
-  //       this.name = this.user.info.first_name;
-  //       return res.json();
-  //     });
-  // }
-
   public getDefaultImage() {
     return UserService.DEFAULT_IMAGE;
   }
@@ -104,5 +84,5 @@ export class UserService {
 }
 
 export var userServiceInjectables: Array<any> = [
-  {provide: UserService, useClass: UserService}
+  { provide: UserService, useClass: UserService }
 ];

@@ -25,7 +25,7 @@ import { Subscription } from 'rxjs';
     EditCropComponent,
     LoadingComponent
   ],
-  providers: [ PhotosService, UserService ]
+  providers: [ PhotosService ]
 })
 export class EditProfileComponent implements OnChanges, OnDestroy {
   private person: Person;
