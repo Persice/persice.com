@@ -12,7 +12,7 @@ export class GalleryComponent implements OnDestroy, AfterViewInit {
   private galleryThumbs: any;
 
   ngAfterViewInit(): any {
-    setTimeout(() => {
+    // setTimeout(() => {
       this.galleryTop = new Swiper('.gallery-top', {
         nextButton: '.modal-gallery__arrow--next',
         prevButton: '.modal-gallery__arrow--prev',
@@ -28,7 +28,7 @@ export class GalleryComponent implements OnDestroy, AfterViewInit {
       });
       this.galleryTop.params.control = this.galleryThumbs;
       this.galleryThumbs.params.control = this.galleryTop;
-    }, 500);
+    // }, 500);
   }
 
   ngOnDestroy(): any {

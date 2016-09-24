@@ -5,7 +5,7 @@
            class="profile-edit__photos__main-photo-container">
         <div id="photo_{{profilePhotos[0].id}}"
              *ngIf="profilePhotos[0].id !== null && profilePhotos[0].cropped_photo !== '' && profilePhotos[0].cropped_photo !== null"
-             class="profile-edit__photos__main-photo" checkimage="{{profilePhotos[0]?.cropped_photo}}"
+             class="profile-edit__photos__main-photo" [onchanges]="1" checkimage="{{profilePhotos[0]?.cropped_photo}}"
              [suffix]="'.387x387_q100_crop.jpg'">
           <a class="profile-edit__photos__remove-photo" (click)="deletePhoto(profilePhotos[0])" *ngIf="!deleteDisabled">
             <svg role="img" class="icon icon--notsotiny">
@@ -39,7 +39,7 @@
       <div id="profile-photos" class="profile-edit__photos__thumb-photo-container">
         <div id="photo_{{profilePhotos[1].id}}" *ngIf="profilePhotos[1].id !== null"
              class="profile-edit__photos__thumb-photo" checkimage="{{profilePhotos[1]?.cropped_photo}}"
-             [suffix]="'.89x89_q100_crop.jpg'">
+             [suffix]="'.89x89_q100_crop.jpg'" [onchanges]="1">
           <a class="profile-edit__photos__remove-photo" (click)="deletePhoto(profilePhotos[1])">
             <svg role="img" class="icon icon--notsotiny">
               <use xlink:href="/assets/icons/icons.svg#icon-delete"></use>
@@ -48,7 +48,7 @@
         </div>
         <div id="photo_{{profilePhotos[2].id}}" *ngIf="profilePhotos[2].id !== null"
              class="profile-edit__photos__thumb-photo" checkimage="{{profilePhotos[2]?.cropped_photo}}"
-             [suffix]="'.89x89_q100_crop.jpg'">
+             [suffix]="'.89x89_q100_crop.jpg'" [onchanges]="1">
           <a class="profile-edit__photos__remove-photo" (click)="deletePhoto(profilePhotos[2])">
             <svg role="img" class="icon icon--notsotiny">
               <use xlink:href="/assets/icons/icons.svg#icon-delete"></use>
@@ -57,7 +57,7 @@
         </div>
         <div id="photo_{{profilePhotos[3].id}}" *ngIf="profilePhotos[3].id !== null"
              class="profile-edit__photos__thumb-photo" checkimage="{{profilePhotos[3]?.cropped_photo}}"
-             [suffix]="'.89x89_q100_crop.jpg'">
+             [suffix]="'.89x89_q100_crop.jpg'" [onchanges]="1">
           <a class="profile-edit__photos__remove-photo" (click)="deletePhoto(profilePhotos[3])">
             <svg role="img" class="icon icon--notsotiny">
               <use xlink:href="/assets/icons/icons.svg#icon-delete"></use>
@@ -66,7 +66,7 @@
         </div>
         <div id="photo_{{profilePhotos[4].id}}" *ngIf="profilePhotos[4].id !== null"
              class="profile-edit__photos__thumb-photo" checkimage="{{profilePhotos[4]?.cropped_photo}}"
-             [suffix]="'.89x89_q100_crop.jpg'">
+             [suffix]="'.89x89_q100_crop.jpg'" [onchanges]="1">
           <a class="profile-edit__photos__remove-photo" (click)="deletePhoto(profilePhotos[4])">
             <svg role="img" class="icon icon--notsotiny">
               <use xlink:href="/assets/icons/icons.svg#icon-delete"></use>

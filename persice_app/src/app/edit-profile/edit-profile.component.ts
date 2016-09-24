@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, OnDestroy } from '@angular/core';
 import { EditPersonalInfoComponent } from './personalinfo/edit-personalinfo.component';
 import { EditPhotosComponent } from './photos/edit-photos.component';
 import { EditInterestsComponent } from './interests/edit-interests.component';
@@ -8,6 +8,9 @@ import { EditAlbumsComponent } from './photos/edit-albums.component';
 import { EditCropComponent } from './photos/edit-crop.component';
 import { LoadingComponent } from '../shared/components/loading';
 import { Person } from '../../common/models/person/person';
+import { PhotosService } from '../shared/services/photos.service';
+import { UserService } from '../shared/services/user.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'prs-edit-profile',
@@ -21,9 +24,10 @@ import { Person } from '../../common/models/person/person';
     EditAlbumsComponent,
     EditCropComponent,
     LoadingComponent
-  ]
+  ],
+  providers: [ PhotosService ]
 })
-export class EditProfileComponent implements OnChanges {
+export class EditProfileComponent implements OnChanges, OnDestroy {
   private person: Person;
 
   @Input() set user(user: Person) {
@@ -36,11 +40,9 @@ export class EditProfileComponent implements OnChanges {
   @Input() loadingPhotos: boolean;
   @Input() loadingPhotosAction;
   @Input() activeSection;
+
   @Output() refreshUser: EventEmitter<any> = new EventEmitter;
-  @Output() deletePhoto: EventEmitter<any> = new EventEmitter;
-  @Output() reorderPhoto: EventEmitter<any> = new EventEmitter;
-  @Output() changeProfilePhoto: EventEmitter<any> = new EventEmitter;
-  @Output() cropAndSavePhoto: EventEmitter<any> = new EventEmitter;
+  @Output() refreshPhotos: EventEmitter<any> = new EventEmitter;
 
   private activeTab: string = 'profile';
 
@@ -51,61 +53,16 @@ export class EditProfileComponent implements OnChanges {
   private cropImage;
   private order: number = 0;
 
+  private photosServiceSubscriberUpdate: Subscription;
+
   private photosAlbumsActive: boolean = false;
   private photosAlbumsCrumbActive: boolean = false;
   private photosCropActive: boolean = false;
   private photosCropCrumbActive: boolean = false;
 
-  constructor() { }
+  constructor(private photosService: PhotosService, private userService: UserService) { }
 
-  openAlbums(event) {
-    this.order = event;
-    this.photosAlbumsActive = true;
-    this.photosAlbumsCrumbActive = true;
-    this.photosCropActive = false;
-    this.photosCropCrumbActive = false;
-  }
-
-  closeAlbums(event) {
-    this.photosAlbumsActive = false;
-    this.photosCropActive = false;
-    this.photosAlbumsCrumbActive = false;
-    this.photosCropCrumbActive = false;
-  }
-
-  openCrop(event) {
-    this.cropImage = event;
-    this.photosAlbumsActive = false;
-    this.photosAlbumsCrumbActive = true;
-    this.photosCropCrumbActive = true;
-    this.photosCropActive = true;
-  }
-
-  closeCrop(event) {
-    this.photosCropActive = false;
-    this.photosCropCrumbActive = false;
-    this.photosAlbumsCrumbActive = true;
-    this.photosAlbumsActive = true;
-  }
-
-  closePhotos(event) {
-    this.photosAlbumsActive = false;
-    this.photosCropActive = false;
-    this.photosCropCrumbActive = false;
-    this.photosAlbumsCrumbActive = false;
-  }
-
-  cropAndSave(event) {
-    this.closePhotos(true);
-    let photo = {
-      cropped: event.cropped,
-      original: event.original,
-      order: this.order
-    };
-    this.cropAndSavePhoto.emit(photo);
-  }
-
-  ngOnChanges(values) {
+  ngOnChanges(values): any {
     if (values.user && values.user.currentValue) {
       this.person.image = values.user.currentValue.image;
     }
@@ -161,13 +118,79 @@ export class EditProfileComponent implements OnChanges {
           break;
       }
     }
-
   }
 
-  closeModal(event) {
+  ngOnDestroy(): any {
+    if (this.photosServiceSubscriberUpdate) {
+      this.photosServiceSubscriberUpdate.unsubscribe();
+    }
+  }
+
+  openAlbums(event): void {
+    this.order = event;
+    this.photosAlbumsActive = true;
+    this.photosAlbumsCrumbActive = true;
+    this.photosCropActive = false;
+    this.photosCropCrumbActive = false;
+  }
+
+  closeAlbums(event): void {
+    this.photosAlbumsActive = false;
+    this.photosCropActive = false;
+    this.photosAlbumsCrumbActive = false;
+    this.photosCropCrumbActive = false;
+  }
+
+  openCrop(event): void {
+    this.cropImage = event;
+    this.photosAlbumsActive = false;
+    this.photosAlbumsCrumbActive = true;
+    this.photosCropCrumbActive = true;
+    this.photosCropActive = true;
+  }
+
+  closeCrop(event): void {
+    this.photosCropActive = false;
+    this.photosCropCrumbActive = false;
+    this.photosAlbumsCrumbActive = true;
+    this.photosAlbumsActive = true;
+  }
+
+  closePhotos(event): void {
+    this.photosAlbumsActive = false;
+    this.photosCropActive = false;
+    this.photosCropCrumbActive = false;
+    this.photosAlbumsCrumbActive = false;
+  }
+
+  private loading(loading: boolean): void {
+    this.loadingPhotos = loading;
+  }
+
+  closeModal(event): void {
     this.closePhotos(true);
     this.refreshUser.emit(true);
     let remodal = jQuery('[data-remodal-id=profile-edit]').remodal();
     remodal.close();
+  }
+
+  cropAndSave(event): void {
+    this.closePhotos(true);
+    let photo = {
+      cropped: event.cropped,
+      original: event.original,
+      order: this.order
+    };
+    this.cropAndSavePhoto(photo);
+  }
+
+  private cropAndSavePhoto(photo): void {
+    this.loadingPhotos = true;
+    this.photosService.save(photo, (res) => {
+      this.refreshPhotos.emit(true);
+      if (photo.order === 0) {
+        this.userService.getProfileUpdates();
+      }
+    });
   }
 }

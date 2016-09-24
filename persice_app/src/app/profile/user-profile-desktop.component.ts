@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ListUtil } from '../../common/core/';
 import { AvatarComponent } from './avatar/avatar.component';
 import { AboutComponent } from './about/about.component';
@@ -11,8 +11,7 @@ import { LoadingComponent } from '../shared/components/loading';
 import { RemodalDirective } from '../shared/directives';
 import {
   PhotosService,
-  LikesService,
-  UserService
+  LikesService
 } from '../shared/services';
 import { ConnectionsService } from '../../common/connections';
 import { Person } from '../../common/models/person/person';
@@ -43,7 +42,7 @@ import { GalleryComponent } from './gallery/gallery.component';
     PhotosService
   ]
 })
-export class UserProfileDesktopComponent implements OnInit, OnDestroy {
+export class UserProfileDesktopComponent implements OnInit {
 
   @Input() type: string;
   @Input() set user(value) {
@@ -53,22 +52,21 @@ export class UserProfileDesktopComponent implements OnInit, OnDestroy {
   }
   @Output() reloadUser: EventEmitter<any> = new EventEmitter();
 
-  private person: Person;
-  private section: string = 'profile';
+  protected person: Person;
+  protected section: string = 'profile';
 
-  private profilePhotos: any[] = [];
-  private profileConnections: any[] = [];
-  private profileLikes: any[] = [];
+  protected profilePhotos: any[] = [];
+  protected profileConnections: any[] = [];
+  protected profileLikes: any[] = [];
 
-  private loadingLikes: boolean = false;
-  private loadingConnections: boolean = false;
-  private loadingPhotos: boolean = false;
+  protected loadingLikes: boolean = false;
+  protected loadingConnections: boolean = false;
+  protected loadingPhotos: boolean = false;
 
-  private active = false;
-  private photosServiceSubscriberUpdate;
+  protected active: boolean = false;
 
-  private galleryActive: boolean = false;
-  private galleryOptions = JSON.stringify({
+  protected galleryActive: boolean = false;
+  protected galleryOptions = JSON.stringify({
     hashTracking: false,
     closeOnOutsideClick: true
   });
@@ -77,12 +75,11 @@ export class UserProfileDesktopComponent implements OnInit, OnDestroy {
     protected connectionsService: ConnectionsService,
     protected mutualConnectionsService: MutualConnectionsService,
     protected photosService: PhotosService,
-    protected likesService: LikesService,
-    protected userMeService: UserService
+    protected likesService: LikesService
   ) { }
 
   ngOnInit(): any {
-    //listen for event when gallery modal is closed
+    // listen for event when gallery modal is closed
     jQuery(document).on('closed', '.remodal', (e) => {
       this.galleryActive = false;
     });
@@ -93,29 +90,26 @@ export class UserProfileDesktopComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): any {
-    if (this.photosServiceSubscriberUpdate) {
-      this.photosServiceSubscriberUpdate.unsubscribe();
-    }
-  }
-
   closeProfile(): void {
     window.history.back(-1);
   }
 
   openGallery(event) {
-    console.log('OPENGALERY');
     let remodal = jQuery('[data-remodal-id=modal-gallery]').remodal();
     remodal.open();
     this.galleryActive = true;
   }
 
-  private get friendsTitle(): string {
-    return this.type === 'my-profile' ? 'Connections' : 'Mutual Connections';
+  public refreshUser(event: any): void {
+    this.reloadUser.emit(true);
   }
 
-  private refreshUser(event): void {
-    this.reloadUser.emit(true);
+  public refreshPhotos(event: any): void {
+    this.getPhotos();
+  }
+
+  protected get friendsTitle(): string {
+    return this.type === 'my-profile' ? 'Connections' : 'Mutual Connections';
   }
 
   protected _setState(user: any): void {
@@ -177,7 +171,7 @@ export class UserProfileDesktopComponent implements OnInit, OnDestroy {
     this.section = section;
   }
 
-  private eventHandler(key): void {
+  protected eventHandler(key): void {
     switch (key) {
       case 27: //escape
         this.closeProfile();
@@ -192,99 +186,5 @@ export class UserProfileDesktopComponent implements OnInit, OnDestroy {
     if (data.meta.total_count > 0) {
       this.profilePhotos = ListUtil.orderBy(data.objects, ['order'], ['asc']);
     }
-  }
-
-  private cropAndSavePhoto(photo): void {
-    this.loadingPhotos = true;
-    this.photosService.save(photo, (res) => {
-      this.refreshPhotos();
-      if (photo.order === 0) {
-        this.userMeService.getProfileUpdates();
-      }
-    });
-  }
-
-  private deletePhoto(photo): void {
-    this.loadingPhotos = true;
-    this.photosService.delete(photo.resource_uri, (res) => {
-      if (res === -1) {
-        this.loadingPhotos = false;
-        return;
-      }
-      this.refreshPhotos();
-      // if deleting main profile photo, refresh profile photo in upper right corner
-      if (photo.order === 0) {
-        this.userMeService.getProfileUpdates();
-      }
-    });
-  }
-
-  private refreshPhotos(): void {
-    this.loadingPhotos = true;
-    this.getPhotos();
-  }
-
-  private reorderPhoto(event): void {
-    this.loadingPhotos = true;
-    if (this.photosServiceSubscriberUpdate) {
-      this.photosServiceSubscriberUpdate.unsubscribe();
-    }
-
-    for (var i = 1; i < this.profilePhotos.length; ++i) {
-      for (var j = 0; j < event.length; ++j) {
-        if (this.profilePhotos[i].id === event[j]) {
-          let order = j + 1;
-          this.profilePhotos[i].order = order;
-        }
-      }
-    }
-    let data = this.profilePhotos.slice(1);
-
-    this.photosServiceSubscriberUpdate = this.photosService.batchUpdateOrder(data)
-      .subscribe(data => {
-        this.loadingPhotos = false;
-      }, err => {
-        console.log('could not update order of photos ', err);
-        this.loadingPhotos = false;
-      });
-  }
-
-  private changeProfilePhoto(event): void {
-    this.loadingPhotos = true;
-    let srcIdx = ListUtil.findIndex(this.profilePhotos, {id: event.src});
-    let dstIdx = ListUtil.findIndex(this.profilePhotos, {id: event.dst});
-
-    let srcImg = JSON.parse(JSON.stringify(this.profilePhotos[srcIdx]));
-    let dstImg = JSON.parse(JSON.stringify(this.profilePhotos[dstIdx]));
-
-    srcImg.order = this.profilePhotos[dstIdx].order;
-    dstImg.order = this.profilePhotos[srcIdx].order;
-
-    let profilePhoto;
-    let otherPhoto;
-    if (srcImg.order === 0) {
-      profilePhoto = srcImg;
-      otherPhoto = dstImg;
-    } else {
-      profilePhoto = dstImg;
-      otherPhoto = srcImg;
-    }
-
-    this.photosService.updateOrder(otherPhoto, otherPhoto.resource_uri, (res) => {
-      if (res === -1) {
-        this.loadingPhotos = false;
-        return;
-      }
-
-      this.photosService.updateOrder({order: 0, resource_uri: profilePhoto.resource_uri},
-        profilePhoto.resource_uri, (res) => {
-          if (res === -1) {
-            this.loadingPhotos = false;
-            return;
-          }
-          this.userMeService.getProfileUpdates();
-          this.refreshPhotos();
-        });
-    });
   }
 }

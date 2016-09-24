@@ -84,9 +84,12 @@ export class MainComponent implements OnInit, OnDestroy {
 
     this.image = this.userService.getDefaultImage();
 
-    this.userServiceObserver = this.userService.serviceObserver()
-      .subscribe((data) => {
-        this.image = data.user.info.image;
+    this.userServiceObserver = this.userService.user$
+      .subscribe((data: any) => {
+        if (data.user) {
+          this.image = data.user.info.image;
+        }
+
       });
 
     //websocket initialise

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnChanges, OnDestroy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { ROUTER_DIRECTIVES } from '@angular/router';
 import { AvatarComponent } from './avatar/avatar.component';
 import { AboutComponent } from './about/about.component';
@@ -13,8 +13,8 @@ import { UserProfileDesktopComponent } from './user-profile-desktop.component';
 import { MutualConnectionsService } from '../../app-mobile/user-profile/network-mutual-connections/mutual-connections.service';
 import { ConnectionsService } from '../../common/connections/connections.service';
 import { LikesService } from '../shared/services/likes.service';
-import { UserService } from '../shared/services/user.service';
 import { FriendsComponent } from './connections/friends.component';
+import { GalleryComponent } from './gallery/gallery.component';
 
 @Component({
   selector: 'prs-profile-crowd-pals',
@@ -24,6 +24,7 @@ import { FriendsComponent } from './connections/friends.component';
     AboutComponent,
     AcceptPassComponent,
     FriendsComponent,
+    GalleryComponent,
     ItemsComponent,
     LikesComponent,
     LoadingComponent,
@@ -35,8 +36,7 @@ import { FriendsComponent } from './connections/friends.component';
     ConnectionsService,
     LikesService,
     MutualConnectionsService,
-    PhotosService,
-    UserService
+    PhotosService
   ]
 })
 export class UserProfileDesktopCrowdPalsComponent extends UserProfileDesktopComponent implements OnInit, OnDestroy {
@@ -62,10 +62,9 @@ export class UserProfileDesktopCrowdPalsComponent extends UserProfileDesktopComp
     connectionsService: ConnectionsService,
     mutualConnectionsService: MutualConnectionsService,
     photosService: PhotosService,
-    likesService: LikesService,
-    userMeService: UserService,
+    likesService: LikesService
   ) {
-    super(connectionsService, mutualConnectionsService, photosService, likesService, userMeService);
+    super(connectionsService, mutualConnectionsService, photosService, likesService);
   }
 
   ngOnInit(): any {
@@ -73,19 +72,18 @@ export class UserProfileDesktopCrowdPalsComponent extends UserProfileDesktopComp
   }
 
   ngOnDestroy(): any {
-    super.ngOnDestroy();
     jQuery(document).off('closed', '.remodal');
   }
 
   private passUser(event): void {
-    this.passEvent.next(event);
+    this.passEvent.emit(event);
   }
 
   private acceptUser(event): void {
-    this.acceptEvent.next(event);
+    this.acceptEvent.emit(event);
   }
 
   closeProfile(): void {
-    this.closeprofileEvent.next(true);
+    this.closeprofileEvent.emit(true);
   }
 }

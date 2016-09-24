@@ -24,12 +24,9 @@ export class EditAlbumsComponent implements OnDestroy, OnInit {
   private facebookAlbumsServiceInstance;
   private albums: any[] = [];
 
-  constructor(private facebookAlbumsService: FacebookAlbumsService) {
-
-  }
+  constructor(private facebookAlbumsService: FacebookAlbumsService) { }
 
   ngOnInit() {
-
     //subscribe to facebook albums service updates
     this.facebookAlbumsServiceInstance = this.facebookAlbumsService.serviceObserver()
       .subscribe((res) => {
