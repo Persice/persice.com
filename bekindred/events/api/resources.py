@@ -817,7 +817,7 @@ class EventFeedResource(Resource):
         return kwargs
 
     def get_object_list(self, request):
-        match = MatchQuerySet.all_event(request.user.id, feed='my')
+        match = []
         if request.GET.get('filter') == 'true':
             if request.GET.get('feed') == 'my':
                 match = MatchQuerySet.\

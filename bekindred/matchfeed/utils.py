@@ -632,6 +632,8 @@ class MatchEvent(object):
             self.current_user_id, self.event, self.matched_users, rsvp='maybe')
 
     def match_score(self):
+        # TODO:
+        # Added match current user with event name and description
         return sum(self.names[0].values()) + sum(self.descriptions[0].values())
 
     def highlight(self, event_object, target='name'):
