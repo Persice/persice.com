@@ -32,11 +32,9 @@ export class PhotosService {
           }
         }
       }
-
     }
 
     return photosTemp;
-
   }
 
   /**
@@ -149,10 +147,13 @@ export class PhotosService {
   public batchUpdateOrder(data): Observable<any> {
     let photos = [];
     for (var i = data.length - 1; i >= 0; i--) {
-      photos = [...photos, {
-        order: data[i].order,
-        resource_uri: data[i].resource_uri
-      }];
+      if (data[i].resource_uri ) {
+        photos = [...photos, {
+          order: data[i].order,
+          resource_uri: data[i].resource_uri
+        }];
+      }
+
     }
 
     let body = JSON.stringify({objects: photos});

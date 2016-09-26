@@ -2,10 +2,10 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UsersListComponent } from '../shared/components/users-list';
 import { LoadingComponent } from '../shared/components/loading';
 import { FilterDesktopComponent } from '../shared/components/filter';
-import { ProfileFriendComponent } from '../profile';
 import { InfiniteScrollDirective } from '../../common/directives';
 import { FilterService } from '../shared/services';
 import { ConnectionsComponent, ConnectionsService } from '../../common/connections';
+import { UserProfileDesktopCrowdPalsComponent } from '../profile/user-profile-desktop-crowd-pals.component';
 
 // Refresh list timeout in miliseconds (when filters change, list must refresh)
 const LIST_REFRESH_TIMEOUT: number = 300;
@@ -17,7 +17,7 @@ const LIST_REFRESH_TIMEOUT: number = 300;
     FilterDesktopComponent,
     UsersListComponent,
     LoadingComponent,
-    ProfileFriendComponent,
+    UserProfileDesktopCrowdPalsComponent,
     InfiniteScrollDirective
   ],
   providers: [
@@ -26,31 +26,33 @@ const LIST_REFRESH_TIMEOUT: number = 300;
 })
 export class ConnectionsDesktopComponent extends ConnectionsComponent implements OnInit, OnDestroy {
 
+  private profileType: string = "connection";
+
   constructor(protected listService: ConnectionsService, protected filterService: FilterService) {
     super(listService, filterService, LIST_REFRESH_TIMEOUT);
   }
 
-  ngOnInit() {
+  ngOnInit(): any {
     this.getList();
     this.subscribeToFilterServiceUpdates();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): any {
     this.clearServicesSubscriptions();
   }
 
-  beforeItemSelected() {
+  protected beforeItemSelected(): void {
     this.saveScrollPosition();
   }
 
-  afterItemSelected(index?: number) {
+  protected afterItemSelected(index?: number): void {
     if (this.selectedItem.updated_at === null) {
       this.selectedItem.updated_at = 'seen';
     }
     this.setLocation(this.selectedItem[this.urlProperty]);
   }
 
-  afterItemClosed() {
+  protected afterItemClosed(): void {
     this.setLocation('pals');
     this.restoreScrollPosition();
   }

@@ -1,13 +1,18 @@
 from django.test import TestCase
+from django_facebook.models import FacebookCustomUser
 
-from accounts.utils import get_fb_events
+from accounts.utils import get_fb_events, refresh_events
+from events.models import FacebookEvent
 
 
 class GetFaceBookEventsTestCase(TestCase):
     def setUp(self):
-        pass
+        self.user = FacebookCustomUser.objects. \
+            create_user(username='user_a', password='test',
+                        first_name='Andrii', last_name='Soldatenko')
 
-    def test_get_fb_events(self):
-        fb_access_token = "EAACEdEose0cBAD16wNjKDbVpQED1I4KGQcbcD5a7y1HcrPzxciZC7jfaBLRJHcCsJvP6fZBfPKZCd6PlB9jTlYIetOZBtlHxTUHZCaI83sXL1hHlJ0d4ZB5HFerQHrTjBr5Jv62g4EAWNWuWgLYZA6DV4uacsr4aEO1bQHNMDB5jAZDZD"
-        get_fb_events(None, fb_access_token)
-        self.assertEqual("The cat says meow", 'The cat says "meow"')
+    def test_refresh_events(self):
+        FacebookEvent.objects.create(
+            user_id=self.user.id, facebook_id=1581472222157278)
+        refresh_events(self.user)
+        self.assertEqual(1, 2)

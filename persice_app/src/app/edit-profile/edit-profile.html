@@ -41,18 +41,16 @@
   <div class="layout__item 3/4" id="profileEdit">
     <div class="tab-content" [ngClass]="{'is-active': activeTab === 'profile' }" id="pr-edit-personal-info"
          *ngIf="activeTab === 'profile'">
-      <prs-edit-personalinfo (close)="closeModal($event)" [user]="user" [politicalViews]="politicalViews"
-                             [religiousViews]="religiousViews"></prs-edit-personalinfo>
+      <prs-edit-personalinfo (close)="closeModal($event)" [person]="person"></prs-edit-personalinfo>
     </div>
     <div class="tab-content pr0" id="pr-edit-photo" [ngClass]="{'is-active': activeTab === 'photos' }"
          id="pr-edit-photo" *ngIf="activeTab === 'photos'">
       <div class="profile-loading__photos dimmable" [ngClass]="{'is-visible': loadingPhotos}">
         <prs-loading [status]="loadingPhotos"></prs-loading>
       </div>
-      <prs-edit-photos [loading]="loadingPhotosAction" [loading]="loadingPhotos"
-                       (changeProfilePhoto)="changeProfilePhoto.next($event)" (reorder)="reorderPhoto.next($event)"
-                       (delete)="deletePhoto.next($event)" (openAlbums)="openAlbums($event)"
-                       (close)="closeModal($event)" [default]="defaultPhoto" [photos]="profilePhotos"></prs-edit-photos>
+      <prs-edit-photos [loading]="loadingPhotos" [defaultPhoto]="defaultPhoto" [photos]="profilePhotos"
+                       (openAlbums)="openAlbums($event)" (close)="closeModal($event)"
+                       (refreshPhotos)="refreshPhotos.emit($event)" (loadingPhotos)="loading($event)"></prs-edit-photos>
     </div>
     <div class="tab-content tab-content--blue" [ngClass]="{'is-active': activeTab === 'interests' }"
          id="pr-edit-interests" *ngIf="activeTab === 'interests'">

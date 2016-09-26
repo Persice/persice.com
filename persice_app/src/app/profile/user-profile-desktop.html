@@ -1,0 +1,172 @@
+<a class="page-arrow page-arrow--prev" *ngIf="currentIndex !== 0 && count > 1" (click)="previousEvent.next($event)">
+  <svg role="img" class="icon ">
+    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/icons.svg#icon-arrow_left"></use>
+  </svg>
+</a>
+<a class="page-arrow page-arrow--next" *ngIf="currentIndex < count - 1 && count > 1" (click)="nextEvent.next($event)">
+  <svg role="img" class="icon ">
+    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/icons.svg#icon-arrow_right"></use>
+  </svg>
+</a>
+<div class="platform m" id="userprofile" (keyup)="eventHandler($event.keyCode)" tabindex="0">
+  <a (click)="closeProfile()" class="platform__back">
+    <svg role="img" class="icon ">
+      <use xlink:href="/assets/icons/icons.svg#icon-close"></use>
+    </svg>
+  </a>
+  <div class="tableize tableize--fixed tableize--full content">
+    <div class="tableize__cell 3/12 my-profile">
+      <prs-profile-avatar (openGallery)="openGallery($event)" (openPhotos)="openEdit($event)" [loading]="loadingPhotos"
+                          [type]="type" [avatar]="person.image" [images]="profilePhotos" [score]="person.score">
+      </prs-profile-avatar>
+      <div class="layout layout--flush pt- ph pl+ unselectable">
+        <div class="layout__item 1/3">
+          <h2 class="module-title mb0">gender</h2>
+        </div>
+        <div class="layout__item 1/3">
+          <h2 class="module-title mb0">age</h2>
+        </div>
+        <div class="layout__item 1/3">
+          <h2 class="module-title mb0">lives in</h2>
+        </div>
+      </div>
+      <div class="layout layout--flush pt- ph pb pl+">
+        <div class="layout__item 1/3">
+          <div class="profile-feature">{{person.gender}}</div>
+        </div>
+        <div class="layout__item 1/3">
+          <div class="profile-feature">{{person.age}}</div>
+        </div>
+        <div class="layout__item 1/3">
+          <div class="profile-feature">{{person.livesIn}}</div>
+        </div>
+      </div>
+      <hr class="hr --mh">
+      <div class="pt0 ph+ pb">
+        <h4 class="module-title mb0">Profession</h4>
+        <div class="profile-feature">{{person.job}}</div>
+      </div>
+      <hr class="hr --mh mb0">
+      <div class="pt ph+ pb has-edit-link">
+        <h4 class="module-title mb0">
+          <a *ngIf="type === 'my-profile'" (click)="openEdit('religious')" class="edit-link">
+            Religious views
+            <span class="edit-link__icon">
+              <svg *ngIf="type === 'my-profile'" role="img" class="icon ">
+                <use xlink:href="/assets/icons/icons.svg#icon-edit_info"></use>
+              </svg>
+            </span>
+          </a>
+          <p *ngIf="type !== 'my-profile'">Religious views</p>
+        </h4>
+        <div class="profile-feature" *ngFor="let rel of person.religiousViews">
+          <p *ngIf="type !== 'my-profile'">{{rel}}</p>
+          <a *ngIf="type === 'my-profile'" (click)="openEdit('religious')" class="edit-link">{{rel}}</a>
+        </div>
+      </div>
+      <hr class="hr --mh mb0">
+      <div class="pt ph+ pb has-edit-link">
+        <h4 class="module-title mb0">
+          <a *ngIf="type === 'my-profile'" (click)="openEdit('political')" class="edit-link">
+            Political views
+            <span class="edit-link__icon">
+              <svg role="img" class="icon ">
+                <use xlink:href="/assets/icons/icons.svg#icon-edit_info"></use>
+              </svg>
+            </span>
+          </a>
+          <p *ngIf="type !== 'my-profile'">Political views</p>
+        </h4>
+        <div class="profile-feature" *ngFor="let pol of person.politicalViews">
+          <p *ngIf="type !== 'my-profile'">{{pol}}</p>
+          <a *ngIf="type === 'my-profile'" (click)="openEdit('political')" class="edit-link">{{pol}}</a>
+        </div>
+      </div>
+      <hr class="hr --mh mb0">
+      <div class="pt ph+ pb has-edit-link">
+        <prs-profile-about (openEdit)="openEdit($event)" [editable]="type === 'my-profile'"
+                           [about]="person.about">
+        </prs-profile-about>
+      </div>
+      <hr class="hr --mh mb0">
+      <div class="pt ph+ pb has-edit-link profile-networks" (openEdit)="openEdit($event)"
+           [editable]="type === 'my-profile'" [url]="person.networks">
+      </div>
+    </div>
+    <div class="tableize__cell 6/10">
+      <div class="border-left">
+        <div class="my-profile__header">
+          <div class="layout layout--middle layout--center">
+
+            <div class="layout__item" [ngClass]="{'6/10': type === 'connection', '1/2': type !== 'connection' }">
+              <h2 class="single-title">{{person.firstName}}</h2>
+              <div *ngIf="type !== 'my-profile'" class="single-title-status mt-">
+                {{person.distance}} {{person.distanceUnit}} from you
+              </div>
+            </div>
+            <div *ngIf="type === 'my-profile'" class="layout__item text-right 1/2">
+              <a (click)="openEdit('profile')" class="btn btn-1 btn-1--filled btn-1--blue btn-1--medium">Edit</a>
+            </div>
+
+            <div *ngIf="type !== 'my-profile'" class="layout__item text-right"
+                 [ngClass]="{'1/2': type === 'crowd', '4/10': type === 'connection' }">
+              <prs-acceptpass *ngIf="type === 'crowd'" [user]="person.id" (acceptEvent)="acceptUser($event)"
+                              (passEvent)="passUser($event)"></prs-acceptpass>
+              <a class="user-messages mr-" [routerLink]="['/messages/' + person.id]" *ngIf="type === 'connection'">
+                <svg role="img" class="icon ">
+                  <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                       xlink:href="/assets/icons/icons.svg#icon-menu-messages"></use>
+                </svg>
+              </a>
+              <div class="event-share" *ngIf="type === 'connection'">
+                <a class="btn btn-1 btn-1--blue btn--icon-circle js-share" dropdown="#friendDropdown">
+                  <svg role="img" class="icon icon--tiny">
+                    <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                         xlink:href="/assets/icons/icons.svg#icon-more"></use>
+                  </svg>
+                </a>
+                <!-- TODO insert dropdown component -->
+                <div class="dropdown-basic" id="friendDropdown">
+                  <ul class="list-bare">
+                    <li><a>Invite to event</a></li>
+                    <li><a>Report user</a></li>
+                    <li><a>Disconnect</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr class="hr mb0">
+        <div class="match-profile__features">
+          <div class="ph+ pb+ pt has-edit-link">
+            <prs-profile-items [editable]="type === 'my-profile'" (openEdit)="openEdit($event)" [title]="'Interests'"
+                               [items]="person.interests"></prs-profile-items>
+          </div>
+          <hr class="hr mb0">
+          <div class="ph+ pb+ pt has-edit-link">
+            <prs-profile-items [editable]="type === 'my-profile'" (openEdit)="openEdit($event)" [title]="'Goals'"
+                               [items]="person.goals"></prs-profile-items>
+          </div>
+          <hr class="hr mb0">
+          <div class="ph+ pb+ pt has-edit-link">
+            <prs-profile-items [editable]="type === 'my-profile'" (openEdit)="openEdit($event)" [title]="'Offers'"
+                               [items]="person.offers"></prs-profile-items>
+          </div>
+        </div>
+        <prs-profile-likes *ngIf="!loadingLikes" [likes]="profileLikes"></prs-profile-likes>
+        <prs-profile-friends *ngIf="!loadingConnections" [title]="friendsTitle"
+                             [friends]="profileConnections"></prs-profile-friends>
+        <prs-loading [status]="loadingLikes || loadingConnections"></prs-loading>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="remodal remodal--common remodal--medium-large profile-edit" data-remodal-id="profile-edit" remodal>
+  <prs-edit-profile *ngIf="active" [activeSection]="section" [loadingPhotos]="loadingPhotos" [photos]="profilePhotos"
+                    [user]="person" (refreshUser)="refreshUser($event)" (refreshPhotos)="refreshPhotos($event)">
+  </prs-edit-profile>
+</div>
+<div class="remodal modal-gallery" data-remodal-id="modal-gallery" remodal="{{galleryOptions}}">
+  <prs-profile-gallery *ngIf="galleryActive" [defaultPhoto]="person.image" [photos]="profilePhotos"></prs-profile-gallery>
+</div>

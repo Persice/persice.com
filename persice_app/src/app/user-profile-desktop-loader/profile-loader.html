@@ -1,0 +1,2 @@
+<prs-profile-my *ngIf="isProfileLoaded" [type]="type" [user]="user" (reloadUser)="refreshUser($event)"></prs-profile-my>
+<prs-loading [status]="!isProfileLoaded && !isProfileNotFound"></prs-loading>

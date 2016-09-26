@@ -11,6 +11,7 @@ from django_facebook.utils import mass_get_or_create
 from open_facebook.api import OpenFacebook
 from geoposition import Geoposition
 from django.utils.timezone import now
+import googlemaps
 
 from events.models import FacebookEvent, Event, Membership
 from members.models import FacebookCustomUserActive
@@ -42,8 +43,21 @@ def get_fb_events(user, fb_access_token=None, limit=5000):
     return events
 
 
+def get_google_maps_geocode(client, query):
+    clean_query = query.split(')')[0]
+    try:
+        response = client.geocode(clean_query)
+        latitude = response[0]['geometry']['location']['lat']
+        longitude = response[0]['geometry']['location']['lng']
+    except Exception:
+        latitude = 0
+        longitude = 0
+    return latitude, longitude
+
+
 def _store_fb_events(user):
     events = get_fb_events(user)
+    maps_client = googlemaps.Client(key=settings.GOOGLE_PLACES_API_KEY)
     if events:
         FacebookEvent.objects.filter(user_id=user.id).delete()
         base_queryset = []
@@ -79,7 +93,7 @@ def _store_fb_events(user):
             place_text = json.dumps(place) if place else None
 
             location_gp = None
-            location_name = None
+            location_name = place.get('name') if place else None
             location = event.get('place', {}).get('location')
             if location:
                 location_gp = Geoposition(
@@ -87,7 +101,12 @@ def _store_fb_events(user):
                     location.get('longitude', 0)
                 )
             else:
-                location_name = place.get('name') if place else None
+                if location_name:
+                    latitude, longitude = get_google_maps_geocode(
+                        maps_client, location_name
+                    )
+                    if latitude and longitude:
+                        location_gp = Geoposition(latitude, longitude)
 
             description = event.get('description')
             description_text = description[:1000] if description else None
@@ -138,9 +157,10 @@ def refresh_events(user):
         type='public', start_time__gt=now(), user_id=user.id
     )
     for fb_event in fb_events:
-        event = Event.objects.filter(eid=fb_event.facebook_id).first()
-        if event:
-            continue
+        try:
+            event = Event.objects.get(eid=fb_event.facebook_id)
+        except Event.DoesNotExist:
+            event = None
         image_name, image_file = (None, None)
         try:
             cover = json.loads(fb_event.cover)
@@ -151,19 +171,32 @@ def refresh_events(user):
         except (ValueError, TypeError) as err:
             logger.error(err.msg)
 
-        event = Event.objects.create(
-            eid=fb_event.facebook_id,
-            name=fb_event.name,
-            description=fb_event.description,
-            access_level='public',
-            starts_on=fb_event.start_time,
-            ends_on=fb_event.end_time,
-            event_photo=image_file,
-            event_type='facebook'
-        )
         if event:
-            Membership.objects.create(user=user, event=event,
-                                      is_organizer=True, rsvp=u'yes')
-            users = FacebookCustomUserActive.objects.all()
-            from events.tasks import assign_perm_task
-            assign_perm_task.delay('view_event', users, event)
+            event.name = fb_event.name
+            event.description = fb_event.description
+            event.access_level = 'public'
+            event.starts_on = fb_event.start_time
+            event.ends_on = fb_event.end_time
+            event.event_photo = image_file
+            event.event_type = 'facebook'
+            event.location_name = fb_event.location_name
+            event.location = fb_event.location
+            event.save()
+        else:
+            event = Event.objects.create(
+                eid=fb_event.facebook_id,
+                name=fb_event.name,
+                description=fb_event.description,
+                access_level='public',
+                starts_on=fb_event.start_time,
+                ends_on=fb_event.end_time,
+                event_photo=image_file,
+                event_type='facebook',
+                location_name=fb_event.location_name,
+                location=fb_event.location
+            )
+        Membership.objects.get_or_create(user=user, event=event,
+                                         is_organizer=True, rsvp=u'yes')
+        users = FacebookCustomUserActive.objects.all()
+        from events.tasks import assign_perm_task
+        assign_perm_task.delay('view_event', users, event)

@@ -2,7 +2,7 @@ import { provideRouter, RouterConfig } from '@angular/router';
 import { AuthGuard } from '../common/guards/auth.guard';
 import { NoContentComponent } from '../app-mobile/no-content/no-content.component';
 import { CrowdDesktopComponent } from './crowd';
-import { ProfileLoader } from './profile';
+import { UserProfileDesktopLoader } from './profile';
 import { ConnectionsDesktopComponent } from './connections';
 import { TermsOfServiceComponent } from './info/terms-of-service/terms-of-service.component';
 import { PrivacyPolicyComponent } from './info/privacy-policy/privacy-policy.component';
@@ -104,7 +104,7 @@ export const rootRoutes: RouterConfig = [
       },
       {
         path: ':username',
-        component: ProfileLoader
+        component: UserProfileDesktopLoader
       },
       {
         path: '**',

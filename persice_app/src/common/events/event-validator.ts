@@ -25,7 +25,7 @@ export class EventValidator {
         maximum: 300
       }
     },
-    event_url: {
+    eventUrl: {
       presence: false,
       length: {
         maximum: 1024
