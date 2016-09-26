@@ -489,7 +489,7 @@ class TestAttendeesResource(BaseTestCase, JWTResourceTestCase):
         self.assertHttpUnauthorized(
             self.api_client.get('/api/v1/event/', format='json'))
 
-    def get_event_attendees(self):
+    def test_get_event_attendees(self):
         subject = Subject.objects.create(description='python')
         Goal.objects.create(user=self.user, goal=subject)
         Goal.objects.create(user=self.user1, goal=subject)
@@ -505,3 +505,36 @@ class TestAttendeesResource(BaseTestCase, JWTResourceTestCase):
         self.assertEqual(data['objects'][0]['top_interests'], [{u'python': 1}])
         self.assertEqual(data['objects'][0]['connected'], False)
         self.assertEqual(data['objects'][1]['connected'], False)
+
+
+class TestOrganizerResource(JWTResourceTestCase):
+    def setUp(self):
+        super(TestOrganizerResource, self).setUp()
+        self.user = FacebookCustomUser.objects. \
+            create_user(username='user_a', password='test', facebook_id=123,
+                        first_name='Andrii', last_name='Soldatenko')
+        self.user1 = FacebookCustomUser.objects. \
+            create_user(username='user_b', password='test', facebook_id=124,
+                        first_name='First Name', last_name='Last Name')
+        self.event = Event.objects. \
+            create(starts_on='2055-06-13T05:15:22.792659',
+                   ends_on='2055-06-14T05:15:22.792659',
+                   name="Play piano", location=[7000, 22965.83])
+        self.membership = Membership.objects. \
+            create(user=self.user, event=self.event,
+                   is_organizer=True, rsvp='yes')
+        self.membership1 = Membership.objects. \
+            create(user=self.user1, event=self.event, rsvp='yes')
+        assign_perm('view_event', self.user, self.event)
+        assign_perm('view_event', self.user1, self.event)
+        self.detail_url = '/api/v1/organizer/{0}/'.format(self.event.pk)
+        self.neo = NeoFourJ()
+        self.neo.graph.delete_all()
+
+    def test_get_event_organizer(self):
+        response = self.api_client.get(
+            '/api/v2/organizer/{}/'.format(self.event.id), format='json',
+            authentication=self.get_credentials()
+        )
+        resp = self.deserialize(response)
+        self.assertEqual(resp['first_name'], u'Andrii')

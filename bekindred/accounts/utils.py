@@ -195,8 +195,16 @@ def refresh_events(user):
                 location_name=fb_event.location_name,
                 location=fb_event.location
             )
-        Membership.objects.get_or_create(user=user, event=event,
-                                         is_organizer=True, rsvp=u'yes')
+
+        prs_user = FacebookCustomUserActive.objects.filter(
+            facebook_id=fb_event.owner_info.get('id', -11)
+        ).first()
+        if prs_user:
+            Membership.objects.get_or_create(user=user, event=event,
+                                             is_organizer=True, rsvp=u'yes')
+        else:
+            Membership.objects.get_or_create(user=user, event=event,
+                                             is_organizer=False, rsvp=u'yes')
         users = FacebookCustomUserActive.objects.all()
         from events.tasks import assign_perm_task
         assign_perm_task.delay('view_event', users, event)
