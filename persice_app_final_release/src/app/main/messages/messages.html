@@ -1,0 +1,9 @@
+<div class="layout layout--flush position-relative background-white">
+  <div class="layout__item extralarge-and-up-3/10 4/10">
+    <prs-conversations-header [counter]="counter"></prs-conversations-header>
+    <prs-conversations (selected)="navigateToConversation($event)"></prs-conversations>
+  </div>
+  <div class="layout__item extralarge-and-up-7/10 6/10">
+    <router-outlet></router-outlet>
+  </div>
+</div>

@@ -1,0 +1,72 @@
+<header class="remodal__header">
+  <div class="layout">
+    <div class="layout__item">
+      <span class="remodal__title">
+        <a class="js-remodal__title__bread-edit-profile js-close-crop-photo-window js-close-upload-photo-window"
+           (click)="closePhotos($event)">Edit Profile</a>
+        <a class="js-remodal__title__bread-upload js-close-crop-photo-window" (click)="openAlbums($event)"
+           [ngClass]="{'is-hidden': !photosAlbumsCrumbActive}">Upload profile photo</a>
+        <a class="js-remodal__title__bread-crop" [ngClass]="{'is-hidden': !photosCropCrumbActive}">Crop Photo</a>
+      </span>
+    </div>
+  </div>
+  <button (click)="closeModal($event)" class="remodal-close">
+    <svg role="img" class="icon ">
+      <use xlink:href="/assets/icons/icons.svg#icon-close"></use>
+    </svg>
+  </button>
+</header>
+<div class="layout layout--flush">
+  <div class="layout__item 1/4">
+    <ul class="list-bare js-tabs side-nav">
+      <li data-tab="pr-edit-personal-info" (click)="activeTab = 'profile'"
+          [ngClass]="{'is-active': activeTab === 'profile' }">
+        <span class="side-nav__link">Personal Info</span>
+      </li>
+      <li data-tab="pr-edit-photo" (click)="activeTab = 'photos'" [ngClass]="{'is-active': activeTab === 'photos' }">
+        <span class="side-nav__link">Photos</span>
+      </li>
+      <li data-tab="pr-edit-interests" (click)="activeTab = 'interests'"
+          [ngClass]="{'is-active': activeTab === 'interests' }">
+        <span class="side-nav__link">Interests</span>
+      </li>
+      <li data-tab="pr-edit-goals" (click)="activeTab = 'goals'" [ngClass]="{'is-active': activeTab === 'goals' }">
+        <span class="side-nav__link">Goals</span>
+      </li>
+      <li data-tab="pr-edit-offers" (click)="activeTab = 'offers'" [ngClass]="{'is-active': activeTab === 'offers' }">
+        <span class="side-nav__link">Offers</span>
+      </li>
+    </ul>
+  </div>
+  <div class="layout__item 3/4" id="profileEdit">
+    <div class="tab-content" [ngClass]="{'is-active': activeTab === 'profile' }" id="pr-edit-personal-info"
+         *ngIf="activeTab === 'profile'">
+      <prs-edit-personalinfo (close)="closeModal($event)" [person]="person"></prs-edit-personalinfo>
+    </div>
+    <div class="tab-content pr0" id="pr-edit-photo" [ngClass]="{'is-active': activeTab === 'photos' }"
+         id="pr-edit-photo" *ngIf="activeTab === 'photos'">
+      <div class="profile-loading__photos dimmable" [ngClass]="{'is-visible': loadingPhotos}">
+        <prs-loading [status]="loadingPhotos"></prs-loading>
+      </div>
+      <prs-edit-photos [loading]="loadingPhotos" [default]="defaultPhoto" [photos]="profilePhotos"
+                       (openAlbums)="openAlbums($event)" (close)="closeModal($event)"
+                       (refreshPhotos)="refreshPhotos.emit($event)" (loadingPhotos)="loading($event)"></prs-edit-photos>
+    </div>
+    <div class="tab-content tab-content--blue" [ngClass]="{'is-active': activeTab === 'interests' }"
+         id="pr-edit-interests" *ngIf="activeTab === 'interests'">
+      <prs-edit-interests (close)="closeModal($event)"></prs-edit-interests>
+    </div>
+    <div class="tab-content tab-content--blue" [ngClass]="{'is-active': activeTab === 'goals' }" id="pr-edit-goals"
+         *ngIf="activeTab === 'goals'">
+      <prs-edit-goals (close)="closeModal($event)"></prs-edit-goals>
+    </div>
+    <div class="tab-content tab-content--blue" [ngClass]="{'is-active': activeTab === 'offers' }" id="pr-edit-offers"
+         *ngIf="activeTab === 'offers'">
+      <prs-edit-offers (close)="closeModal($event)"></prs-edit-offers>
+    </div>
+  </div>
+</div>
+<prs-edit-albums [isHidden]="!photosAlbumsActive" (openCrop)="openCrop($event)"
+                 (close)="closeAlbums($event)"></prs-edit-albums>
+<prs-edit-crop [image]="cropImage" [isHidden]="!photosCropActive" (close)="closeCrop($event)"
+               (cropAndSave)="cropAndSave($event)"></prs-edit-crop>

@@ -1,0 +1,14 @@
+<div class="signup">
+  <prs-signup-header [nextTitle]="nextTitle" [showSkip]="showSkip" (skip)="skip($event)" (next)="next($event)"
+                     [page]="page" [counterInterests]="cInt" [counterOffers]="cOff"
+                     [counterGoals]="cGoa"></prs-signup-header>
+  <div class="signup__content">
+    <ul class="signup-pager">
+      <li [ngClass]="{'signup-pager__curent': page === 1, 'signup-pager__completed': page >= 2}">1</li>
+      <li [ngClass]="{'signup-pager__curent': page === 2,'signup-pager__completed': page >= 3}">2</li>
+      <li [ngClass]="{'signup-pager__curent': page === 3, 'signup-pager__completed': page === 4}">3</li>
+      <li [ngClass]="{'signup-pager__curent': page === 4}">4</li>
+    </ul>
+    <router-outlet></router-outlet>
+  </div>
+</div>

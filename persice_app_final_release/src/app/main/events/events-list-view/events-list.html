@@ -1,0 +1,8 @@
+<div class="events-list-container" prs-infinite-scroll (scrolled)="loadMoreEvents($event)" [scrollEnabled]="!isLoaded"
+     [bottomOffset]="60">
+  <prs-new-event-card *ngIf="!(isLoading$ | async)" (on-click)="openNewEventModal($event)"></prs-new-event-card>
+  <div class="layout__item 1/2 extralarge-and-up-1/3 extrahuge-and-up-1/4" *ngFor="let event of events$ | async">
+    <prs-event-card [event]="event" [username]="username" [userId]="userId"></prs-event-card>
+  </div>
+</div>
+<prs-loading [status]="isLoading$ | async"></prs-loading>

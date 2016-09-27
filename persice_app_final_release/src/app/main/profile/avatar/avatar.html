@@ -1,0 +1,33 @@
+<div class="match-profile__avatar-place mt+">
+  <a *ngIf="type === 'my-profile'" (click)="openPhotos.next('photos')" class="edit-photos-link">
+    <svg role="img" class="icon edit-photos-icon">
+      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/icons.svg#icon-edit_photo"></use>
+    </svg>
+    <span class="edit-photos-link__label unselectable">Edit photos</span>
+  </a>
+  <a *ngIf="type !== 'my-profile'" (click)="openGallery.next($event); $event.stopPropagation()"
+     class="open-photos-link unselectable">
+  </a>
+  <div [ngClass]="{'is-visible': !loading}" class="match-profile__avatar match-profile__avatar-single unselectable"
+       *ngIf="images.length === 0">
+    <div class="avatar-holder" checkimage="{{avatar}}" [suffix]="'.230x230_q100_crop.jpg'" [onchanges]="1"></div>
+  </div>
+  <div [ngClass]="{'is-visible': !loading}" id="avatarslider"
+       class="match-profile__avatar js-profile-swiper-4 swiper-container unselectable" swiper="{{swiperOpts}}"
+       *ngIf="images.length > 0">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide" *ngFor="let image of images">
+        <div *ngIf="image.cropped_photo !== '' && image.cropped_photo !== null" class="avatar-holder"
+             checkimage="{{image.cropped_photo}}" [suffix]="'.230x230_q100_crop.jpg'" [onchanges]="1"></div>
+        <div *ngIf="image.cropped_photo === '' || image.cropped_photo === null" class="avatar-holder"
+             [ngStyle]="{'background-image': 'url(' + image.photo + ')'}"></div>
+      </div>
+    </div>
+  </div>
+  <div class="avatar-place__pagination js-avatar-place__pagination"
+       [ngClass]="{'is-visible': images.length > 1}"></div>
+  <div class="match-profile__similar" *ngIf="type !== 'my-profile'">
+    <span class="match-profile__similar__value">{{score}}&deg;</span>
+    <span class="match-profile__similar__label">Similar</span>
+  </div>
+</div>

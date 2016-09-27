@@ -1,0 +1,44 @@
+<div class="card card--user card--user-conected" [ngClass]="{'card--user-highlight': person.updated_at === null}">
+  <h4 (click)="userClicked($event)" class="card-title">{{person.first_name}}</h4>
+  <p (click)="userClicked($event)" class="card-subtitle mb">
+    {{person.gender | gender}} / age {{person.age}} / {{person.distance[0]}} {{person.distance[1]}}
+  </p>
+  <div class="avatar-box mb" (click)="userClicked($event)">
+    <div class="avatar-holder" checkimage="{{person.image}}" [suffix]="'.120x120_q100_crop.jpg'"
+         [ngStyle]="{'background-size': 'cover', 'background-position': '50% 50%', 'background-repeat': 'no-repeat'}">
+      <div class="avatar-box__match-percents">
+        <span class="avatar-box__match-percents__value">{{person.score}}&deg;</span>
+        <span class="avatar-box__match-percents__label">Similar</span>
+      </div>
+    </div>
+    <svg role="img" class="icon">
+      <use xlink:href="/assets/icons/icons.svg#icon-persice-match-percent"></use>
+    </svg>
+  </div>
+  <h6 class="card-subtitle interest-list-title">Interests</h6>
+  <ul class="interest-list" *ngIf="person.top_interests">
+    <li *ngFor="let key of interests"><i *ngIf="key && key.match" class="interest-list__bullet"></i>{{key.value}}</li>
+  </ul>
+  <div class="pass-accept" *ngIf="showButtons">
+    <div class="layout layout--small">
+      <div class="layout__item 1/2">
+        <a (click)="passUser($event)" class="btn btn-1 btn-1--red btn--full btn--activate js-pass"
+           [ngClass]="{'is-active': passIsActive}">
+          <div class="btn--activate__label">Pass</div>
+          <svg role="img" class="icon ">
+            <use xlink:href="/assets/icons/icons.svg#icon-pass"></use>
+          </svg>
+        </a>
+      </div>
+      <div class="layout__item 1/2">
+        <a (click)="acceptUser($event)" class="btn btn-1 btn-1--green btn--full btn--activate js-accept"
+           [ngClass]="{'is-active': acceptIsActive}">
+          <div class="btn--activate__label">Connect</div>
+          <svg role="img" class="icon ">
+            <use xlink:href="/assets/icons/icons.svg#icon-accepted"></use>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

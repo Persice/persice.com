@@ -1,0 +1,56 @@
+<div class="content p">
+  <prs-loading [status]="(isLoading$ | async) && !(isLoaded$ | async)"></prs-loading>
+  <div class="platform event-content is-visible" *ngIf="(isLoaded$ | async)">
+    <a (click)="goBack()" class="platform__back">
+      <svg role="img" class="icon ">
+        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/icons.svg#icon-close"></use>
+      </svg>
+    </a>
+    <prs-event-info [event]="(event$ | async)" [username]="usernameFromToken"
+                    [userId]="userIdFromToken" (refreshEvent)="refreshEvent()"
+                    (onOpenEdit)="isEditVisible = true;"></prs-event-info>
+    <prs-event-photo-map [eventData]="(event$ | async)"></prs-event-photo-map>
+    <div class="event-people">
+      <div class="layout layout--middle mb" id="single-event-peoplenav">
+        <div class="layout__item 2/3">
+          <a (click)="activate('yes')" class="btn btn-1 btn-1--mid btn-1--blue"
+             [ngClass]="{'btn-1--blank': selected !== 'yes'}">
+            <span>Going <i>({{(event$ | async).attendeesGoing.length}})</i></span>
+          </a>
+          <a (click)="activate('maybe')" class="btn btn-1 btn-1--mid btn-1--blue"
+             [ngClass]="{'btn-1--blank': selected !== 'maybe'}">
+            <span>Maybe <i>({{(event$ | async).attendeesMaybe.length}})</i></span></a>
+          <a (click)="activate('no')" class="btn btn-1 btn-1--mid btn-1--blue"
+             [ngClass]="{'btn-1--blank': selected !== 'no'}">
+            <span>Can't go <i>({{(event$ | async).attendeesNotGoing.length}})</i></span></a>
+        </div>
+        <div class="layout__item 1/3 text-right" *ngIf="(event$ | async).isHost">
+        </div>
+      </div>
+      <prs-event-attendees [people]="(event$ | async).attendeesGoing"
+                           *ngIf="selected === 'yes'"></prs-event-attendees>
+      <prs-event-attendees [people]="(event$ | async).attendeesNotGoing"
+                           *ngIf="selected === 'no'"></prs-event-attendees>
+      <prs-event-attendees [people]="(event$ | async).attendeesMaybe"
+                           *ngIf="selected === 'maybe'"></prs-event-attendees>
+    </div>
+    <div class="event-desc-and-host">
+      <div class="layout layout--large">
+        <div class="layout__item 1/2">
+          <prs-event-description [description]="(event$ | async).description"></prs-event-description>
+        </div>
+        <div class="layout__item 1/2" *ngIf="!!(event$ | async).eventHost">
+          <prs-event-host [host]="(event$ | async).eventHost" [eventType]="(event$ | async).type"></prs-event-host>
+        </div>
+        <div class="layout__item" *ngIf="!!(event$ | async).eventUrl">
+          <prs-event-url [event]="(event$ | async)"></prs-event-url>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="remodal--common" data-remodal-id="edit-event" remodal>
+  <prs-event-edit *ngIf="(event$ | async).isHost && isEditVisible" [type]="'edit-event'"
+                  [eventToEdit]="(event$ | async)"
+                  (refreshEvent)="refreshEvent($event)"></prs-event-edit>
+</div>

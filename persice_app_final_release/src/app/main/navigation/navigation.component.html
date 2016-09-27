@@ -1,0 +1,44 @@
+<nav class="nav-main">
+  <ul>
+    <li [routerLinkActive]="['is-current']">
+      <a [routerLink]="['/events']">
+        <svg role="img" class="icon">
+          <use xlink:href="/assets/icons/icons.svg#icon-menu-events"></use>
+        </svg>
+        <span>Events</span>
+      </a>
+    </li>
+    <li [routerLinkActive]="['is-current']">
+      <a [routerLink]="['/crowd']">
+        <svg role="img" class="icon">
+          <use xlink:href="/assets/icons/icons.svg#icon-menu-crowd"></use>
+        </svg>
+        <span>Crowd</span>
+      </a>
+    </li>
+    <li [routerLinkActive]="['is-current']">
+      <a [routerLink]="['/pals']">
+        <svg role="img" class="icon">
+          <use xlink:href="/assets/icons/icons.svg#icon-menu-connections"></use>
+        </svg>
+        <span>Pals</span>
+        <prs-connections-counter></prs-connections-counter>
+      </a>
+    </li>
+    <li [routerLinkActive]="['is-current']">
+      <a [routerLink]="['/messages']">
+        <svg role="img" class="icon">
+          <use xlink:href="/assets/icons/icons.svg#icon-menu-messages"></use>
+        </svg>
+        <span>Messages</span>
+        <prs-messages-counter></prs-messages-counter>
+      </a>
+    </li>
+  </ul>
+</nav>
+<div class="nav-submain-container">
+  <ul class="nav-submain">
+    <li [routerLinkActive]="['is-current']"><a [routerLink]="['/privacy']">Privacy</a></li>
+    <li [routerLinkActive]="['is-current']"><a [routerLink]="['/terms']">Terms</a></li>
+  </ul>
+</div>

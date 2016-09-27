@@ -1,0 +1,27 @@
+<a class="card--event__inside js-match-height-1" [routerLink]="['/event/' + event.id]">
+  <div class="card--event__img">
+    <div class="card--event__img__holder js-image-liquid" default="/assets/images/placeholder-image.png"
+         checkimage="{{event.image}}" [suffix]="'.300x200_q100_crop.jpg'">
+    </div>
+    <div class="card--event__overlay">
+      <div class="card--event__overlay__spots">{{event.maxAttendees - event.attendeesGoing.length}} spots left</div>
+      <hr class="hr">
+      <img *ngIf="event.eventHost" src="{{event.eventHost?.image}}" alt="" class="avatar avatar--small">
+      <div *ngIf="event.eventHost" class="card--event__overlay__hostedby">Hosted by</div>
+      <div *ngIf="event.eventHost" style="padding-left: 10px; padding-right: 10px;"
+           class="card--event__overlay__hostedby">{{event.eventHost?.name}}
+      </div>
+    </div>
+  </div>
+
+  <div class="card--event__info">
+    <div class="layout">
+      <div class="layout__item 1/2 text-left eventdate"> {{event.startDate.dayNameShort}}, {{event.startDate.day}}
+        {{event.startDate.month}} {{event.startDate.year}}
+      </div>
+      <div class="layout__item 1/2 text-right eventdistance"> {{event.distance.amount}} {{event.distance.unit}}</div>
+    </div>
+  </div>
+  <h4 class="card-title mb- eventname">{{event.name}}</h4>
+  <p class="card-subtitle mb eventlocation">{{event.locationName}}</p>
+</a>
