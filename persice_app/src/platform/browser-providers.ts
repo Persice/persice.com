@@ -8,6 +8,9 @@ import { APP_MOBILE_ROUTER_PROVIDERS } from '../app-mobile';
 import { APP_ROUTER_PROVIDERS } from '../app';
 import { AUTH_PROVIDERS } from '../common/auth/auth';
 import { AuthGuard } from '../common/guards/auth.guard';
+import { provideStore } from '@ngrx/store';
+import STORE_REDUCERS from './../common/reducers';
+import STORE_ACTIONS from './../common/actions';
 
 const DEFAULT_POST_HEADER: {[name: string]: string} = {
   'Content-Type': 'application/json'
@@ -57,6 +60,8 @@ export const APPLICATION_PROVIDERS_MAIN = [
   ...JSONP_PROVIDERS,
   ...APP_ROUTER_PROVIDERS,
   {provide: LocationStrategy, useClass: PathLocationStrategy},
+  provideStore(STORE_REDUCERS),
+  STORE_ACTIONS
 ];
 
 export const APPLICATION_PROVIDERS_MAIN_MOBILE = [
@@ -66,7 +71,9 @@ export const APPLICATION_PROVIDERS_MAIN_MOBILE = [
   ...HTTP_PROVIDERS,
   ...JSONP_PROVIDERS,
   ...APP_MOBILE_ROUTER_PROVIDERS,
-  {provide: LocationStrategy, useClass: PathLocationStrategy}
+  {provide: LocationStrategy, useClass: PathLocationStrategy},
+  provideStore(STORE_REDUCERS),
+  STORE_ACTIONS
 ];
 
 export const PROVIDERS_MAIN = [

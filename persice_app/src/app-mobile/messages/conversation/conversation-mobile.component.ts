@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, ROUTER_DIRECTIVES } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
-import { MessagesMobileService } from './messages-mobile.service';
+import { MessagesService } from '../../../common/messages/messages.service';
 import { UnreadMessagesCounterService } from './../../../common/services';
 import { AppStateService } from '../../shared/services';
 import { WebsocketService } from '../../../app/shared/services';
@@ -33,7 +33,7 @@ import { ConversationInputMobileComponent } from './conversation-input';
     ConversationMessagesMobileComponent,
     ROUTER_DIRECTIVES
   ],
-  providers: [MessagesMobileService, UnreadMessagesCounterService]
+  providers: [MessagesService, UnreadMessagesCounterService]
 })
 export class ConversationMobileComponent implements OnInit, OnDestroy {
 
@@ -51,7 +51,7 @@ export class ConversationMobileComponent implements OnInit, OnDestroy {
   private sub: any;
 
   constructor(
-    private messagesService: MessagesMobileService,
+    private messagesService: MessagesService,
     private route: ActivatedRoute,
     private appStateService: AppStateService,
     private websocketService: WebsocketService,

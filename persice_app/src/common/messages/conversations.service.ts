@@ -1,18 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { HttpClient } from '../../../common/core';
-import { Conversation } from '../../../common/models';
-import { ConversationActions } from '../../../common/actions';
-import { AppState, getConversationsState } from '../../../common/reducers';
+import { Conversation } from '../models/conversation/conversation.model';
+import { AppState, getConversationsState } from '../reducers/index';
+import { HttpClient } from '../core/http-client';
+import { ConversationActions } from '../actions/conversation.action';
 
 const PER_PAGE_LIMIT: number = 12;
 
 @Injectable()
-export class ConversationsMobileService {
+export class ConversationsService{
   static API_URL = '/api/v1/inbox/last/';
 
   public conversations$: Observable<Conversation[]>;
+  public selectedConversation$: Observable<Conversation>;
+  public count$: Observable<number>;
   public loading$: Observable<boolean>;
   public loaded$: Observable<boolean>;
 
@@ -23,6 +25,8 @@ export class ConversationsMobileService {
     const store$ = store.let(getConversationsState());
 
     this.conversations$ = store$.map(state => state['entities']);
+    this.selectedConversation$ = store$.map(state => state['selectedItem']);
+    this.count$ = store$.map(state => state['count']);
     this.loading$ = store$.map(state => state['loading']);
     this.loaded$ = store$.map(state => state['loaded']);
   }
@@ -46,7 +50,7 @@ export class ConversationsMobileService {
         `limit=${PER_PAGE_LIMIT}`,
         `offset=0`
       ].join('&');
-      url = `${ConversationsMobileService.API_URL}?${params}`;
+      url = `${ConversationsService.API_URL}?${params}`;
     } else {
       url = this._next;
     }
@@ -80,7 +84,7 @@ export class ConversationsMobileService {
       return;
     }
 
-    const url: string = `${ConversationsMobileService.API_URL}?format=json&sender_id=${data.friend_id}`;
+    const url: string = `${ConversationsService.API_URL}?format=json&sender_id=${data.friend_id}`;
 
     this.http.get(url)
       .map((res: any) => res.json())

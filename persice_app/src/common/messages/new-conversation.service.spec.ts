@@ -1,14 +1,14 @@
 import { Injector, ReflectiveInjector } from '@angular/core';
-import { HttpClient } from '../../../common/core';
 import { Http, ConnectionBackend, BaseRequestOptions, RequestMethod, ResponseOptions, Response } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
-import { NewConversationMobileService } from './new-conversation-mobile.service';
+import { NewConversationService } from './new-conversation.service';
+import {HttpClient} from '../core/http-client';
 
 describe('New conversation mobile service', () => {
 
   let injector: Injector;
   let backend: MockBackend;
-  let service: NewConversationMobileService;
+  let service: NewConversationService;
 
   beforeEach(() => {
     injector = ReflectiveInjector.resolveAndCreate([
@@ -29,11 +29,11 @@ describe('New conversation mobile service', () => {
         ]
       },
       {
-        provide: NewConversationMobileService,
+        provide: NewConversationService,
         useFactory: (
           http: HttpClient
         ) => {
-          return new NewConversationMobileService(http);
+          return new NewConversationService(http);
         },
         deps: [
           Http
@@ -42,7 +42,7 @@ describe('New conversation mobile service', () => {
     ]);
 
     backend = injector.get(MockBackend);
-    service = injector.get(NewConversationMobileService);
+    service = injector.get(NewConversationService);
   });
 
   it('sends a message', (done: Function) => {

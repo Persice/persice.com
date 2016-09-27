@@ -1,16 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import {
-  InboxService,
-  UserAuthService,
-  MessagesService,
-  MessagesCounterService,
-  WebsocketService
-} from '../../shared/services';
+import { ActivatedRoute } from '@angular/router';
+import { WebsocketService } from '../../shared/services';
 import { MessagesListComponent } from '../../shared/components/messages-list';
 import { ConversationInputComponent } from '../conversation-input';
 import { ConversationHeaderComponent } from './conversation-header.component';
 import { LoadingComponent } from '../../shared/components/loading';
+import { Subscription, Observable } from 'rxjs';
+import { Message } from '../../../common/models/message/message.model';
+import {Conversation} from '../../../common/models/conversation/conversation.model';
+import {MessagesService} from '../../../common/messages/messages.service';
+import {UnreadMessagesCounterService} from '../../../common/services/unread-messages-counter.service';
 
 @Component({
   selector: 'prs-conversation',
@@ -22,164 +21,134 @@ import { LoadingComponent } from '../../shared/components/loading';
   ],
   providers: [
     MessagesService,
-    UserAuthService
+    UnreadMessagesCounterService
   ],
-  template: `
-  <prs-conversation-header [name]="name"></prs-conversation-header>
-  <div class="chat">
-    <div class="chat-wrapper" id="messages">
-      <div class="chat__messages-wrapper">
-        <div class="chat__messages">
-          <prs-loading [status]="loadingMessages"></prs-loading>
-          <prs-message-list [messages]="messages"></prs-message-list>
-        </div>
-      </div>
-    </div>
-    <prs-send-message [disabled]="0" (newMessage)="sendMessage($event)"></prs-send-message>
-  </div>
-  `
+  template: <any>require('./conversation.html')
 })
 export class ConversationComponent implements OnInit, OnDestroy {
-  name: string = '';
-  messages: Array<any> = [];
-  totalCount;
-  loadingMessages: boolean = false;
-  loadingMessagesFinished: boolean = false;
-  isMessagesEmpty: boolean = false;
-  messagesNext: string = '';
-  hasNew = false;
-  messagesServiceInstance;
-  websocketServiceInstance;
-  threadId;
-  scrollOffset = null;
-  sub;
+
+  private messages: Observable<Message[]>;
+  private loading: Observable<boolean>;
+  private loaded: Observable<boolean>;
+  private totalCount: Observable<number>;
+  private selectedConversation: Observable<Conversation>;
+  private conversationTitle: Observable<string>;
+
+  private websocketServiceSubs: Subscription;
+  private messagesSubs: Subscription;
+  private loadedSubs: Subscription;
+  private routerSubs: Subscription;
+
+  private senderId: string;
+  private scrollOffset: number;
 
   constructor(
-    private inboxService: InboxService,
     private messagesService: MessagesService,
-    private userService: UserAuthService,
-    private messagesCounterService: MessagesCounterService,
+    private route: ActivatedRoute,
     private websocketService: WebsocketService,
-    private _router: Router,
-    private _route: ActivatedRoute
+    private unreadMessagesCounterService: UnreadMessagesCounterService
   ) {
-
+    this.messages = this.messagesService.messages$;
+    this.loading = this.messagesService.loading$;
+    this.loaded = this.messagesService.loaded$;
+    this.totalCount = this.messagesService.totalCount$;
+    this.selectedConversation = this.messagesService.selectedConversation$;
+    this.conversationTitle = this.messagesService.conversationTitle$;
   }
 
-  ngOnInit() {
-    this.messagesServiceInstance = this.messagesService.serviceObserver()
-      .subscribe((res) => {
-        this.loadingMessages = res.loading;
-        this.loadingMessagesFinished = res.finished;
-        this.isMessagesEmpty = res.isEmpty;
-        this.messagesNext = res.next;
-        this.hasNew = res.hasNew;
-        // this.name = res.name;
-        let prevCount = this.messages.length;
+  ngOnInit(): any {
+    this.routerSubs = this.route.params.subscribe(params => {
+      this.messagesService.resetUser();
+      this.senderId = params['threadId'];
 
-        if (res.total === 0 && res.initialLoadingFinished) {
-          this._router.navigateByUrl('/messages/new/' + this.threadId);
-        }
+      this.init();
+    });
+  }
 
-        //when first loading messages, scroll to bottom
-        // after initial messages have been rendered
-        if (prevCount === 0 && !this.loadingMessages) {
-          let elem = jQuery('#messages')[0];
-          setTimeout(() => {
-            elem.scrollTop = elem.scrollHeight;
-          });
-        }
+  ngOnDestroy(): any {
+    if (this.loadedSubs) {
+      this.loadedSubs.unsubscribe();
+    }
 
-        //if receieved new message scroll to bottom
-        if (this.hasNew && !this.loadingMessages) {
-          let elem = jQuery('#messages')[0];
-          setTimeout(() => {
-            elem.scrollTop = elem.scrollHeight;
-          });
-          this.hasNew = false;
-        }
+    if (this.websocketServiceSubs) {
+      this.websocketServiceSubs.unsubscribe();
+    }
 
-        this.messages = res.data;
+    if (this.messagesSubs) {
+      this.messagesSubs.unsubscribe();
+    }
 
-        //when loading more messages finishes, scroll to bottom
-        // after new messages have been rendered
-        if (prevCount > 0 && !this.loadingMessages && this.scrollOffset !== null) {
-          let elem = jQuery('#messages')[0];
-          setTimeout(() => {
-            elem.scrollTop = elem.scrollHeight - this.scrollOffset;
-            this.scrollOffset = null;
-          });
-        }
+    if (this.routerSubs) {
+      this.routerSubs.unsubscribe();
+    }
+  }
 
-        if (this.loadingMessagesFinished === false) {
-          jQuery('#messages').bind('scroll', this.handleScrollEvent.bind(this));
-        } else {
-          jQuery('#messages').unbind('scroll');
-        }
+  private init(): any {
+    this.scrollOffset = 0;
 
-      });
+    this.messagesService.loadConversationTitle(this.senderId);
+    this.messagesService.emptyConversationMessages();
+    this.loadMessages();
+    this.markConversationRead();
 
-    this.sub = this._route.params.subscribe((params) => {
-      this.threadId = params['threadId'];
-      let url = `/api/v1/auth/user/${this.threadId}/`;
-      let channel = this.userService.findByUri(url)
-        .subscribe((data) => {
-          this.name = data.first_name;
-          channel.unsubscribe();
-        }, (err) => console.log('User could not be loaded'));
-
-      this.inboxService.select(this.threadId);
-
-      this.messagesService.reset();
-
-      this.messagesService.startLoadingMessages(this.threadId);
-      setTimeout(() => {
-        this.messagesCounterService.refreshCounter();
-      }, 500);
-
+    // Subscribe to messages, so that massages window scroll when messages load
+    this.messagesSubs = this.messages.subscribe(() => {
+      this.scroll();
     });
 
-    setTimeout(() => {
-      this.messagesCounterService.refreshCounter();
-    }, 500);
-
-    //subscribe to webscoket service updates
-    this.websocketServiceInstance = this.websocketService.on('messages:new').subscribe((data: any) => {
-      if (data.sender === `/api/v1/auth/user/${this.threadId}/`) {
-        this.messagesService.recievedMessage(data);
+    this.loadedSubs = this.loaded.subscribe((loaded: boolean) => {
+      if (loaded === false) {
+        jQuery('#messages').bind('scroll', this.handleScrollEvent.bind(this));
+      } else {
+        jQuery('#messages').unbind('scroll');
       }
     });
 
+    // Subscribe to websocket service updates for new message channel
+    if (this.websocketServiceSubs) {
+      this.websocketServiceSubs.unsubscribe();
+    }
+    this.websocketServiceSubs = this.websocketService.on('messages:new').subscribe((data: any) => {
+      this.scrollOffset = 0;
+      this.messagesService.recievedMessageViaWebSocket(data, this.senderId);
+    });
   }
 
-  handleScrollEvent(event) {
-    //reverse scroll
+  private handleScrollEvent(): void {
+    // reverse scroll
     let elem = jQuery('#messages')[0];
-    if (this.messagesNext && elem.scrollTop <= 50) {
-      if (!this.loadingMessages && !this.hasNew) {
-        this.scrollOffset = elem.scrollHeight;
-        this.messagesService.loadMore(this.threadId);
-      }
+    if (elem.scrollTop <= 50) {
+      this.scrollOffset = elem.scrollHeight;
+      this.loadMessages();
     }
-
   }
 
-  sendMessage(message) {
-    this.messagesService.send(this.threadId, message);
+  private scroll(): void {
+    let elem = jQuery('#messages')[0];
+    setTimeout(() => {
+        elem.scrollTop = elem.scrollHeight - this.scrollOffset;
+    });
   }
 
-  ngOnDestroy() {
-    if (this.messagesServiceInstance) {
-      this.messagesServiceInstance.unsubscribe();
-    }
+  /**
+   *  Mark all messages in this conversation as read and refresh unread messages counter.
+   */
+  private markConversationRead(): void {
+    let subs = this.messagesService.markConversationRead(this.senderId)
+      .subscribe(() => {
+        this.unreadMessagesCounterService.refresh();
+        if (subs) {
+          subs.unsubscribe();
+        }
+      });
+  }
 
-    if (this.websocketServiceInstance) {
-      this.websocketServiceInstance.unsubscribe();
-    }
+  private loadMessages(): void {
+    this.messagesService.loadMessages(this.senderId);
+  }
 
-    if (this.sub) {
-      this.sub.unsubscribe();
-    }
-
+  private sendMessage(message: string): void {
+    this.scrollOffset = 0;
+    this.messagesService.sendMessage(this.senderId, message);
   }
 }
