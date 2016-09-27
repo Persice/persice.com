@@ -9,5 +9,5 @@ import { DropdownDirective } from '../../shared/directives';
   template: <any>require('./conversation-header.html')
 })
 export class ConversationHeaderComponent {
-  @Input() name;
+  @Input() name: string;
 }

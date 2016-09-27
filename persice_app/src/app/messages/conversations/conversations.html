@@ -1,0 +1,8 @@
+<prs-conversations-header [counter]="count | async"></prs-conversations-header>
+<aside class="chat-sidebar is-scrollable-y" id="inbox" (selected)="navigateToConversation($event)">
+  <prs-thread-list (selected)="onSelect($event)"
+                   [active]="selectedConservation | async"
+                   [threads]="conversations | async">
+  </prs-thread-list>
+  <prs-loading [status]="loading | async"></prs-loading>
+</aside>

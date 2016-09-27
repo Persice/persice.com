@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { HttpClient, TokenUtil } from '../../../common/core';
-import { Message, Conversation } from '../../../common/models';
-import { MessageActions } from '../../../common/actions';
-import { AppState, getMessagesState, getConversationsState } from '../../../common/reducers';
+import { Message } from '../models/message/message.model';
+import { Conversation } from '../models/conversation/conversation.model';
+import { AppState, getMessagesState, getConversationsState } from '../reducers/index';
+import { HttpClient } from '../core/http-client';
+import { MessageActions } from '../actions/message.action';
+import { TokenUtil } from '../core/util';
 
 const PER_PAGE_LIMIT: number = 12;
 
 @Injectable()
-export class MessagesMobileService {
+export class MessagesService {
 
   static API_URL = '/api/v1/messages/';
   static API_USER_URL = '/api/v1/auth/user/';
@@ -46,6 +48,11 @@ export class MessagesMobileService {
     this.selectedConversation$ = storeConversations$.map(state => state['selectedItem']);
   }
 
+  public resetUser(): void {
+    this._next = '';
+    this._loading = false;
+  }
+
   public emptyConversationMessages() {
     this.store.dispatch(this.actions.resetCollection());
   }
@@ -54,7 +61,7 @@ export class MessagesMobileService {
     const params: string = [
       `format=json`,
     ].join('&');
-    const url = `${MessagesMobileService.API_USER_URL}${senderId}/?${params}`;
+    const url = `${MessagesService.API_USER_URL}${senderId}/?${params}`;
     let subs: Subscription = this.http.get(url)
       .map((res: any) => res.json())
       .subscribe((dto: any) => {
@@ -65,7 +72,7 @@ export class MessagesMobileService {
   }
 
   public markConversationRead(senderId: string): Observable<any> {
-    let url: string = `${MessagesMobileService.API_URL_MARK_READ}?format=json&sender_id=${senderId}`;
+    let url: string = `${MessagesService.API_URL_MARK_READ}?format=json&sender_id=${senderId}`;
     return this.http.get(url)
       .map((res: any) => res.json());
   }
@@ -83,7 +90,7 @@ export class MessagesMobileService {
         `order_by=-sent_at`,
         `offset=0`
       ].join('&');
-      url = `${MessagesMobileService.API_URL}?${params}`;
+      url = `${MessagesService.API_URL}?${params}`;
     } else {
       url = this._next;
     }
@@ -118,7 +125,7 @@ export class MessagesMobileService {
 
   public sendMessage(recipientId: string, message: string): void {
     let recipient: string = `/api/v1/auth/user/${recipientId}/`;
-    let url = `${MessagesMobileService.API_URL}?format=json`;
+    let url = `${MessagesService.API_URL}?format=json`;
     let data = {
       body: message,
       recipient: recipient,

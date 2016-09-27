@@ -4,6 +4,7 @@ export class Message {
 
   private _senderName: string;
   private _senderUsername: string;
+  private _dateRaw: string;
   private _date: string;
   private _time: string;
   private _body: string;
@@ -22,6 +23,7 @@ export class Message {
 
     this._senderName = dto.sender_name;
     this._senderUsername = dto.sender_sender;
+    this._dateRaw = DateUtil.format(dto.sent_at, 'L');
     this._date = this.formatDate(dto.sent_at);
     this._time = DateUtil.format(dto.sent_at, 'LT');
 
@@ -35,6 +37,10 @@ export class Message {
 
   get senderUsername(): string {
     return this._senderUsername;
+  }
+
+  get dateRaw(): string {
+    return this._dateRaw;
   }
 
   get date(): string {

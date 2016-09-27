@@ -4,9 +4,6 @@
 import { bootstrap } from '@angular/platform-browser-dynamic';
 import { PLATFORM_PROVIDERS_MAIN_MOBILE } from './platform/browser';
 import { ENV_PROVIDERS } from './platform/environment';
-import { provideStore } from '@ngrx/store';
-import STORE_REDUCERS from './common/reducers';
-import STORE_ACTIONS from './common/actions';
 import { AppMobileComponent, APP_PROVIDERS } from './app-mobile';
 /*
  * Platform and Environment
@@ -30,9 +27,7 @@ export function main(initialHmrState?: any): Promise<any> {
   return bootstrap(AppMobileComponent, [
     ...PLATFORM_PROVIDERS_MAIN_MOBILE,
     ...ENV_PROVIDERS,
-    ...APP_PROVIDERS,
-    provideStore(STORE_REDUCERS),
-    STORE_ACTIONS
+    ...APP_PROVIDERS
   ])
     .catch(err => console.error(err));
 

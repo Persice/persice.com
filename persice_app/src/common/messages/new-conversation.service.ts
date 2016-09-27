@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient, TokenUtil } from '../../../common/core';
+import { HttpClient } from '../core/http-client';
+import { TokenUtil } from '../core/util';
 
 @Injectable()
-export class NewConversationMobileService {
+export class NewConversationService {
 
   static API_URL = '/api/v1/messages/';
   static API_USER_URL = '/api/v1/auth/user/';
@@ -21,7 +22,7 @@ export class NewConversationMobileService {
       return;
     }
     let recipient: string = `/api/v1/auth/user/${recipientId}/`;
-    let url = `${NewConversationMobileService.API_URL}?format=json`;
+    let url = `${NewConversationService.API_URL}?format=json`;
     let data = {
       body: message,
       recipient: recipient,

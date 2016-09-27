@@ -1,31 +1,22 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MessagesCounterService } from '../shared/services';
+import { Component, OnInit } from '@angular/core';
+import { UnreadMessagesCounterService } from '../../common/services/unread-messages-counter.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'prs-messages-counter',
   template: `
-  <i class="nav-main__value" [ngClass]="{'is-visible': counter > 0}">{{counter}}</i>
-  `
+  <i class="nav-main__value" [ngClass]="{'is-visible': (counter | async) > 0}">{{counter | async}}</i>
+  `,
+  providers: [ UnreadMessagesCounterService ]
 })
-export class MessagesCounterComponent implements OnInit, OnDestroy {
-  counter = 0;
-  serviceInstance;
+export class MessagesCounterComponent implements OnInit {
+  private counter: Observable<number>;
 
-  constructor(private service: MessagesCounterService) {
-
+  constructor(private unreadMessagesCounterService: UnreadMessagesCounterService) {
+    this.counter = unreadMessagesCounterService.counter$;
   }
 
-  ngOnInit() {
-    this.serviceInstance = this.service.serviceObserver()
-      .subscribe((data) => {
-        this.counter = data.counter;
-      });
+  ngOnInit(): any {
+    this.unreadMessagesCounterService.refresh();
   }
-
-  ngOnDestroy() {
-    if (this.serviceInstance) {
-      this.serviceInstance.unsubscribe();
-    }
-  }
-
 }

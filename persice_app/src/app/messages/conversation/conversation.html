@@ -1,0 +1,12 @@
+<prs-conversation-header [name]="conversationTitle | async"></prs-conversation-header>
+<div class="chat">
+  <div class="chat-wrapper" id="messages">
+    <div class="chat__messages-wrapper">
+      <div class="chat__messages">
+        <prs-loading [status]="loading | async"></prs-loading>
+        <prs-message-list [messages]="messages | async"></prs-message-list>
+      </div>
+    </div>
+  </div>
+  <prs-send-message [disabled]="0" (newMessage)="sendMessage($event)"></prs-send-message>
+</div>

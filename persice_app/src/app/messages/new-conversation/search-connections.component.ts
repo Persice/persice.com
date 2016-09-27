@@ -1,4 +1,4 @@
-import { Component, Output, Renderer, EventEmitter, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, Output, Renderer, EventEmitter, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CheckImageDirective } from '../../shared/directives';
 import { FormControl } from '@angular/forms';
@@ -7,21 +7,20 @@ import { HttpClient } from '../../../common/core/http-client';
 @Component({
   selector: 'prs-search-connections',
   template: <any>require('./search-connections.html'),
-  directives: [CheckImageDirective]
+  directives: [ CheckImageDirective ]
 })
-export class SearchConnectionsComponent implements OnInit, AfterViewInit {
+export class SearchConnectionsComponent implements AfterViewInit {
   @Output() selected: EventEmitter<any> = new EventEmitter();
   @ViewChild('term') term: ElementRef;
 
-  searchTerm = new FormControl();
-  results: Observable<any[]>;
-  resultsVisible: boolean = false;
-  selectedIndex: number = -1;
-  resultsCount: number = 0;
-  resultsCache: any[] = [];
+  private searchTerm: FormControl = new FormControl();
+  private results: Observable<any[]>;
+  private resultsVisible: boolean = false;
+  private selectedIndex: number = -1;
+  private resultsCount: number = 0;
+  private resultsCache: any[] = [];
 
-  constructor(public http: HttpClient, private renderer: Renderer) {
-  }
+  constructor(public http: HttpClient, private renderer: Renderer) { }
 
   ngAfterViewInit(): any {
     const eventStream = this.searchTerm.valueChanges;
@@ -85,10 +84,6 @@ export class SearchConnectionsComponent implements OnInit, AfterViewInit {
 
   }
 
-  ngOnInit() {
-
-  }
-
   public select(result) {
     this.resultsVisible = false;
     this.resultsCache = [];
@@ -96,7 +91,7 @@ export class SearchConnectionsComponent implements OnInit, AfterViewInit {
     this.selected.emit(result);
   }
 
-  private _search(terms: Observable<string>, debounceDuration = 400): Observable<any[]> {
+  private _search(terms: Observable<string>, debounceDuration: number = 400): Observable<any[]> {
     return terms
       .debounceTime(debounceDuration)
       .distinctUntilChanged()

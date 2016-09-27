@@ -1,23 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { ROUTER_DIRECTIVES, Router } from '@angular/router';
-import { InboxService } from '../shared/services';
-import { ConversationsComponent, ConversationsHeaderComponent } from './conversations';
+import { ConversationsComponent } from './conversations';
+import { ConversationsService } from '../../common/messages/conversations.service';
+import { WebsocketService } from '../shared/services/websocket.service';
 
 @Component({
   selector: 'prs-messages',
   template: <any>require('./messages.html'),
   directives: [
     ConversationsComponent,
-    ConversationsHeaderComponent,
     ROUTER_DIRECTIVES
   ],
-  providers: [
-    InboxService
-  ]
+  providers: [ ConversationsService, WebsocketService ]
 })
 export class MessagesComponent implements OnInit {
-  public counter: number = 0;
-
   constructor(private _router: Router) { }
 
   ngOnInit() {
@@ -27,5 +23,4 @@ export class MessagesComponent implements OnInit {
   public navigateToConversation(id) {
     this._router.navigateByUrl('/messages/' + id);
   }
-
 }
