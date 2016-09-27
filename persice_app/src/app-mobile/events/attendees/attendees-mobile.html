@@ -8,7 +8,7 @@
       counterNotGoing$ | async }})</a></li>
   </ul>
 </div>
-<div *ngIf="!!((host$ | async).isEventOrganizer)">
+<div *ngIf="!!((host$ | async))">
   <div class="mob-user-card-title">Host</div>
   <prs-mobile-user-card (onOpenNewConversation)="openNewConversation($event)" (onProfileTap)="viewProfile($event)"
                         [showIcon]="!!((host$ | async).connected)" [personEntity]="host$ | async"

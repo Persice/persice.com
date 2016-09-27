@@ -63,7 +63,7 @@ export class AttendeesMobileComponent implements OnInit, OnDestroy {
     });
 
     this.connections$ = this.attendeeService.attendees$.map(data => data.connections);
-    this.host$ = this.attendeeService.attendees$.map(data => data.host);
+    this.host$ = this.attendeeService.host$;
     this.connectionsTotalCount$ = this.attendeeService.attendees$.map(data => data.connectionsTotalCount);
     this.others$ = this.attendeeService.attendees$.map(data => data.others);
     this.othersTotalCount$ = this.attendeeService.attendees$.map(data => data.othersTotalCount);
