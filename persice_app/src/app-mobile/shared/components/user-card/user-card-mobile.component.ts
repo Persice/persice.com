@@ -27,6 +27,8 @@ export class UserCardMobileComponent {
     this._person = entity;
   }
 
+  @Input() showDetails: boolean = true;
+
   @Output() onProfileTap: EventEmitter<any> = new EventEmitter();
   @Output() onOpenNewConversation: EventEmitter<any> = new EventEmitter();
 
@@ -41,7 +43,10 @@ export class UserCardMobileComponent {
    * @param {DOM click Event} event
    */
   toggleInterestsVisible(event) {
-    this.interestsVisible = !this.interestsVisible;
+    if (!!this._person.topInterests && this._person.topInterests.length > 0) {
+      this.interestsVisible = !this.interestsVisible;
+    }
+
   }
 
   selectPerson(event) {

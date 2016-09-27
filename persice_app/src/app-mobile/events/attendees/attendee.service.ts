@@ -64,7 +64,7 @@ export class AttendeeService {
       this._getCounters(RsvpStatus.maybe, eventId),
       this._getCounters(RsvpStatus.no, eventId))
       .subscribe((data: number[]) => {
-        data[0] = data[0] + 1;
+        data[ 0 ] = data[ 0 ] + 1;
         this._counters$.next(data);
 
       }, (err) => {
@@ -175,7 +175,7 @@ export class AttendeeService {
       });
   }
 
-  private _loadEventHost(eventId: string): void {
+  private _loadEventHost(eventId: any): void {
     // Load event host
     let eventOrganizerApiUrl = `${AttendeeService.API_URL_EVENT_HOST}${eventId}/?format=json`;
     this.http.get(eventOrganizerApiUrl)
@@ -220,15 +220,9 @@ export class AttendeeService {
 
   private _mapResponseToHost(response: Response): Person {
     const dto: any = response.json();
-
-    // console.log(response);
-
     // Parse API response.
     let host: Person = this._toPerson(dto);
-
-    console.log('host', host);
     return host;
-
   }
 
   private _toPerson(dto: any): Person {

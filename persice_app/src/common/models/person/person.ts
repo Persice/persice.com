@@ -10,6 +10,7 @@ export class Person {
 
   private _id: string;
   private _isEventOrganizer: boolean;
+  private _isNonPersiceUser: boolean;
   private _username: string;
   private _firstName: string;
   private _lastName: string;
@@ -45,6 +46,7 @@ export class Person {
   constructor(dto: any) {
     this._id = dto.id;
     this._isEventOrganizer = !!dto.is_organizer ? true : false;
+    this._isNonPersiceUser = !!dto.event_type && dto.event_type === 'facebook' ? true : false;
     this._username = dto.username;
     this._firstName = dto.first_name;
     this._lastName = dto.last_name;
@@ -103,6 +105,10 @@ export class Person {
 
   get isEventOrganizer(): boolean {
     return this._isEventOrganizer;
+  }
+
+  get isNonPersiceUser(): boolean {
+    return this._isNonPersiceUser;
   }
 
   get username(): string {

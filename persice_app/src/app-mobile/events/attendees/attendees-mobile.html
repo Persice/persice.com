@@ -10,7 +10,7 @@
 </div>
 <div *ngIf="!!((host$ | async))">
   <div class="mob-user-card-title">Host</div>
-  <prs-mobile-user-card (onOpenNewConversation)="openNewConversation($event)" (onProfileTap)="viewProfile($event)"
+  <prs-mobile-user-card [showDetails]="!(host$ | async).isNonPersiceUser" (onOpenNewConversation)="openNewConversation($event)" (onProfileTap)="viewProfile($event)"
                         [showIcon]="!!((host$ | async).connected)" [personEntity]="host$ | async"
                         [showSendMessage]="!!((host$ | async).connected)">
   </prs-mobile-user-card>
