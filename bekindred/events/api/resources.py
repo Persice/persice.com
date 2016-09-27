@@ -889,6 +889,7 @@ class OrganizerResource(ModelResource):
     lives_in = fields.CharField(attribute='lives_in', null=True)
     connected = fields.BooleanField(attribute='connected', default=False)
     event_type = fields.CharField(attribute='event_type', null=True)
+    url = fields.CharField(attribute='link', null=True)
 
     class Meta:
         resource_name = 'organizer'
