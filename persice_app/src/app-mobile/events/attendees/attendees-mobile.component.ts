@@ -95,7 +95,12 @@ export class AttendeesMobileComponent implements OnInit, OnDestroy {
   }
 
   public viewProfile(person: Person) {
-    this.router.navigateByUrl('/' + person.username);
+    if (person.isNonPersiceUser) {
+      window.open(person.url, '_new');
+    } else {
+      this.router.navigateByUrl('/' + person.username);
+    }
+
   }
 
   public openNewConversation(person: Person) {
