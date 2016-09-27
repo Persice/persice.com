@@ -15,6 +15,8 @@ from django.utils.timezone import now
 from guardian.shortcuts import assign_perm
 from haystack.backends import SQ
 from haystack.query import SearchQuerySet
+
+from matchfeed.api.resources import A
 from postman.api import pm_write
 from tastypie import fields
 from tastypie.authorization import Authorization
@@ -28,7 +30,7 @@ from tastypie.validation import Validation
 
 from accounts.api.authentication import JSONWebTokenAuthentication
 from events.authorization import GuardianAuthorization
-from events.models import Event, FilterState, Membership
+from events.models import Event, FilterState, Membership, FacebookEvent
 from events.tasks import (
     assign_perm_task,
     publish_to_redis_channel,
@@ -854,19 +856,14 @@ class EventFeedResource(Resource):
 
 class OrganizerResource(ModelResource):
     id = fields.CharField(attribute='id')
-    first_name = fields.CharField(attribute='first_name')
-    last_name = fields.CharField(attribute='last_name')
-    facebook_id = fields.CharField(attribute='facebook_id')
-    username = fields.CharField(attribute='username')
+    first_name = fields.CharField(attribute='first_name', null=True, blank=True)
+    last_name = fields.CharField(attribute='last_name', null=True, blank=True)
+    name = fields.CharField(attribute='name', null=True, blank=True)
+    facebook_id = fields.CharField(attribute='facebook_id', null=True, blank=True)
+    username = fields.CharField(attribute='username', null=True, blank=True)
     image = fields.FileField(attribute="image", null=True, blank=True)
-    user_id = fields.CharField(attribute='user_id')
-    # twitter_provider = fields.CharField(attribute='twitter_provider',
-    #                                     null=True)
-    # twitter_username = fields.CharField(attribute='twitter_username',
-    #                                     null=True)
-    # linkedin_provider = fields.CharField(attribute='linkedin_provider',
-    #                                      null=True)
-    age = fields.IntegerField(attribute='age')
+    user_id = fields.CharField(attribute='user_id', null=True, blank=True)
+    age = fields.IntegerField(attribute='age', null=True, blank=True)
     distance = fields.ListField(attribute='distance', null=True)
     about = fields.CharField(attribute='about', null=True)
     gender = fields.CharField(attribute='gender', default=u'all')
@@ -891,6 +888,7 @@ class OrganizerResource(ModelResource):
     position = fields.DictField(attribute='position', null=True)
     lives_in = fields.CharField(attribute='lives_in', null=True)
     connected = fields.BooleanField(attribute='connected', default=False)
+    event_type = fields.CharField(attribute='event_type', null=True)
 
     class Meta:
         resource_name = 'organizer'
@@ -913,7 +911,7 @@ class OrganizerResource(ModelResource):
             event = Event.objects.get(pk=event_id)
         except Event.DoesNotExist:
             raise NotFound("Organizer not found")
-        if event and event.organizer:
+        if event.organizer:
             event_organizer = event.organizer
             match_user = MatchQuerySet.between(
                 user_id1=bundle.request.user.id, user_id2=event_organizer.id
@@ -925,8 +923,18 @@ class OrganizerResource(ModelResource):
                 match_user = NonMatchUser(
                     bundle.request.user.id, event_organizer.id
                 )
+            match_user.event_type = event.event_type
         else:
-            raise NotFound("Organizer not found")
+            fb_event = FacebookEvent.objects.filter(
+                facebook_id=event.eid).first()
+            obj = A()
+            obj.id = event.id
+            obj.first_name = fb_event.owner_info.get('name')
+            obj.link = 'https://www.facebook.com/{}/'.format(
+                fb_event.owner_info.get('id')
+            )
+            obj.event_type = event.event_type
+            return obj
         return match_user
 
     def get_object_list(self, request):
