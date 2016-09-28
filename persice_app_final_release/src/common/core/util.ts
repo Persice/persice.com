@@ -1,8 +1,6 @@
 import { take, slice, keysIn, forEach, merge, filter, orderBy, find, findIndex } from 'lodash';
 import { Location } from '../models/event/location';
 import * as moment from 'moment';
-// const moment = require('moment');
-// require('moment-timezone/builds/moment-timezone-with-data.min');
 
 export class ListUtil {
   static take(arr: any[], n: number): any[] {
@@ -10,7 +8,7 @@ export class ListUtil {
   }
 
   static skip(arr: any[], x: number, y: number): any[] {
-    return take(slice(arr, x), y);
+    return take(<any>slice(arr, x), y);
   }
 
   static orderBy(arr: any[], iteratees, order): any[] {
@@ -18,7 +16,7 @@ export class ListUtil {
   }
 
   static filter(arr: any[], property, value): any[] {
-    return filter(arr, { property: value });
+    return filter(arr, <any>{ property: value });
   }
 
   static findIndex(arr: any[], props): number {
@@ -30,7 +28,7 @@ export class ListUtil {
   }
 
   static filterAndCount(arr: any[], property, value): number {
-    return filter(arr, { property: value }).length;
+    return filter(arr, <any>{ property: value }).length;
   }
 
 }
@@ -105,7 +103,7 @@ export class ObjectUtil {
   }
 
   //transform and take sorted n items from {key: value} to [{value: VALUE, match: 1|0}]
-  static firstSorted(data, n): Array<Object> {
+  static firstSorted(data, n): any {
     let keys = [];
     for (var key in data) {
       if (data[ key ] === 1) {
@@ -120,7 +118,7 @@ export class ObjectUtil {
         });
       }
     }
-    return orderBy(take(keys, n), [ 'match' ], [ 'desc' ]);
+    return orderBy(<any>take(keys, n), [ 'match' ], [ 'desc' ]);
   }
 
   //transform and take first n items from {key: value} to [{value: VALUE, match: 1|0}]

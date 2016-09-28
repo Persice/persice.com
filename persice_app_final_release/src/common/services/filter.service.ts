@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { HttpClient } from '../core/http-client';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+
 import { remove, find } from 'lodash';
 import { InterfaceFilter } from '../models/filter/filter.model';
 

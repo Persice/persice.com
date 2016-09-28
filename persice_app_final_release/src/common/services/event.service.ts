@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Response, Headers } from '@angular/http';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import { TokenUtil, FormUtil } from '../core/util';
 import { HttpClient } from '../core/http-client';
 

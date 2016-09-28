@@ -2,11 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { assign } from './utils';
 import { ConfigService, IPopupOptions } from './config.service';
-import 'rxjs/add/observable/interval';
-import 'rxjs/add/observable/fromEvent';
-import 'rxjs/add/operator/concatMap';
-import 'rxjs/add/operator/take';
-import 'rxjs/add/operator/takeWhile';
 
 @Injectable()
 export class PopupService {

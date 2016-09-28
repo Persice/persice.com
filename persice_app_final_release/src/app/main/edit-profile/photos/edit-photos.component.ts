@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
 import { PhotosService } from '../../../../common/services/photos.service';
 import { UserService } from '../../../../common/services/user.service';
 import { ListUtil } from '../../../../common/core/util';

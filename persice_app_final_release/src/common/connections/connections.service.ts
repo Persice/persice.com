@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
-import { Observable, BehaviorSubject, Subscription } from 'rxjs';
 import { Person } from '../models/person/index';
 import { HttpClient } from '../core';
+import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subscription } from 'rxjs/Subscription';
 
 interface Connections {
   connections: any[];

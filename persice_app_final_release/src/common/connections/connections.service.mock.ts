@@ -1,6 +1,6 @@
 import { Provider } from '@angular/core';
 import { ConnectionsService } from './connections.service';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 
 export class MockConnectionsService extends ConnectionsService {
   fakeResponse: any = null;

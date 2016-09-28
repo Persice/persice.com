@@ -3,7 +3,7 @@ import { ActionReducer, combineReducers } from '@ngrx/store';
 import { storeFreeze } from 'ngrx-store-freeze';
 import { storeLogger } from 'ngrx-store-logger';
 import { routerReducer, RouterState } from '@ngrx/router-store';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import { ConversationsState, conversationsReducer } from './conversations.reducer';
 import { MessagesState, messagesReducer } from './messages.reducer';
 import { UnreadMessagesCounterState, unreadMessagesCounterReducer } from './unread-messages-counter.reducer';

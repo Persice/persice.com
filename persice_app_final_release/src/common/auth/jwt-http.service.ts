@@ -10,7 +10,6 @@ import {
   ConnectionBackend
 } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/switchMap';
 import { ConfigService } from './config.service';
 import { SharedService } from './shared.service';
 import { Router } from '@angular/router';

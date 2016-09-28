@@ -1,5 +1,6 @@
 const path = require('path');
 var crypto = require('crypto');
+var dotenv = require('dotenv');
 
 // Helper functions
 const _root = path.resolve(__dirname);
@@ -40,4 +41,4 @@ exports.includeClientPackages = includeClientPackages;
 exports.hasProcessFlag = hasProcessFlag;
 exports.root = root;
 exports.generateHash = generateHash;
-
+exports.dotenv = dotenv;

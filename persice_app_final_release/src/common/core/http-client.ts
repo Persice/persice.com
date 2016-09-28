@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, RequestOptionsArgs, Response, Headers } from '@angular/http';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import { IntercomUtil } from '../core/util';
 import { AuthService } from '../auth/auth.service';

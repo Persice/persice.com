@@ -1,7 +1,8 @@
-import { Subscription, Observable } from 'rxjs';
 import { TokenUtil } from '../../common/core/util';
 import { EventsService } from './events.service';
 import { EventsType, Event } from '../models/event/index';
+import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 
 export abstract class EventsComponent {
 

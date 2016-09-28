@@ -4,8 +4,6 @@ import { assign, joinUrl, merge, camelCase } from './utils';
 import { ConfigService, IOauth2Options } from './config.service';
 import { PopupService } from './popup.service';
 import { StorageService } from './storage.service';
-import 'rxjs/add/operator/concatMap';
-import 'rxjs/add/observable/of';
 import { JwtHttp } from './jwt-http.service';
 import { SharedService } from './shared.service';
 

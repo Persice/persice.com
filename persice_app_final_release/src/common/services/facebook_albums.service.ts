@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '../core/http-client';
 import { TokenUtil } from '../core/util';
-import { Subject } from 'rxjs';
+import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class FacebookAlbumsService {

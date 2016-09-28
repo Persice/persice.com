@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'persice-app',
-  styleUrls: [ './app.component.css' ],
   templateUrl: './app.component.html',
   encapsulation: ViewEncapsulation.None
 })

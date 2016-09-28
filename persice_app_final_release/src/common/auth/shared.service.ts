@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { ConfigService } from './config.service';
 import { StorageService } from './storage.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class SharedService {

@@ -1,12 +1,10 @@
 import { Component, Input, Output, EventEmitter, ElementRef, OnInit, OnDestroy } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import { ProfileService } from '../../../../common/services/profile.service';
 
 @Component({
   selector: 'prs-edit-about',
-  template: `
-    <textarea class="c-input c-input--textarea c-input--textarea-mediumround mb-" [value]="about"></textarea>
-  `,
+  template: `<textarea class="c-input c-input--textarea c-input--textarea-mediumround mb-" [value]="about"></textarea>`,
   providers: [ ProfileService ]
 })
 export class EditAboutComponent implements OnInit, OnDestroy {

@@ -1,0 +1,8 @@
+{
+  "main-mobile": {
+    "js": "/assets/js/main-mobile.bundle.js"
+  },
+  "main": {
+    "js": "/assets/js/main.bundle.js"
+  }
+}

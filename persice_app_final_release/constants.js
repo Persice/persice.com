@@ -4,9 +4,9 @@ const ip = require('ip');
 
 exports.HOST = 'localhost'; //ip.address();
 exports.DEV_PORT = 8080;
+exports.DEV_PORT_MOBILE = 8089;
 exports.E2E_PORT = 4201;
 exports.PROD_PORT = 8080; //8088;
-exports.UNIVERSAL_PORT = 8080;
 
 /**
  * These constants set whether or not you will use proxy for Webpack DevServer
@@ -21,7 +21,6 @@ exports.DEV_SERVER_PROXY_CONFIG = {
   '/static': 'http://test-local.com:8000',
   '/assets': 'http://test-local.com:8000',
   '/public': 'http://test-local.com:8000'
-  // '**': 'http://localhost:8089'
 };
 
 /**
@@ -79,10 +78,6 @@ exports.MY_CLIENT_RULES = [
   // use this to import your own rules for Client webpack config.
 ];
 
-exports.MY_SERVER_RULES = [
-  // use this to import your own rules for Universal Server webpack config.
-];
-
 exports.MY_TEST_RULES = [
   // use this to import your own rules for Test webpack config.
 ];
@@ -91,6 +86,3 @@ exports.MY_TEST_PLUGINS = [
   // use this to import your own Test webpack config plugins.
 ];
 
-exports.MY_SERVER_INCLUDE_CLIENT_PACKAGES = [
-  // include these client packages so we can transform their source with webpack loaders
-];

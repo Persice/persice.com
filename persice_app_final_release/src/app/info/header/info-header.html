@@ -3,7 +3,7 @@
     <div class="layout layout--flush layout--middle">
       <div class="layout__item 1/2"><img alt="Persice logo" src="/assets/images/logo.svg" class="site-logo__mark">
         <h1 class="header-fusion__title">Persice privacy &amp; Terms</h1></div>
-      <div class="layout__item 1/2 text-right"><a [routerLink]="['/']" class="link-blank">Back</a></div>
+      <div class="layout__item 1/2 text-right"><a (click)="goBack($event)" class="link-blank">Back</a></div>
     </div>
   </div>
 </header>

@@ -1,5 +1,5 @@
 import { Component, Output, Renderer, EventEmitter, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import { FormControl } from '@angular/forms';
 import { HttpClient } from '../../../../common/core/http-client';
 

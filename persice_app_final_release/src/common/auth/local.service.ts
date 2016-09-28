@@ -4,7 +4,6 @@ import { ConfigService } from './config.service';
 import { RequestOptionsArgs, Response } from '@angular/http';
 import { joinUrl } from './utils';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/do';
 import { JwtHttp } from './jwt-http.service';
 
 function getFullOpts(user: string | Object, userOpts?: RequestOptionsArgs) {

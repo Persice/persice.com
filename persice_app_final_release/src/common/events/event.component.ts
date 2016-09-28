@@ -1,4 +1,5 @@
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 import { EventService } from './event.service';
 import { Event } from './../models/event/index';
 import { ActivatedRoute } from '@angular/router';

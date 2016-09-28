@@ -4,7 +4,6 @@ import { Response } from '@angular/http';
 import { joinUrl, assign } from './utils';
 import { ConfigService, IOauth1Options } from './config.service';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/concatMap';
 import { JwtHttp } from './jwt-http.service';
 import { SharedService } from './shared.service';
 

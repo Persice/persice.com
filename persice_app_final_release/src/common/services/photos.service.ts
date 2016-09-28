@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import { TokenUtil, ListUtil } from '../core/util';
 import { Photo } from '../models/photo/photo.model';
 import { HttpClient } from '../core/http-client';

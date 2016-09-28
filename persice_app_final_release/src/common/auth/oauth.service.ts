@@ -6,7 +6,6 @@ import { Response, RequestOptionsArgs } from '@angular/http';
 import { joinUrl } from './utils';
 import { ConfigService, IOauth1Options } from './config.service';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/do';
 import { JwtHttp } from './jwt-http.service';
 
 @Injectable()

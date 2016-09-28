@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Response, Headers } from '@angular/http';
-import { Subscription, BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Event } from '../models/event/index';
 import { HttpClient } from '../core/http-client';
 import { TokenUtil, FormUtil } from '../core/util';
@@ -105,6 +107,9 @@ export class EventService {
       event.location = '0,0';
       event.location_name = event.eventLocation;
     }
+
+    // When updating event, don't send event photo
+    delete event.event_photo;
 
     let body = FormUtil.formData(event);
 
