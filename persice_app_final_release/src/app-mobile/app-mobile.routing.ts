@@ -10,6 +10,7 @@ export const routes: Routes = [
   { path: 'login', component: LoginMobileComponent },
   { path: 'terms', component: TermsOfServiceMobileComponent },
   { path: 'privacy', component: PrivacyPolicyMobileComponent },
+  { path: 'signup', canActivate: [ AuthGuard ], loadChildren: './signup-mobile/index#SignupMobileModule' },
   { path: '', loadChildren: './main/index#MainModule' },
   { path: '**', component: MobileNotFound404Component }
 ];
