@@ -92,8 +92,17 @@ export class ConversationsService{
         if (dto.objects[0]) {
           let conversation: Conversation = new Conversation(dto.objects[0]);
           this.store.dispatch(this.actions.addNewOrReplaceExisting(conversation));
+          this.notifySelectedConversationRead();
         }
       });
+  }
+
+  public selectConversationById(id: number): void {
+    this.store.dispatch(this.actions.selectConversationByID(id));
+  }
+
+  private notifySelectedConversationRead(): void {
+    this.store.dispatch(this.actions.markSelectedConversationRead());
   }
 
 }

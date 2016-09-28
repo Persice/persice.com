@@ -111,6 +111,7 @@ export class ConversationComponent implements OnInit, OnDestroy {
     this.websocketServiceSubs = this.websocketService.on('messages:new').subscribe((data: any) => {
       this.scrollOffset = 0;
       this.messagesService.recievedMessageViaWebSocket(data, this.senderId);
+      this.markConversationRead();
     });
   }
 

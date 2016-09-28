@@ -23,7 +23,7 @@ import {Conversation} from '../../../../common/models/conversation/conversation.
       <div class="flag__body">
         <div class="message__name">{{thread.name}}</div>
         <div class="message__text truncate" [innerHTML]="thread.body | markup:false">{{thread.body}}</div>
-        <div class="message__time">{{thread.sentAt}}</div>
+        <div class="message__time">{{thread.sentAtFormated}}</div>
         <div class="message__total" [ngClass]="{'is-visible': thread.unreadCounter > 0}">{{thread.unreadCounter}}</div>
       </div>
     </div>

@@ -27,6 +27,9 @@ export default function (state = initialState, action: Action): ConversationsSta
 
     case ConversationActions.SELECT_CONVERSATION: {
       const conversation: Conversation = action.payload;
+      conversation.unread = false;
+      conversation.unreadCounter = 0;
+
       return Object.assign({}, state, {selectedItem: conversation});
     }
 
@@ -89,6 +92,33 @@ export default function (state = initialState, action: Action): ConversationsSta
         });
       }
 
+    }
+
+    case ConversationActions.MARK_SELECTED_CONVERSATION_READ: {
+      const selectedConversation: Conversation = state.selectedItem;
+      selectedConversation.unread = false;
+      selectedConversation.unreadCounter = 0;
+
+      let conversations = state.entities
+        .map((conversation: Conversation) => {
+          if (conversation.id === selectedConversation.id) {
+            conversation.unread = selectedConversation.unread;
+            conversation.unreadCounter = selectedConversation.unreadCounter;
+            return conversation;
+          }
+          return conversation;
+        });
+
+      return Object.assign({}, state, {entities: [...conversations], selectedItem: selectedConversation});
+    }
+
+    case ConversationActions.SELECT_CONVERSATION_BY_ID: {
+      const id: number = action.payload.id;
+
+      let index: number = state.entities
+        .findIndex(conversation => conversation.id === id);
+
+      return Object.assign({}, state, {selectedItem: state.entities[index]});
     }
 
     default: {
