@@ -1,0 +1,91 @@
+<header class="mob-header" [ngClass]="{'mob-header--transparent': headerState.transparent}" *ngIf="isHeaderVisible">
+  <div class="layout layout--flush layout--middle">
+    <!-- LEFT -->
+    <div class="layout__item 1/5 text-left">
+      <a prs-open-left-menu *ngIf="headerState.left === leftState.Menu" class="mob-header__left-push" id="showLeftPush">
+
+        <div *ngIf="unreadMessagesCounter > 0 || newConnectionsCounter > 0">
+          <svg role="img" class="icon icon--small">
+            <use xlink:href="/assets/icons/icons.svg#icon-hamburger"></use>
+          </svg>
+          <div class="message__intro__notif"
+               style="position: absolute; top: 5px; left: 5px; height: 10px; padding: 0 5px;"></div>
+        </div>
+
+        <svg *ngIf="unreadMessagesCounter < 1 && newConnectionsCounter < 1" role="img" class="icon icon--small">
+          <use xlink:href="/assets/icons/icons.svg#icon-hamburger"></use>
+        </svg>
+      </a>
+
+      <a (click)="onAction(headerState.leftAction)" *ngIf="headerState.left === leftState.Back"
+         class="mob-header__left-push">
+        <svg role="img" class="icon icon--small">
+          <use xlink:href="/assets/icons/icons.svg#icon-mobile_back"></use>
+        </svg>
+      </a>
+
+      <a (click)="onAction(headerState.leftAction)" *ngIf="headerState.left === leftState.Cancel">
+        Cancel
+      </a>
+
+      <a class="text-left" (click)="onAction(headerState.leftAction)"
+         *ngIf="headerState.left === leftState.CancelSmall">
+        Cancel
+      </a>
+    </div>
+
+    <!-- CENTER -->
+    <div class="layout__item 3/5 text-center">
+      <prs-page-title *ngIf="headerState.center === centerState.Title" [title]="headerState.title"></prs-page-title>
+      <prs-page-title-conversations
+        *ngIf="headerState.center === centerState.ConversationsTitleWithCounter"></prs-page-title-conversations>
+      <h2 *ngIf="headerState.center === centerState.GalleryPagination"
+          class="mob-header__title js-swiper-gallery__pagination"></h2>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="layout__item 1/5 text-right" [ngClass]="{'pr0': headerState.right ===  rightState.NewConversation}">
+      <a *ngIf="headerState.right ===  rightState.Add" (click)="onAction(headerState.rightAction)">
+        <svg role="img" class="icon ">
+          <use xmlns:xlink="http://www.w3.org/1999/xlink"
+               xlink:href="/assets/icons/icons.svg#icon-plus-big"></use>
+        </svg>
+      </a>
+      <a *ngIf="headerState.right ===  rightState.Search" (click)="onAction(headerState.rightAction)">
+        <svg role="img" class="icon icon--small">
+          <use xmlns:xlink="http://www.w3.org/1999/xlink"
+               xlink:href="/assets/icons/icons.svg#icon-search-mobile"></use>
+        </svg>
+      </a>
+      <a *ngIf="headerState.right === rightState.Edit" (click)="onAction(headerState.rightAction)"
+         class="mob-header__right-push">
+        <svg role="img" class="icon icon--small">
+          <use xmlns:xlink="http://www.w3.org/1999/xlink"
+               xlink:href="/assets/icons/icons.svg#icon-mobile_edit"></use>
+        </svg>
+      </a>
+      <a *ngIf="headerState.right === rightState.Go" (click)="onAction(headerState.rightAction)"
+         class="mob-header__right-push">Go</a>
+      <a *ngIf="headerState.right === rightState.Done" (click)="onAction(headerState.rightAction)"
+         class="mob-header__right-push">Done</a>
+      <a *ngIf="headerState.right === rightState.Send" (click)="onAction(headerState.rightAction)"
+         class="mob-header__right-push">Send</a>
+
+      <div *ngIf="headerState.right === rightState.ConnectionMenu" prs-dropdown [preventDefault]="false">
+        <a class="js-mob-header__profile-drop-trigg" prs-dropdown-toggle>
+          <svg role="img" class="icon icon--small">
+            <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                 xlink:href="/assets/icons/icons.svg#icon-mobile_menu"></use>
+          </svg>
+        </a>
+        <ul prs-dropdown-menu class="mob-header__drop hidden">
+          <!-- <li><a>Invite to event</a></li> -->
+          <li><a data-remodal-target="disconnect-user">Disconnect</a></li>
+          <!-- <li><a>Report user</a></li> -->
+          <!-- <li><a>Block user</a></li> -->
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</header>

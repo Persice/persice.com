@@ -1,0 +1,11 @@
+<div *ngIf="(isLoaded$ | async)">
+  <prs-mobile-event-hero [event]="event$ | async"></prs-mobile-event-hero>
+  <prs-mobile-event-rsvp [username]="usernameFromToken" [userId]="userIdFromToken"
+                         [event]="event$ | async"></prs-mobile-event-rsvp>
+  <prs-mobile-event-details [event]="event$ | async"></prs-mobile-event-details>
+  <prs-mobile-event-attendees-preview (onClick)="openAttendees($event)"
+                                      [event]="event$ | async"></prs-mobile-event-attendees-preview>
+  <prs-mobile-event-details-bottom [event]="event$ | async"></prs-mobile-event-details-bottom>
+</div>
+<prs-loading [status]="isLoading$ | async"></prs-loading>
+<prs-mobile-event-not-found *ngIf="(notFound$ | async)"></prs-mobile-event-not-found>

@@ -1,0 +1,12 @@
+<div class="user-card__similarity__drop is-open">
+  <ul class="user-card__similarity__list">
+    <li *ngFor="let key of _person.topInterestsFirstHalf">
+      <i *ngIf="key && key.match" class="interest-list__bullet"></i>{{key.value}}
+    </li>
+  </ul>
+  <ul class="user-card__similarity__list">
+    <li *ngFor="let key of _person.topInterestsSecondHalf">
+      <i *ngIf="key && key.match" class="interest-list__bullet"></i>{{key.value}}
+    </li>
+  </ul>
+</div>

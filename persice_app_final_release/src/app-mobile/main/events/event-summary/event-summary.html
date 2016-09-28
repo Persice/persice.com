@@ -1,0 +1,26 @@
+<div class="event-summary" [ngClass]="{'is-open' : isRsvpElementVisible}">
+  <div (click)="onOpenEvent.emit($event)" class="event-summary__details cover-background"
+       [onchanges]="false"
+       default="/assets/images/placeholder-image.png"
+       checkimage="{{event.image}}" [suffix]="'.375x145_q100_crop.jpg'">
+    <div class="event-summary__details__copy">
+      <h3 class="event-summary__title">{{event.name}}</h3>
+      <p class="event-summary__location">{{event.locationName}}</p>
+      <p class="event-summary__date-n-time">
+        {{event.startDate.dayName}}, {{event.startDate.month}} {{event.startDate.day}}, {{event.startDate.hour}}
+        {{event.timezone}}
+      </p>
+      <div class="layout layout--flush event-summary__meta ml0">
+      </div>
+    </div>
+    <div class="card-rsvp-drop-close" (click)="handleRsvpButtonVisibility(false, $event)">
+      <span href="" class="card-rsvp-drop-close__btn">
+          <svg role="img" class="icon ">
+            <use xlink:href="/assets/icons/icons.svg#icon-close"></use>
+          </svg>
+        </span>
+    </div>
+  </div>
+  <prs-rsvp-element [event]="event" [username]="username" [userId]="userId"
+                    (onToggleRsvpElement)="handleRsvpButtonVisibility($event)"></prs-rsvp-element>
+</div>

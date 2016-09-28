@@ -1,0 +1,67 @@
+<div *ngIf="!filtersActive">
+  <header class="mob-header">
+    <div class="layout layout--flush layout--middle">
+      <div class="layout__item 1/5">
+        <a prs-open-left-menu class="mob-header__left-push">
+          <svg role="img" class="icon icon--small">
+            <use xlink:href="/static/assets/icons/icons.svg#icon-hamburger"></use>
+          </svg>
+        </a>
+      </div>
+      <div class="layout__item 3/5 text-center" prs-dropdown [preventDefault]="true">
+        <a prs-dropdown-toggle
+           class="js-mob-header__profile-drop2-trigg mob-header__title mob-header__title--as-drop-triger">
+          <span>{{eventsTypeLabel}}</span>
+          <svg role="img" class="icon icon--extratiny">
+            <use xlink:href="/static/assets/icons/icons.svg#icon-down-small"></use>
+          </svg>
+        </a>
+        <ul class="mob-header__drop hidden mob-header__drop--center js-mob-header__drop2" prs-dropdown-menu>
+          <li prs-dropdown-toggle (touchend)="clickEventsTypeDropdownElement('all', $event)"
+              [ngClass]="{'is-current' : eventsType === 'all'}">All events
+            <svg role="img" class="icon icon--extratiny">
+              <use xlink:href="/static/assets/icons/icons.svg#icon-checker"></use>
+            </svg>
+          </li>
+          <li prs-dropdown-toggle (touchend)="clickEventsTypeDropdownElement('my', $event)"
+              [ngClass]="{'is-current' : eventsType === 'my'}">My events
+            <svg role="img" class="icon icon--extratiny">
+              <use xlink:href="/static/assets/icons/icons.svg#icon-checker"></use>
+            </svg>
+          </li>
+          <li prs-dropdown-toggle (touchend)="clickEventsTypeDropdownElement('connections', $event)"
+              [ngClass]="{'is-current' : eventsType === 'connections'}">My network
+            <svg role="img" class="icon icon--extratiny">
+              <use xlink:href="/static/assets/icons/icons.svg#icon-checker"></use>
+            </svg>
+          </li>
+        </ul>
+      </div>
+      <div class="layout__item 1/5 text-right">
+        <a (click)="filtersActive = !filtersActive">
+          <svg role="img" class="icon icon--small">
+            <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                 xlink:href="/static/assets/icons/icons.svg#icon-search-mobile"></use>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </header>
+  <prs-mobile-events-not-found *ngIf="!!(notFound$ | async)"></prs-mobile-events-not-found>
+  <div class="content pb++ events-content--main" *ngIf="!(isLoadingInitial$ | async)">
+    <div class="events-list-container" prs-infinite-scroll (scrolled)="loadMoreEvents($event)"
+         [scrollEnabled]="!isLoaded"
+         [bottomOffset]="60">
+      <prs-mobile-event-summary (onOpenEvent)="openEvent(event)" [event]="event" [username]="username"
+                                [userId]="userId"
+                                *ngFor="let event of events$ | async"></prs-mobile-event-summary>
+    </div>
+  </div>
+  <prs-loading [status]="isLoading$ | async"></prs-loading>
+</div>
+<prs-mobile-filter
+  *ngIf="filtersActive"
+  (onCloseFilters)="hideFilters()"
+  [showHeaderOnBack]="false"
+  [type]="LIST_TYPE">
+</prs-mobile-filter>
