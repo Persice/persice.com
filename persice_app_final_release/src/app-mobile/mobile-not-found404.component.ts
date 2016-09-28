@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
+
 @Component({
   selector: 'prs-mobile-not-found',
-  template: '<h3>Error 404: Not found</h3>'
+  templateUrl: './mobile-not-found404.component.html'
 })
-
 export class MobileNotFound404Component {
 }
