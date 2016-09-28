@@ -29,6 +29,7 @@ declare var Bloodhound: any;
 declare var FACEBOOK_ID: string;
 declare var FACEBOOK_SCOPE: string;
 declare var LINKEDIN_ID: string;
+declare var GOOGLE_MAP_API_KEY: string;
 
 // Extra variables that live on Global that will be replaced by webpack DefinePlugin
 declare var AOT: boolean;
@@ -50,6 +51,10 @@ interface GlobalEnvironment {
   HOST;
   PORT;
   STORE_DEV_TOOLS;
+  FACEBOOK_ID;
+  FACEBOOK_SCOPE;
+  LINKEDIN_ID;
+  GOOGLE_MAP_API_KEY;
   SystemJS: SystemJS;
   System: SystemJS;
 }

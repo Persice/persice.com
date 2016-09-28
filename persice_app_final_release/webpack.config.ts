@@ -59,6 +59,7 @@ const AWS_S3_CUSTOM_DOMAIN = process.env.AWS_S3_CUSTOM_DOMAIN;
 const FACEBOOK_ID = isProd ? process.env.FACEBOOK_ID_PRODUCTION : process.env.FACEBOOK_ID_DEVELOPMENT;
 const LINKEDIN_ID = isProd ? process.env.LINKEDIN_ID_PRODUCTION : process.env.LINKEDIN_ID_DEVELOPMENT;
 const FACEBOOK_SCOPE = process.env.FACEBOOK_SCOPE;
+const GOOGLE_MAP_API_KEY = process.env.GOOGLE_MAP_API_KEY;
 
 // DEFINE PORT
 let port: number;
@@ -91,7 +92,8 @@ const CONSTANTS = {
   STORE_DEV_TOOLS: JSON.stringify(STORE_DEV_TOOLS),
   FACEBOOK_ID:  JSON.stringify(FACEBOOK_ID),
   LINKEDIN_ID:  JSON.stringify(LINKEDIN_ID),
-  FACEBOOK_SCOPE:  JSON.stringify(FACEBOOK_SCOPE)
+  FACEBOOK_SCOPE:  JSON.stringify(FACEBOOK_SCOPE),
+  GOOGLE_MAP_API_KEY:  JSON.stringify(GOOGLE_MAP_API_KEY)
 };
 
 const commonConfig = function webpackConfig(): WebpackConfig {

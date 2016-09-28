@@ -73,7 +73,7 @@ export interface LazyMapsAPILoaderConfigLiteral {
  * See {@link LazyMapsAPILoaderConfig} for instance attribute descriptions.
  */
 export class LazyMapsAPILoaderConfig implements LazyMapsAPILoaderConfigLiteral {
-  apiKey: string = 'AIzaSyBsJ9_20nCJKanqwcp01q1m9eqD6c67d84';
+  apiKey: string = GOOGLE_MAP_API_KEY;
   clientId: string = null;
   channel: string = null;
   apiVersion: string = '3';
