@@ -14,6 +14,8 @@ export interface IOauth1Options {
   redirectUri?: string;
   authorizationEndpoint?: string;
   oauthType?: string;
+  type?: string;
+  unlinkUrl?: string;
 }
 
 export interface IOauth2Options extends IOauth1Options {
