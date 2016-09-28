@@ -281,19 +281,19 @@ export class GoogleUtil {
 export class IntercomUtil {
 
   static boot(user: any) {
-    // (<any>window).Intercom('boot', {
-    //   app_id: 'd1rhvojk',
-    //   email: user.email,
-    //   name: `${user.first_name} ${user.last_name}`,
-    //   created_at: moment(user.date_joined).unix(),
-    //   widget: {
-    //     activator: '#IntercomDefaultWidget'
-    //   }
-    // });
+    (<any>window).Intercom('boot', {
+      app_id: 'd1rhvojk',
+      email: user.email,
+      name: `${user.first_name} ${user.last_name}`,
+      created_at: moment(user.date_joined).unix(),
+      widget: {
+        activator: '#IntercomDefaultWidget'
+      }
+    });
   }
 
   static shutdown() {
-    // (<any>window).Intercom('shutdown');
+    (<any>window).Intercom('shutdown');
   }
 }
 
