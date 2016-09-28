@@ -17,5 +17,5 @@ import { SharedModule } from '../../app/shared.module';
   ],
   providers: [],
 })
-export class MainModule {
+export class MainMobileModule {
 }

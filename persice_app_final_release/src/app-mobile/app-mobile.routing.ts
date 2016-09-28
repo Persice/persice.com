@@ -11,6 +11,6 @@ export const routes: Routes = [
   { path: 'terms', component: TermsOfServiceMobileComponent },
   { path: 'privacy', component: PrivacyPolicyMobileComponent },
   { path: 'signup', canActivate: [ AuthGuard ], loadChildren: './signup-mobile/index#SignupMobileModule' },
-  { path: '', loadChildren: './main/index#MainModule' },
+  { path: '', canActivate: [ AuthGuard ], loadChildren: './main/index#MainMobileModule' },
   { path: '**', component: MobileNotFound404Component }
 ];
