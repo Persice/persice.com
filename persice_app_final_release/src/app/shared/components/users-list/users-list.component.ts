@@ -7,6 +7,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class UsersListComponent {
   @Input() users;
   @Input() showButtons;
+  @Input() checkSeen: boolean = false;
   @Output() onClicked: EventEmitter<any> = new EventEmitter;
   @Output() passEvent: EventEmitter<any> = new EventEmitter;
   @Output() acceptEvent: EventEmitter<any> = new EventEmitter;

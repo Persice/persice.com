@@ -11,6 +11,7 @@ export class UserCardComponent implements AfterContentInit {
   };
 
   @Input() showButtons;
+  @Input() checkSeen: boolean = false;
   @Output() onClick: EventEmitter<any> = new EventEmitter;
   @Output() passEvent: EventEmitter<any> = new EventEmitter;
   @Output() acceptEvent: EventEmitter<any> = new EventEmitter;

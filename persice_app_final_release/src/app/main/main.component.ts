@@ -19,6 +19,7 @@ import {
   UnreadMessagesCounterActions, NewConnectionsCounterActions, ConversationActions,
   MessageActions, SelectedPersonActions
 } from '../../common/actions';
+import { NewConnectionsCounterService } from '../../common/services';
 
 @Component({
   selector: 'prs-main',

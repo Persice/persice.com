@@ -1,4 +1,4 @@
-<div class="card card--user card--user-conected" [ngClass]="{'card--user-highlight': person.updated_at === null}">
+<div class="card card--user card--user-conected" [ngClass]="{'card--user-highlight': !person.seen && !!checkSeen}">
   <h4 (click)="userClicked($event)" class="card-title">{{person.first_name}}</h4>
   <p (click)="userClicked($event)" class="card-subtitle mb">
     {{person.gender | gender}} / age {{person.age}} / {{person.distance[0]}} {{person.distance[1]}}

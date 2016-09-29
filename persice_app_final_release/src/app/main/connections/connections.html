@@ -1,7 +1,7 @@
 <div class="layout layout--flush content" [ngClass]="{'is-hidden': itemViewActive}" prs-infinite-scroll
      (scrolled)="loadMoreItems($event)" [scrollEnabled]="1" [bottomOffset]="60">
   <div class="layout__item 3/4 extralarge-and-up-4/5">
-    <prs-users-list [showButtons]="0" [users]="items" (onClicked)="selectItem($event)"></prs-users-list>
+    <prs-users-list [checkSeen]="1" [showButtons]="0" [users]="items" (onClicked)="selectItem($event)"></prs-users-list>
     <prs-loading [status]="loading"></prs-loading>
     <div class="no-results" *ngIf="isListEmpty" [ngClass]="{'is-visible': isListEmpty}">
       <h2 class="no-results__title">Whoops!</h2>
