@@ -10,6 +10,7 @@ import { Message } from '../../../common/models/message/message.model';
 import {Conversation} from '../../../common/models/conversation/conversation.model';
 import {MessagesService} from '../../../common/messages/messages.service';
 import {UnreadMessagesCounterService} from '../../../common/services/unread-messages-counter.service';
+import {ConversationsService} from '../../../common/messages/conversations.service';
 
 @Component({
   selector: 'prs-conversation',
@@ -31,7 +32,6 @@ export class ConversationComponent implements OnInit, OnDestroy {
   private loading: Observable<boolean>;
   private loaded: Observable<boolean>;
   private totalCount: Observable<number>;
-  private selectedConversation: Observable<Conversation>;
   private conversationTitle: Observable<string>;
 
   private websocketServiceSubs: Subscription;
@@ -46,13 +46,13 @@ export class ConversationComponent implements OnInit, OnDestroy {
     private messagesService: MessagesService,
     private route: ActivatedRoute,
     private websocketService: WebsocketService,
-    private unreadMessagesCounterService: UnreadMessagesCounterService
+    private unreadMessagesCounterService: UnreadMessagesCounterService,
+    private conversationsService: ConversationsService
   ) {
     this.messages = this.messagesService.messages$;
     this.loading = this.messagesService.loading$;
     this.loaded = this.messagesService.loaded$;
     this.totalCount = this.messagesService.totalCount$;
-    this.selectedConversation = this.messagesService.selectedConversation$;
     this.conversationTitle = this.messagesService.conversationTitle$;
   }
 
@@ -60,6 +60,7 @@ export class ConversationComponent implements OnInit, OnDestroy {
     this.routerSubs = this.route.params.subscribe(params => {
       this.messagesService.resetUser();
       this.senderId = params['threadId'];
+      this.conversationsService.setSelectedConversationId(+this.senderId);
 
       this.init();
     });
@@ -118,7 +119,7 @@ export class ConversationComponent implements OnInit, OnDestroy {
   private handleScrollEvent(): void {
     // reverse scroll
     let elem = jQuery('#messages')[0];
-    if (elem.scrollTop <= 50) {
+    if (elem.scrollTop <= 10) {
       this.scrollOffset = elem.scrollHeight;
       this.loadMessages();
     }

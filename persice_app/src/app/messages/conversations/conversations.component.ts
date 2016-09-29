@@ -66,7 +66,9 @@ export class ConversationsComponent implements OnInit, OnDestroy {
   }
 
   private onSelect(conversation: Conversation): void {
+    this.conversationsService.setSelectedConversationId(null);
     this.conversationsService.selectConversation(conversation);
+
     this.selected.emit(conversation.id);
   }
 

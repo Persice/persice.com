@@ -113,12 +113,17 @@ export default function (state = initialState, action: Action): ConversationsSta
     }
 
     case ConversationActions.SELECT_CONVERSATION_BY_ID: {
-      const id: number = action.payload.id;
+      const id: number = action.payload;
+      let index: number = state.entities.findIndex(conversation => +conversation.id === id);
 
-      let index: number = state.entities
-        .findIndex(conversation => conversation.id === id);
+      if (index >= 0) {
+        state.entities[index].unread = false;
+        state.entities[index].unreadCounter = 0;
 
-      return Object.assign({}, state, {selectedItem: state.entities[index]});
+        return Object.assign({}, state, {selectedItem: state.entities[index]});
+      } else {
+        return state;
+      }
     }
 
     default: {

@@ -21,6 +21,8 @@ export class ConversationsService{
   private _next: string = '';
   private _loading: boolean;
 
+  private selectedId: number;
+
   constructor(private store: Store<AppState>, private http: HttpClient, private actions: ConversationActions) {
     const store$ = store.let(getConversationsState());
 
@@ -69,6 +71,11 @@ export class ConversationsService{
 
         this.store.dispatch(this.actions.loadCollectionSuccess(data));
 
+        if (this.selectedId) {
+          this.store.dispatch(this.actions.selectConversationByID(this.selectedId));
+          this.selectedId = null;
+        }
+
         if (this._next === null) {
           this.store.dispatch(this.actions.collectionFullyLoaded());
         }
@@ -97,8 +104,8 @@ export class ConversationsService{
       });
   }
 
-  public selectConversationById(id: number): void {
-    this.store.dispatch(this.actions.selectConversationByID(id));
+  public setSelectedConversationId(id: number): void {
+    this.selectedId = id;
   }
 
   private notifySelectedConversationRead(): void {
