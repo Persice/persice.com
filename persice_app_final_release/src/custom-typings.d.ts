@@ -23,6 +23,8 @@
 
 declare var FB: any;
 declare var jQuery: any;
+declare var jstz: any;
+declare var moment: any;
 declare var google: any;
 declare var dragula: any;
 declare var Bloodhound: any;

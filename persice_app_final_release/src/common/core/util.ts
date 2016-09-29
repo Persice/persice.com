@@ -1,6 +1,7 @@
 import { take, slice, keysIn, forEach, merge, filter, orderBy, find, findIndex } from 'lodash';
 import { Location } from '../models/event/location';
 import * as moment from 'moment';
+require('moment-timezone/builds/moment-timezone-with-data.min');
 
 export class ListUtil {
   static take(arr: any[], n: number): any[] {
@@ -448,19 +449,10 @@ export class DateUtil {
   }
 
   static localTimezone(): string {
-    let result: string = '';
-    let date = new Date();
-    try {
-      // Chrome, Firefox
-      result = /.*\s(.+)/.exec(date.toLocaleDateString(navigator.language, { timeZoneName: 'short' }))[ 1 ];
-    } catch (e) {
-      // IE, some loss in accuracy due to guessing at the abbreviation
-      // Note: This regex adds a grouping around the open paren as a
-      //       workaround for an IE regex parser bug
-      result = (new Date()).toTimeString().match(new RegExp("[A-Z](?!.*[\(])", "g")).join('');
-    }
-
-    return result
+    let tz = jstz.determine();
+    let tzName = tz.name();
+    let m: any = moment;
+    return m.tz(tzName).format('z');
   }
 
   //round up nearest hour
