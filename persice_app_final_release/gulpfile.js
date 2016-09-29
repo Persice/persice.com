@@ -13,6 +13,7 @@ var HOST = 'localhost:3002';
 
 var jsFiles = [
   './lib/js/jquery-2.1.4.min.js',
+  './lib/js/jstz.js',
   './lib/js/croppie.js',
   './lib/js/jquery.minimalect.js',
   './lib/js/jquery.matcheight.js',
@@ -29,6 +30,7 @@ var jsFiles = [
 
 var jsFilesMobile = [
   './lib/js/jquery-2.1.4.min.js',
+  './lib/js/jstz.js',
   './lib/js/croppie.js',
   './lib/js/swiper.js',
   './lib/js/jquery.minimalect.js',
