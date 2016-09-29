@@ -44,7 +44,10 @@
       <hr class="hr --mh">
       <div class="pt0 ph+ pb">
         <h4 class="module-title mb0">Profession</h4>
-        <div class="profile-feature">{{person.job}}</div>
+        <div class="profile-feature">
+          <span *ngIf="person.job">{{person.job}} </span>
+          <span *ngIf="person.company && person.company !== ''">at {{person.company}}</span>
+        </div>
       </div>
       <hr class="hr --mh mb0">
       <div class="pt ph+ pb has-edit-link">
