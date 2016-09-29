@@ -27,9 +27,9 @@ popd
 
 # NPM Install frontend app dependancies
 
-pushd bekindred/persice_app
+pushd bekindred/persice_app_final_release
   npm install
-  npm run build
+  npm run build:dev
 popd
 
 # Script to configure persice backend
