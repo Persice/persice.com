@@ -3,7 +3,7 @@ import { BrowserDomAdapter } from '@angular/platform-browser/src/browser/browser
 
 @Directive({
   selector: '[prs-open-left-menu]',
-  providers: [BrowserDomAdapter]
+  providers: [ BrowserDomAdapter ]
 })
 export class OpenLeftMenuDirective {
   @HostListener('tap') onTap() {

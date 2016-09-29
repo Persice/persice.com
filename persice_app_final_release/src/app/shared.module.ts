@@ -24,10 +24,8 @@ import { SwiperDirective } from './shared/directives/swiper.directive';
 import { DefaultImageDirective } from '../common/directives/default-image.directive';
 import { SliderComponent } from './shared/components/slider/slider.component';
 import { GeocompleteDirective } from './shared/directives/geocomplete.directive';
-import { OpenLeftMenuDirective } from '../app-mobile/shared/directives/open-left-menu.directive';
-import { DROPDOWN_DIRECTIVES } from '../app-mobile/shared/directives/dropdown/index';
-import { KeywordsComponentMobile } from '../app-mobile/shared/components/keywords/keywords-mobile.component';
-import { InterestsCardMobileComponent } from '../app-mobile/shared/components/interests-card/interests-card-mobile.component';
+import { TimeAgoPipe } from '../common/pipes';
+import { InfiniteScrollReverseDirective } from '../common/directives';
 
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
@@ -46,6 +44,7 @@ import { InterestsCardMobileComponent } from '../app-mobile/shared/components/in
     LoadingComponent,
     InfiniteScrollDirective,
     InfiniteScrollElementDirective,
+    InfiniteScrollReverseDirective,
     SelectDirective,
     NotificationComponent,
     DatepickerDirective,
@@ -57,12 +56,10 @@ import { InterestsCardMobileComponent } from '../app-mobile/shared/components/in
     IgnoreMarkupPipe,
     GenderPipe,
     NumeralPipe,
+    TimeAgoPipe
 
     // from mobile
-    OpenLeftMenuDirective,
-    DROPDOWN_DIRECTIVES,
-    KeywordsComponentMobile,
-    InterestsCardMobileComponent
+
   ],
   exports: [
     CommonModule,
@@ -80,22 +77,19 @@ import { InterestsCardMobileComponent } from '../app-mobile/shared/components/in
     LoadingComponent,
     InfiniteScrollDirective,
     InfiniteScrollElementDirective,
+    InfiniteScrollReverseDirective,
     SelectDirective,
     NotificationComponent,
     DatepickerDirective,
     TimepickerDirective,
+    DefaultImageDirective,
     SwiperDirective,
     UrlDomainPipe,
     MarkupPipe,
     IgnoreMarkupPipe,
     GenderPipe,
     NumeralPipe,
-
-    // from mobile
-    OpenLeftMenuDirective,
-    DROPDOWN_DIRECTIVES,
-    KeywordsComponentMobile,
-    InterestsCardMobileComponent
+    TimeAgoPipe
   ]
 })
 export class SharedModule {

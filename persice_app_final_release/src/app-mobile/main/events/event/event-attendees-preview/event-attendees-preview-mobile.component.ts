@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { Event } from '../../../../../common/models/event/index'
+import { Event } from '../../../../../common/models/event/index';
 
 const MAX_ATTENDEES: number = 5;
 
@@ -16,13 +16,14 @@ export class EventAttendeesPreviewMobileComponent {
 
     // Fill array for displaying empty places
     const length: number = MAX_ATTENDEES - 1 - this.attendees.length;
-    this.emptyPlacesArray = Array(length).fill(1).map((x, i) => i);
+    let list: any = Array(length).fill(1);
+    this.emptyPlacesArray = list.map((x, i) => i);
   };
 
   @Output() onClick: EventEmitter<any> = new EventEmitter();
 
   public attendees: any[] = [];
-  public emptyPlacesArray: any[];
+  public emptyPlacesArray: any;
 
   public spotsRemaining: number;
   public attendeesGoingCount: number;

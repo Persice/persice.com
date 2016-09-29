@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
-import { Event } from '../../../../../common/models/event/index';
+import { Event } from '../../../../../common/models/event';
 
 @Component({
   selector: 'prs-mobile-event-hero',

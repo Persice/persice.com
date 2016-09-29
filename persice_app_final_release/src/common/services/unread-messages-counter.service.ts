@@ -3,8 +3,8 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { Store } from '@ngrx/store';
 import { HttpClient } from '../core';
-import { UnreadMessagesCounterActions } from '../actions';
 import { AppState, getUnreadMessagesCounterState } from '../reducers';
+import { UnreadMessagesCounterActions } from '../actions';
 
 @Injectable()
 export class UnreadMessagesCounterService {

@@ -28,34 +28,34 @@
 //   })));
 //
 //   it('should display interests', () => {
-    // given
-    // let alice: Person = PersonGenerator.givenAnyPerson();
+// given
+// let alice: Person = PersonGenerator.givenAnyPerson();
 
-    // when
-    // componentInstance.person = alice;
-    // this.componentFixture.detectChanges();
+// when
+// componentInstance.person = alice;
+// this.componentFixture.detectChanges();
 
-    // then
-    // expect(numberOfInterests()).toBeGreaterThan(0);
-  // });
-  //
-  // it('shows no interest when a person has none', () => {
-    // given
-    // let bob: Person = PersonGenerator.givenAPersonWithoutInterest();
+// then
+// expect(numberOfInterests()).toBeGreaterThan(0);
+// });
+//
+// it('shows no interest when a person has none', () => {
+// given
+// let bob: Person = PersonGenerator.givenAPersonWithoutInterest();
 
-    // when
-    // componentInstance.person = bob;
-    // this.componentFixture.detectChanges();
+// when
+// componentInstance.person = bob;
+// this.componentFixture.detectChanges();
 
-    // then
-    // expect(numberOfInterests()).toEqual(0);
-  // });
+// then
+// expect(numberOfInterests()).toEqual(0);
+// });
 
-  // function numberOfInterests(): number {
-  //   return obtainLength(componentElement, '.user-card__similarity__list > li');
-  // }
+// function numberOfInterests(): number {
+//   return obtainLength(componentElement, '.user-card__similarity__list > li');
+// }
 
-  // function obtainLength(element, selector) {
-  //   return element.querySelectorAll(selector).length;
-  // }
+// function obtainLength(element, selector) {
+//   return element.querySelectorAll(selector).length;
+// }
 // });

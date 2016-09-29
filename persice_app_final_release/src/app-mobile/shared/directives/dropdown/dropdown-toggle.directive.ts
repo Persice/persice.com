@@ -5,7 +5,7 @@ import { DropdownDirective } from './dropdown.directive';
   selector: '[prs-dropdown-toggle]'
 })
 export class DropdownToggleDirective {
-  @HostListener('touchend') toggleDropdown($event: MouseEvent) {
+  @HostListener('touchend') toggleDropdown($event?: any) {
     this.dropdown.toggle($event);
   }
 

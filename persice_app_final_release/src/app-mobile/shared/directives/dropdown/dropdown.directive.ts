@@ -2,8 +2,7 @@ import { Directive, ElementRef, ContentChild, Renderer, Output, EventEmitter, On
 import { DropdownMenuDirective } from './dropdown-menu.directive';
 
 @Directive({
-  selector: '[prs-dropdown]',
-  properties: ['preventDefault']
+  selector: '[prs-dropdown]'
 })
 export class DropdownDirective implements OnDestroy {
   opened: boolean = false;
@@ -24,7 +23,7 @@ export class DropdownDirective implements OnDestroy {
     this.removeGlobalClickListener();
   }
 
-  public toggle(event: MouseEvent) {
+  public toggle(event?: any) {
     if (this.opened) {
       this.close();
     } else {

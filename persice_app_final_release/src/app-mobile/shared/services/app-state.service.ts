@@ -44,6 +44,4 @@ export class AppStateService {
   }
 
 }
-export var appsTateServiceInjectables: Array<any> = [
-  provide(AppStateService, {useClass: AppStateService})
-];
+

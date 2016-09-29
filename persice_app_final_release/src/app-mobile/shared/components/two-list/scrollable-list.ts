@@ -2,7 +2,7 @@ export class ScrollableList {
 
   private _title: string;
   private _hideTitle: boolean = false;
-  private _itemTotalCount: string;
+  private _itemTotalCount: any;
   private _items: any[];
   private _loading: boolean;
   private _nextUrl: string;
@@ -19,11 +19,11 @@ export class ScrollableList {
     this._title = value;
   }
 
-  get itemTotalCount(): string {
+  get itemTotalCount(): any {
     return this._itemTotalCount;
   }
 
-  set itemTotalCount(value: string) {
+  set itemTotalCount(value: any) {
     this._itemTotalCount = value;
   }
 

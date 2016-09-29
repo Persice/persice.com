@@ -1,0 +1,36 @@
+<div class="network-container bg-gray-3" prs-infinite-scroll (scrolled)="loadMoreData($event)"
+     [scrollEnabled]="!!!isLoaded" [bottomOffset]="60">
+  <div class="mob-user-card-title" *ngIf="(mutualTotalCount$ | async) > 0"> Mutual Connections ({{(mutualTotalCount$ |
+    async)}})
+  </div>
+  <template ngFor let-person [ngForOf]="mutual$ | async">
+    <prs-mobile-user-card
+      *ngIf="!!person.id"
+      (onOpenNewConversation)="openNewConversation($event)"
+      (onProfileTap)="viewProfile($event)"
+      [showIcon]="true"
+      [personEntity]="person"
+      [showSendMessage]="true">
+    </prs-mobile-user-card>
+    <prs-mobile-user-card-social
+      *ngIf="!person.id"
+      [person]="person">
+    </prs-mobile-user-card-social>
+  </template>
+  <div class="mob-user-card-title" *ngIf="(othersTotalCount$ | async) > 0"> Others ({{(othersTotalCount$ | async)}})
+  </div>
+  <template ngFor let-person [ngForOf]="others$ | async">
+    <prs-mobile-user-card
+      *ngIf="!!person.id"
+      (onProfileTap)="viewProfile($event)"
+      [showIcon]="false"
+      [personEntity]="person"
+      [showSendMessage]="false">
+    </prs-mobile-user-card>
+    <prs-mobile-user-card-social
+      *ngIf="!person.id"
+      [person]="person">
+    </prs-mobile-user-card-social>
+  </template>
+</div>
+<prs-loading [status]="!!(isLoading$ | async)"></prs-loading>

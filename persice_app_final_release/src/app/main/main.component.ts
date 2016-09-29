@@ -15,6 +15,10 @@ import { AuthUserModel } from '../../common/models/user/user.model';
 import { IntercomUtil } from '../../common/core/util';
 import { InterfaceNotification } from '../../common/models/notification/notification.model';
 import { MyProfileService } from '../../common/services/myprofile.service';
+import {
+  UnreadMessagesCounterActions, NewConnectionsCounterActions, ConversationActions,
+  MessageActions, SelectedPersonActions
+} from '../../common/actions';
 
 @Component({
   selector: 'prs-main',
@@ -30,7 +34,12 @@ import { MyProfileService } from '../../common/services/myprofile.service';
     MessagesCounterService,
     ConnectionsCounterService,
     NotificationsService,
-    MyProfileService
+    MyProfileService,
+    UnreadMessagesCounterActions,
+    NewConnectionsCounterActions,
+    ConversationActions,
+    MessageActions,
+    SelectedPersonActions
   ]
 
 })

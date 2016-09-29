@@ -1,0 +1,9 @@
+<div class="profile-about">
+  <span [ngClass]="{'profile-about__text': type === 'profile'}">{{displayedText | ignoreMarkup}}
+    <span class="moreellipses" [ngClass]="{'is-visible': moreText.length > 0 && !moreVisible}">...</span>
+    <span *ngIf="moreText.length > 0">
+      <a (click)="toggleMore(true)" class="morelink" *ngIf="!moreVisible">View more</a>
+      <a (click)="toggleMore(false)" class="morelink less" *ngIf="moreVisible">View less</a>
+    </span>
+  </span>
+</div>

@@ -8,7 +8,7 @@ import { HeaderState } from '../../header/header.state';
 @Component({
   selector: 'prs-mobile-event',
   templateUrl: './event-mobile.html',
-  providers: [EventService]
+  providers: [ EventService ]
 })
 export class EventMobileComponent extends EventComponent implements OnInit, OnDestroy {
 

@@ -35,13 +35,10 @@ export class UserCardMobileComponent {
 
   /**
    * Toggle visibility of top interests
-   * @param {DOM click Event} event
+   * @param {MouseEvent} event
    */
-  toggleInterestsVisible(event) {
-    if (!!this._person.topInterests && this._person.topInterests.length > 0) {
-      this.interestsVisible = !this.interestsVisible;
-    }
-
+  toggleInterestsVisible(event: MouseEvent) {
+    this.interestsVisible = !this.interestsVisible;
   }
 
   selectPerson(event) {

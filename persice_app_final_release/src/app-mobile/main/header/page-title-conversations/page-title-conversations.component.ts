@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import {AppState, getConversationsState} from '../../../../common/reducers/index';
+import { AppState, getConversationsState } from '../../../../common/reducers/index';
 
 @Component({
   selector: 'prs-page-title-conversations',
@@ -17,7 +17,7 @@ export class PageTitleConversationsComponent {
 
   constructor(private store: Store<AppState>) {
     const conversationsStore$ = store.let(getConversationsState());
-    this.counter$ = conversationsStore$.map(state => state['count']);
+    this.counter$ = conversationsStore$.map(state => state[ 'count' ]);
   }
 
 }

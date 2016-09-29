@@ -62,79 +62,79 @@
 //   })));
 //
 //   it('should initially be empty', () => {
-    // when
-    // mock.setEmptyFindResponse();
+// when
+// mock.setEmptyFindResponse();
 
-    // then
-    // expect(component.items.length).toEqual(0);
-  // });
-  //
-  // it('should show items when service returns data', () => {
-    // given
-    // mock.setNonEmptyFindResponse();
+// then
+// expect(component.items.length).toEqual(0);
+// });
+//
+// it('should show items when service returns data', () => {
+// given
+// mock.setNonEmptyFindResponse();
 
-    // when
-    // component.ngAfterViewInit();
+// when
+// component.ngAfterViewInit();
 
-    // then
-    // expect(component.items.length).toEqual(2);
-    // expect(component.items[0]).toEqual('python');
-    // expect(component.items[1]).toEqual('cooking');
-  // });
-  //
-  // it('adds items', () => {
-    // given
-    // mock.setEmptyFindResponse();
+// then
+// expect(component.items.length).toEqual(2);
+// expect(component.items[0]).toEqual('python');
+// expect(component.items[1]).toEqual('cooking');
+// });
+//
+// it('adds items', () => {
+// given
+// mock.setEmptyFindResponse();
 
-    // when
-    // component.ngAfterViewInit();
-    // component.newItemText = 'linux';
-    // component.add();
+// when
+// component.ngAfterViewInit();
+// component.newItemText = 'linux';
+// component.add();
 
-    // then
-    // expect(component.items[0]).toEqual('linux');
-  // });
-  //
-  // it('removes items', () => {
-    // given
-    // mock.setNonEmptyFindResponse();
+// then
+// expect(component.items[0]).toEqual('linux');
+// });
+//
+// it('removes items', () => {
+// given
+// mock.setNonEmptyFindResponse();
 
-    // when
-    // component.ngAfterViewInit();
-    // component.remove('python');
+// when
+// component.ngAfterViewInit();
+// component.remove('python');
 
-    // then
-    // expect(component.items.length).toEqual(1);
-    // expect(component.items[0]).toEqual('cooking');
-  // });
-  //
-  // it('fails to add duplicates', () => {
-    // given
-    // mock.setNonEmptyFindResponse();
+// then
+// expect(component.items.length).toEqual(1);
+// expect(component.items[0]).toEqual('cooking');
+// });
+//
+// it('fails to add duplicates', () => {
+// given
+// mock.setNonEmptyFindResponse();
 
-    // when
-    // component.ngAfterViewInit();
-    // component.newItemText = 'python';
-    // component.add();
+// when
+// component.ngAfterViewInit();
+// component.newItemText = 'python';
+// component.add();
 
-    // then
-    // expect(component.items.length).toEqual(2);
-    // expect(component.items[0]).toEqual('python');
-    // expect(component.items[1]).toEqual('cooking');
-  // });
-  //
-  // it('fails to add short items', () => {
-    // given
-    // mock.setNonEmptyFindResponse();
+// then
+// expect(component.items.length).toEqual(2);
+// expect(component.items[0]).toEqual('python');
+// expect(component.items[1]).toEqual('cooking');
+// });
+//
+// it('fails to add short items', () => {
+// given
+// mock.setNonEmptyFindResponse();
 
-    // when
-    // component.ngAfterViewInit();
-    // component.newItemText = 'a';
-    // component.add();
+// when
+// component.ngAfterViewInit();
+// component.newItemText = 'a';
+// component.add();
 
-    // then
-    // expect(component.items.length).toEqual(2);
-    // expect(component.items[0]).toEqual('python');
-    // expect(component.items[1]).toEqual('cooking');
-  // });
+// then
+// expect(component.items.length).toEqual(2);
+// expect(component.items[0]).toEqual('python');
+// expect(component.items[1]).toEqual('cooking');
+// });
 // });

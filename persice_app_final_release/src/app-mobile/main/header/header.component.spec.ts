@@ -47,32 +47,32 @@
 //
 //   it('Should instantiate', done => {
 //     return _tcb.createAsync(<any>HeaderComponent).then((componentFixture: ComponentFixture<HeaderComponent>) => {
-      // given
-      // componentFixture.detectChanges();
-      // componentFixture.componentInstance.ngOnInit();
-      // _instance = componentFixture.componentInstance;
+// given
+// componentFixture.detectChanges();
+// componentFixture.componentInstance.ngOnInit();
+// _instance = componentFixture.componentInstance;
 
-      // then
-      // expect(_instance).toBeDefined();
-      // expect(_instance.headerState).toBe(HeaderState.initial);
-      // done();
-    // }).catch(e => done.fail(e));
-  // });
-  //
-  // it('Opens filters', done => {
-  //   return _tcb.createAsync(<any>HeaderComponent).then((componentFixture: ComponentFixture<HeaderComponent>) => {
-      // given
-      // componentFixture.detectChanges();
-      // componentFixture.componentInstance.ngOnInit();
-      // _instance = componentFixture.componentInstance;
+// then
+// expect(_instance).toBeDefined();
+// expect(_instance.headerState).toBe(HeaderState.initial);
+// done();
+// }).catch(e => done.fail(e));
+// });
+//
+// it('Opens filters', done => {
+//   return _tcb.createAsync(<any>HeaderComponent).then((componentFixture: ComponentFixture<HeaderComponent>) => {
+// given
+// componentFixture.detectChanges();
+// componentFixture.componentInstance.ngOnInit();
+// _instance = componentFixture.componentInstance;
 
-      // when
-      // _instance.onAction(_instance.actions.FiltersOpen);
+// when
+// _instance.onAction(_instance.actions.FiltersOpen);
 
-      // then
-      // expect(_instance.isHeaderVisible).toBe(false);
-      // done();
-    // }).catch(e => done.fail(e));
-  // });
+// then
+// expect(_instance.isHeaderVisible).toBe(false);
+// done();
+// }).catch(e => done.fail(e));
+// });
 // });
 

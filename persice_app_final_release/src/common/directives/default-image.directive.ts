@@ -5,7 +5,7 @@ import { Directive, Input, HostListener, HostBinding } from '@angular/core';
 })
 export class DefaultImageDirective {
 
-  @Input() default: string;
+  @Input('default') default: string;
 
   @HostBinding('src') src: string;
 

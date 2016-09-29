@@ -7,7 +7,7 @@ export class InfiniteScrollReverseDirective {
   @Input() scrollEnabled: boolean;
   @Input() topOffset: number;
 
-  @Input() set loadedCount(state: number) {
+  @Input('loadedCount') set loadedCount(state: number) {
     if (state > 0 && !!this._previousScrollHeight) {
       // Scroll back to bottom according to scrollHeight change after new items loaded
       setTimeout(() => {
@@ -16,7 +16,7 @@ export class InfiniteScrollReverseDirective {
     }
   };
 
-  @Input() set totalCount(state: number) {
+  @Input('totalCount') set totalCount(state: number) {
     if (state > 0) {
       // Scroll completely to bottom after new items are loaded
       setTimeout(() => {

@@ -31,7 +31,7 @@ export class EventsMobileComponent extends EventsComponent implements OnInit, On
     // this.appStateService.setFooterButtonVisibility(true);
     this.routeSub = this.route.params.subscribe(
       params => {
-        this.eventsType = params['type'];
+        this.eventsType = params[ 'type' ];
         this.loadEvents();
       }
     );
@@ -50,7 +50,7 @@ export class EventsMobileComponent extends EventsComponent implements OnInit, On
     this.setEventsTypeLabel(type);
   }
 
-  private openEvent(event: Event): void {
+  private openEvent(event: any): void {
     const eventUrl: string = `/event/${event.id}`;
     this.router.navigateByUrl(eventUrl);
   }

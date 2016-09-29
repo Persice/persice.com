@@ -4,7 +4,7 @@ import { Router, NavigationStart, Event } from '@angular/router';
 
 @Directive({
   selector: '[prs-close-left-menu]',
-  providers: [BrowserDomAdapter]
+  providers: [ BrowserDomAdapter ]
 })
 export class CloseLeftMenuDirective implements OnInit, OnDestroy {
   @HostListener('swipeleft') onSwipeLeft() {

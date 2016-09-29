@@ -448,8 +448,19 @@ export class DateUtil {
   }
 
   static localTimezone(): string {
-    var local = moment.utc('2015-01-30 10:00:00').local().format('z');
-    return local;
+    let result: string = '';
+    let date = new Date();
+    try {
+      // Chrome, Firefox
+      result = /.*\s(.+)/.exec(date.toLocaleDateString(navigator.language, { timeZoneName: 'short' }))[ 1 ];
+    } catch (e) {
+      // IE, some loss in accuracy due to guessing at the abbreviation
+      // Note: This regex adds a grouping around the open paren as a
+      //       workaround for an IE regex parser bug
+      result = (new Date()).toTimeString().match(new RegExp("[A-Z](?!.*[\(])", "g")).join('');
+    }
+
+    return result
   }
 
   //round up nearest hour

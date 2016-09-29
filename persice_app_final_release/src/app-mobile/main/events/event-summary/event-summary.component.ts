@@ -14,7 +14,7 @@ export class EventSummaryComponent {
 
   isRsvpElementVisible: boolean = false;
 
-  handleRsvpButtonVisibility(status: boolean, event: MouseEvent) {
+  handleRsvpButtonVisibility(status: boolean, event?: MouseEvent) {
     if (event) {
       event.stopPropagation();
     }

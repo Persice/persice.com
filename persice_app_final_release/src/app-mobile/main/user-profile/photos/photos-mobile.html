@@ -1,0 +1,7 @@
+<div class="mob-gallery js-swiper-gallery  swiper-container" swiper="{{swiperOpts}}" *ngIf="isPhotosLoaded">
+  <div class="swiper-wrapper">
+    <div class="swiper-slide" *ngFor="let photo of photos">
+      <img src="{{photo.cropped_photo}}" alt="profile photo">
+    </div>
+  </div>
+</div>

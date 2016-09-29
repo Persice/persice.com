@@ -10,4 +10,6 @@ export class EventDescriptionMobileComponent extends ViewMoreComponent {
   @Input() set description(value: string) {
     this.setInitialState(value);
   }
+
+  @Input() type;
 }

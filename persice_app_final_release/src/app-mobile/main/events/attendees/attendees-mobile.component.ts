@@ -26,9 +26,10 @@ export class AttendeesMobileComponent implements OnInit, OnDestroy {
   public counterNotGoing$: Observable<number>;
   public activeTab: AttendeeTab = AttendeeTab.Going;
 
-  private isLoading$: Observable<boolean>;
+  public isLoaded: boolean = false;
+  public isLoading$: Observable<boolean>;
   private isLoadedSub: Subscription;
-  private isLoaded: boolean = false;
+
   private eventId: number;
   private routerSub: Subscription;
 
@@ -50,9 +51,9 @@ export class AttendeesMobileComponent implements OnInit, OnDestroy {
 
     this.isLoading$ = this.attendeeService.isLoading$;
 
-    this.counterGoing$ = this.attendeeService.counters$.map(data => data[0]);
-    this.counterMaybe$ = this.attendeeService.counters$.map(data => data[1]);
-    this.counterNotGoing$ = this.attendeeService.counters$.map(data => data[2]);
+    this.counterGoing$ = this.attendeeService.counters$.map(data => data[ 0 ]);
+    this.counterMaybe$ = this.attendeeService.counters$.map(data => data[ 1 ]);
+    this.counterNotGoing$ = this.attendeeService.counters$.map(data => data[ 2 ]);
 
     this.isLoadedSub = this.attendeeService.isLoaded$.subscribe((state: boolean) => {
       this.isLoaded = state;
@@ -66,7 +67,7 @@ export class AttendeesMobileComponent implements OnInit, OnDestroy {
 
     // Get eventId from route param and start loading attendees and counters
     this.routerSub = this.route.params.subscribe(params => {
-      this.eventId = params['eventId'];
+      this.eventId = params[ 'eventId' ];
       // Start Inital load
       this._loadData(this.activeTab, true);
 

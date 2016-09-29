@@ -33,12 +33,12 @@ export class HeaderComponent implements OnInit {
     private store: Store<AppState>
   ) {
     const unreadMessagesCounterStore$ = store.let(getUnreadMessagesCounterState());
-    unreadMessagesCounterStore$.map(state => state['counter']).subscribe((count) => {
+    unreadMessagesCounterStore$.map(state => state[ 'counter' ]).subscribe((count) => {
       this.unreadMessagesCounter = count;
     });
 
     const newConnectionsCounterStore$ = store.let(getNewConnectionsCounterState());
-    newConnectionsCounterStore$.map(state => state['counter']).subscribe((count) => {
+    newConnectionsCounterStore$.map(state => state[ 'counter' ]).subscribe((count) => {
       this.newConnectionsCounter = count;
     });
   }
@@ -53,7 +53,7 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  public onAction(actionType: number) {
+  public onAction(actionType: any) {
     switch (actionType) {
       case this.actions.FiltersOpen:
         this.isHeaderVisible = false;
@@ -81,15 +81,15 @@ export class HeaderComponent implements OnInit {
         break;
 
       case this.actions.EditPhotos:
-        this.appStateService.setEditPhotosState({page: 1});
+        this.appStateService.setEditPhotosState({ page: 1 });
         break;
 
       case this.actions.ChooseAlbum:
-        this.appStateService.setEditPhotosState({page: 2});
+        this.appStateService.setEditPhotosState({ page: 2 });
         break;
 
       case this.actions.ChoosePhoto:
-        this.appStateService.setEditPhotosState({page: 3});
+        this.appStateService.setEditPhotosState({ page: 3 });
         break;
 
       case this.actions.SendMessage:
@@ -97,7 +97,7 @@ export class HeaderComponent implements OnInit {
         break;
 
       case this.actions.SaveCroppedPhoto:
-        this.appStateService.setEditPhotosState({page: 1, savePhotoAndRefresh: true});
+        this.appStateService.setEditPhotosState({ page: 1, savePhotoAndRefresh: true });
         break;
 
       case this.actions.ShowUserProfile:

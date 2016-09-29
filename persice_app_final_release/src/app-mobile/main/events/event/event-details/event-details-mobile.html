@@ -9,7 +9,7 @@
       <div class="flag__body">
         <h5 class="mob-event-details__item__title">{{event.startDate.dayName}}, {{event.startDate.month}}
           {{event.startDate.day}}</h5>
-        <p class="mob-event-details__item__value">{{event.startDate.hour}} &ndash {{event.endDate.hour}} /
+        <p class="mob-event-details__item__value">{{event.startDate.hour}} &ndash; {{event.endDate.hour}} /
           {{event.timezone}}
         </p>
       </div>
@@ -31,7 +31,7 @@
   <a class="mob-event-details__item" *ngIf="!!event.eventUrl" [href]="event.eventUrlAsLink" style="display: block;">
     <div class="flag flag--flush">
       <div class="flag__img">
-        <svg height="22px" id="Layer_1" style="enable-background:new 0 0 128 128;" version="1.1" viewBox="0 0 128 128" width="22px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <svg xmlns:xlink="http://www.w3.org/1999/xlink" height="22px" id="Layer_1" style="enable-background:new 0 0 128 128;" version="1.1" viewBox="0 0 128 128" width="22px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
           <g>
               <circle cx="24.879" cy="64" r="10.059" style="fill:#b0bcc2;" />
               <circle cx="24.878" cy="100.09" r="10.059" style="fill:#b0bcc2;" />

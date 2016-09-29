@@ -9,4 +9,8 @@ import { SocialProfile } from '../../../../common/models/social-profile/social-p
 export class UserCardSocialMobileComponent {
   @Input() type: string;
   @Input() person: SocialProfile;
+
+  openLink(event: MouseEvent) {
+    console.log('opening social profile', this.person);
+  }
 }

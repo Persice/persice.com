@@ -5,6 +5,7 @@ export abstract class ViewMoreComponent {
   lessText: string = '';
   moreText: string = '';
   displayedText: string = '';
+  type;
 
   // Flag for showing more text
   moreVisible: boolean = false;

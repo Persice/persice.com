@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MessagesService } from '../../../../common/services/messages.service';
+import { MessagesService } from '../../../../common/services/messages-deprecated.service';
 import { UserAuthService } from '../../../../common/services/userauth.service';
 import { InboxService } from '../../../../common/services/inbox.service';
 import { MessagesCounterService } from '../../../../common/services/messages_counter.service';

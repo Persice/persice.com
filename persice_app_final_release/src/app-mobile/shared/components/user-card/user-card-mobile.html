@@ -27,7 +27,8 @@
           </svg> {{_person.score}}&deg;
         </span>
         <span class="user-card__similarity__label">Similar</span>
-        <svg role="img" class="icon icon--extratiny icon-arrow" *ngIf="!!_person.topInterests && !!_person.topInterests.length > 0">
+        <svg role="img" class="icon icon--extratiny icon-arrow"
+             *ngIf="!!_person.topInterests && _person.topInterests.length > 0">
           <use xlink:href="/assets/icons/icons.svg#icon-down-small"></use>
         </svg>
         <prs-mobile-interests-card [person]="_person" *ngIf="interestsVisible"></prs-mobile-interests-card>

@@ -1,235 +1,152 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
-import { TokenUtil, DateUtil, ListUtil } from '../core/util';
+import { Observable, Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { Message } from '../models/message/message.model';
+import { Conversation } from '../models/conversation/conversation.model';
+import { AppState, getMessagesState, getConversationsState } from '../reducers/index';
 import { HttpClient } from '../core/http-client';
+import { MessageActions } from '../actions/message.action';
+import { TokenUtil } from '../core/util';
+
+const PER_PAGE_LIMIT: number = 12;
 
 @Injectable()
 export class MessagesService {
+
   static API_URL = '/api/v1/messages/';
+  static API_USER_URL = '/api/v1/auth/user/';
+  static API_URL_MARK_READ = '/api/v1/inbox/reat_at/';
 
-  _dataStore = [];
-  _limit: number = 12;
-  _next: string = '';
-  _total_count: number = 0;
-  _offset: number = 0;
-  _loading: boolean = false;
-  _isListEmpty: boolean = false;
-  _observer: Subject<any> = new Subject();
-  _senderUri = '';
-  _myImage = '';
-  _myUri = '';
-  _newMessage = false;
-  _initialLoadingFinished = false;
+  public messages$: Observable<Message[]>;
+  public loading$: Observable<boolean>;
+  public totalCount$: Observable<number>;
+  public loaded$: Observable<boolean>;
+  public loadedCount$: Observable<number>;
+  public selectedConversation$: Observable<Conversation>;
+  public conversationTitle$: Observable<string>;
+  public isNewMessageBeingSent$: Observable<boolean>;
 
-  constructor(private http: HttpClient) {
-    let userId = TokenUtil.getValue('user_id');
-    this._myUri = `/api/v1/auth/user/${userId}/`;
+  private _next: string = '';
+  private _loading: boolean;
+
+  private _me: string;
+
+  constructor(private store: Store<AppState>, private http: HttpClient, private actions: MessageActions) {
+    const userId: string = TokenUtil.getValue('user_id');
+    this._me = `/api/v1/auth/user/${userId}/`;
+
+    const storeMessages$ = store.let(getMessagesState());
+    const storeConversations$ = store.let(getConversationsState());
+
+    this.messages$ = storeMessages$.map(state => state['entities']);
+    this.loading$ = storeMessages$.map(state => state['loading']);
+    this.totalCount$ = storeMessages$.map(state => state['totalCount']);
+    this.loaded$ = storeMessages$.map(state => state['loaded']);
+    this.loadedCount$ = storeMessages$.map(state => state['loadedCount']);
+    this.conversationTitle$ = storeMessages$.map(state => state['conversationTitle']);
+    this.isNewMessageBeingSent$ = storeMessages$.map(state => state['isNewMessageBeingSent']);
+    this.selectedConversation$ = storeConversations$.map(state => state['selectedItem']);
   }
 
-  public reset() {
-    this._loading = false;
-    this._dataStore = [];
+  public resetUser(): void {
     this._next = '';
-    this._total_count = 0;
-    this._offset = 0;
-    this._isListEmpty = true;
-    this._newMessage = false;
-    this._initialLoadingFinished = false;
-    this._notify();
+    this._loading = false;
   }
 
-  public startLoadingMessages(id) {
-    this._senderUri = `/api/v1/auth/user/${id}/`;
-    this._loadMessages(this._limit, id, false);
+  public emptyConversationMessages() {
+    this.store.dispatch(this.actions.resetCollection());
   }
 
-  public send(id, message) {
-    if (this._senderUri === '') {
-      this._senderUri = `/api/v1/auth/user/${id}/`;
-    }
-    let url = `${MessagesService.API_URL}?format=json`;
-    let sendData = {
-      body: message,
-      recipient: this._senderUri,
-      sender: this._myUri
-    };
-    let channel = this.http.post(url, JSON.stringify(sendData))
-      .map(response => response.json())
-      .subscribe(data => {
-        this._appendMessage(data);
-        channel.unsubscribe();
-      }, error => console.log('Could not create message.'));
+  public loadConversationTitle(senderId: string) {
+    const params: string = [
+      `format=json`,
+    ].join('&');
+    const url = `${MessagesService.API_USER_URL}${senderId}/?${params}`;
+    let subs: Subscription = this.http.get(url)
+      .map((res: any) => res.json())
+      .subscribe((dto: any) => {
+        const name: string = dto.first_name;
+        this.store.dispatch(this.actions.loadedConversationTitle(name));
+        subs.unsubscribe();
+      });
   }
 
-  public sendNew(id, message): Observable<any> {
-    if (this._senderUri === '') {
-      this._senderUri = `/api/v1/auth/user/${id}/`;
-    }
-    let url = `${MessagesService.API_URL}?format=json`;
-    let sendData = {
-      body: message,
-      recipient: this._senderUri,
-      sender: this._myUri
-    };
-    return this.http.post(url, JSON.stringify(sendData))
-      .map(response => response.json());
+  public markConversationRead(senderId: string): Observable<any> {
+    let url: string = `${MessagesService.API_URL_MARK_READ}?format=json&sender_id=${senderId}`;
+    return this.http.get(url)
+      .map((res: any) => res.json());
   }
 
-  public serviceObserver(): Subject<any> {
-    return this._observer;
-  }
-
-  public loadMore(id) {
-    this._loadMessages(this._limit, id, true);
-  }
-
-  public getMessages() {
-    return this._dataStore;
-  }
-
-  public recievedMessage(data) {
-    if (data.recipient === this._myUri && data.sender === this._senderUri) {
-      this._appendMessage(data);
-    }
-  }
-
-  private _appendMessage(data) {
-    this._dataStore[ this._dataStore.length - 1 ].data = [ ...this._dataStore[ this._dataStore.length - 1 ].data, {
-      image: this._checkImage(data.sender_image),
-      name: data.sender_name,
-      username: data.sender_sender,
-      body: data.body,
-      sent_at: data.sent_at,
-      time: DateUtil.format(data.sent_at, 'LT')
-    } ];
-    this._total_count++;
-    this._newMessage = true;
-    this._notify();
-  }
-
-  private _checkImage(field) {
-    if (!field) {
-      return '';
-    }
-
-    if (field.indexOf('media') === -1 && field.indexOf('http')) {
-      return '/media/' + field;
-    } else {
-      return field;
-    }
-  }
-
-  private _loadMessages(limit: number, user: any, more: boolean) {
-
-    if (this._loading) {
+  public loadMessages(senderId: string) {
+    if (this._loading || this._next === null) {
       return;
     }
-
-    if (this._next === null) {
-      this._notify();
-      return;
-    }
-
     let url = '';
-
     if (this._next === '') {
       let params: string = [
         `format=json`,
-        `limit=${limit}`,
-        `user_id=${user}`,
+        `limit=${PER_PAGE_LIMIT}`,
+        `user_id=${senderId}`,
         `order_by=-sent_at`,
         `offset=0`
       ].join('&');
-
       url = `${MessagesService.API_URL}?${params}`;
     } else {
       url = this._next;
     }
-
     this._loading = true;
-    this._notify();
-    let channel = this.http.get(url)
+    this.store.dispatch(this.actions.loadingCollection(true));
+    let subs = this.http.get(url)
       .map((res: any) => res.json())
-      .subscribe((data: any) => {
-          try {
-            this._parseData(data);
-            this._notify();
-          } catch (e) {
-            console.log('error', e);
-            this._notify();
-            channel.unsubscribe();
-            return;
-          }
-          channel.unsubscribe();
-        },
-        (error) => {
-          console.log(`Could not load messages ${error}`);
-        },
-        () => {
+      .subscribe((dto: any) => {
+        const meta = dto.meta;
+        const objects = dto.objects;
 
-        });
+        const data = {
+          messages: Message.getCollection(objects),
+          count: meta.total_count
+        };
+
+        this.store.dispatch(this.actions.loadCollectionSuccess(data));
+
+        if (this._next !== null && this._next.length > 0) {
+          this.store.dispatch(this.actions.moreItemsLoaded(data.messages.length));
+        }
+
+        if (this._next === null) {
+          this.store.dispatch(this.actions.collectionFullyLoaded());
+        }
+
+        this._loading = false;
+        this._next = meta.next;
+        subs.unsubscribe();
+      });
   }
 
-  private _parseData(data) {
-    let m = data.objects;
-
-    for (var i = m.length - 1; i >= 0; i--) {
-      let displayDate = DateUtil.format(m[ i ].sent_at, 'ddd, D MMMM YYYY');
-      let date = DateUtil.format(m[ i ].sent_at, 'L');
-      let time = DateUtil.format(m[ i ].sent_at, 'LT');
-
-      let idx = ListUtil.findIndex(this._dataStore, { date: date });
-
-      if (idx === -1) {
-        this._dataStore = [ ...this._dataStore, {
-          date: date,
-          displayDate: displayDate,
-          data: []
-        } ];
-        idx = this._dataStore.length - 1;
-      }
-
-      this._dataStore[ idx ].data = [ ...this._dataStore[ idx ].data, {
-        image: this._checkImage(m[ i ].sender_image),
-        name: m[ i ].sender_name,
-        username: m[ i ].sender_sender,
-        body: m[ i ].body,
-        sent_at: m[ i ].sent_at,
-        time: time
-      } ];
-
-      this._dataStore[ idx ].data = ListUtil.orderBy(this._dataStore[ idx ].data, [ 'sent_at' ], [ 'asc' ]);
-
-    }
-
-    this._loading = false;
-    this._total_count = data.meta.total_count;
-    this._initialLoadingFinished = true;
-    if (data.meta.total_count === 0) {
-      this._isListEmpty = true;
-      this._dataStore = [];
-    } else {
-      this._isListEmpty = false;
-    }
-
-    this._next = data.meta.next;
-    this._offset = data.meta.offset;
-
+  public sendMessage(recipientId: string, message: string): void {
+    let recipient: string = `/api/v1/auth/user/${recipientId}/`;
+    let url = `${MessagesService.API_URL}?format=json`;
+    let data = {
+      body: message,
+      recipient: recipient,
+      sender: this._me
+    };
+    this.store.dispatch(this.actions.sendingNewMessage());
+    let subs: Subscription = this.http.post(url, JSON.stringify(data))
+      .map((res: any) => res.json())
+      .subscribe((dto: any) => {
+        const data = new Message(dto);
+        this.store.dispatch(this.actions.addNewMessageToCollectionSuccess(data));
+        subs.unsubscribe();
+      });
   }
 
-  private _notify() {
-    this._observer.next({
-      loading: this._loading,
-      initialLoadingFinished: this._initialLoadingFinished,
-      data: this._dataStore,
-      total: this._total_count,
-      finished: this._next === null ? true : false,
-      isEmpty: this._isListEmpty,
-      next: this._next,
-      hasNew: this._newMessage
-    });
-    this._newMessage = false;
+  public recievedMessageViaWebSocket(dto: any, senderId: string) {
+    let expectedSender = `/api/v1/auth/user/${senderId}/`;
+    if (dto.recipient === this._me && dto.sender === expectedSender) {
+      const data = new Message(dto);
+      this.store.dispatch(this.actions.addNewMessageToCollectionViaWebsocketSuccess(data));
+    }
   }
 
 }

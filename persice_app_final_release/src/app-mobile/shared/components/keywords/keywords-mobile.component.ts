@@ -57,7 +57,7 @@ export class KeywordsComponentMobile implements AfterViewInit, OnDestroy {
   }
 
   setInitialData(data) {
-    this.filters = new FilterModel(data.objects[0]);
+    this.filters = new FilterModel(data.objects[ 0 ]);
     if (this.filters.state.keyword.length > 0) {
       this.items = this.filters.state.keyword.split(',');
     }
@@ -87,7 +87,7 @@ export class KeywordsComponentMobile implements AfterViewInit, OnDestroy {
   /**
    * Add the current item to the item collection and save on the backend.
    */
-  add() {
+  add(event?: any) {
     let item: string = this.newItemText;
     if (!this.hasMinimumLength(item)) {
       this.status = 'failure';
@@ -161,7 +161,7 @@ export class KeywordsComponentMobile implements AfterViewInit, OnDestroy {
   }
 
   private exceedsMaximumLengthOfItems(items: any[], newItem: string): boolean {
-    return [...items, newItem].join(',').length > this.MAXIMUM_LENGTH_OF_ITEMS;
+    return [ ...items, newItem ].join(',').length > this.MAXIMUM_LENGTH_OF_ITEMS;
   };
 
   private hasMinimumLength(item: string): boolean {
