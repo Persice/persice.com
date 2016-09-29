@@ -2,7 +2,7 @@ upstream bekindred_app_server {
   # fail_timeout=0 means we always retry an upstream even if it failed
   # to return a good HTTP response (in case the Unicorn master nukes a
   # single worker for timing out).
-
+ 
   server unix:/webapps/bekindred/run/gunicorn.sock fail_timeout=0;
 }
 
@@ -40,14 +40,14 @@ upstream websocket {
 }
 
 server {
-
+ 
     listen 443 ssl;
     listen 3000 ssl;
     server_name icebrak.com;
-
+    
     ssl_certificate /etc/nginx/ssl/public.crt;
     ssl_certificate_key /etc/nginx/ssl/persice.key;
-
+ 
     ssl_protocols  SSLv2 SSLv3 TLSv1;
     ssl_ciphers  ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP;
     ssl_prefer_server_ciphers   on;
@@ -61,20 +61,23 @@ server {
     gzip_buffers 16 8k;
     gzip_http_version 1.1;
     gzip_types image/png image/gif image/jpeg application/javascript text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript;
-
+ 
     access_log /webapps/bekindred/logs/nginx-access.log;
     error_log /webapps/bekindred/logs/nginx-error.log;
-
+    
     location /socket.io/ {
         proxy_pass http://websocket;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection $connection_upgrade;
-        proxy_read_timeout 1000;
-    }
-
+    proxy_read_timeout 1000;
+    }   
     location /static/ {
         alias   /webapps/bekindred/staticfiles/;
+    }
+    
+    location /media/ {
+        alias   /webapps/bekindred/beKindred.com/bekindred/media/;
     }
 
     location /public/ {
@@ -83,25 +86,21 @@ server {
         add_header Access-Control-Allow-Origin *;
         expires      30d;
     }
-
-    location /media/ {
-        alias   /webapps/bekindred/beKindred.com/bekindred/media/;
-    }
-
+    
     location /images/ {
         alias   /webapps/bekindred/beKindred.com/persice_app_final_release/dist/assets/images/;
         access_log   off;
         add_header Access-Control-Allow-Origin *;
         expires      30d;
     }
-
+    
     location /assets/ {
         alias   /webapps/bekindred/beKindred.com/persice_app_final_release/dist/assets/;
         access_log   off;
         add_header Access-Control-Allow-Origin *;
         expires      30d;
     }
-
+    
     location / {
       set $mobile_rewrite do_not_perform;
 
@@ -119,7 +118,7 @@ server {
         index  $index;
         rewrite ^(.*)$ /$index break;
     }
-
+    
     location ~ ^/(api|linkedin/connect|twitter/connect|goals/close_login_popup|social)/ {
         try_files $uri @proxy_to_app;
     }
@@ -139,8 +138,8 @@ server {
       proxy_pass http://bekindred_app_server;
     }
 
-
-    # Error pages
+ 
+        # Error pages
     error_page 500 502 503 504 /500.html;
     location = /500.html {
         root /webapps/bekindred/beKindred.com/bekindred/static/;
