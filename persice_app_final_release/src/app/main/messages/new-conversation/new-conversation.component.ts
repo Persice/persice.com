@@ -1,37 +1,30 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MessagesService } from '../../../../common/services/messages-deprecated.service';
-import { InboxService } from '../../../../common/services/inbox.service';
 import { UserAuthService } from '../../../../common/services/userauth.service';
+import { Subscription } from 'rxjs';
+import { NewConversationService } from '../../../../common/services/new-conversation.service';
 
 @Component({
   selector: 'prs-new-conversation',
   templateUrl: './new-conversation.html',
-  providers: [
-    MessagesService
-  ]
-
+  providers: [ NewConversationService ]
 })
 export class NewConversationComponent implements OnInit, OnDestroy {
   tokens: any[] = [];
   initialTokens: any[] = [];
   message: string = '';
-  friendId;
-  sub;
+  friendId: string;
+  routerSub: Subscription;
 
   constructor(
-    private inboxService: InboxService,
-    private messagesService: MessagesService,
+    private messagesService: NewConversationService,
     private userService: UserAuthService,
     private _router: Router,
     private _route: ActivatedRoute
-  ) {
-
-  }
+  ) { }
 
   ngOnInit(): any {
-    this.sub = this._route.params.subscribe((params) => {
-      this.inboxService.deselectThreads();
+    this.routerSub = this._route.params.subscribe((params) => {
       this.friendId = params[ 'friendId' ];
       //preselect a connection
       if (!!this.friendId && this.friendId !== 'new') {
@@ -50,20 +43,23 @@ export class NewConversationComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): any {
-    if (this.sub) {
-      this.sub.unsubscribe();
+    if (this.routerSub) {
+      this.routerSub.unsubscribe();
     }
   }
 
-  sendMessage(message) {
+  sendMessage(message): void {
     if (this.tokens.length === 1) {
-      let channel = this.messagesService.sendNew(this.tokens[ 0 ].friend_id, message)
-        .subscribe(data => {
+      let channel = this.messagesService.sendMessage(this.tokens[0].friend_id, message)
+        .subscribe(() => {
+          this.messagesService.messageSent();
           channel.unsubscribe();
-          this.inboxService.addSender(this.tokens[ 0 ].friend_id);
-          this._router.navigateByUrl('/messages/' + this.tokens[ 0 ].friend_id);
-        }, error => console.log('Could not create new message.'));
+          this._router.navigateByUrl('/messages/' + this.tokens[0].friend_id);
+        }, () => {
+          this.messagesService.messageNotSent();
+          channel.unsubscribe();
+          console.log('Could not create new message.');
+        });
     }
-
   }
 }

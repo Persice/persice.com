@@ -1,101 +1,79 @@
 import { Component, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
-import { InboxService } from '../../../../common/services/inbox.service';
-import { MessagesCounterService } from '../../../../common/services/messages_counter.service';
 import { WebsocketService } from '../../../../common/services/websocket.service';
+import { Observable, Subscription } from 'rxjs';
+import { Conversation } from '../../../../common/models/conversation/conversation.model';
+import { ConversationsService } from '../../../../common/services/conversations.service';
 
 @Component({
   selector: 'prs-conversations',
-  template: `
-    <aside class="chat-sidebar is-scrollable-y" id="inbox">
-      <prs-thread-list (selected)="onSelect($event)" [active]="activeThread" [threads]="threads"></prs-thread-list>
-      <prs-loading [status]="loadingInbox"></prs-loading>
-    </aside>
-  `
+  templateUrl: './conversations.html'
 })
 export class ConversationsComponent implements OnInit, OnDestroy {
   @Output() selected: EventEmitter<any> = new EventEmitter();
-  threads: Array<any> = [];
-  loadingInbox: boolean = false;
-  loadingInboxFinished: boolean = false;
-  isInboxEmpty: boolean = false;
-  inboxNext: string = '';
-  inboxServiceInstance;
-  websocketServiceInstance;
-  activeThread = null;
+
+  conversations: Observable<Conversation[]>;
+  selectedConservation: Observable<Conversation>;
+  count: Observable<number>;
+  loading: Observable<boolean>;
+  loaded: Observable<boolean>;
+  websocketServiceInstance: Subscription;
+  loadedSub: Subscription;
 
   constructor(
-    private inboxService: InboxService,
-    private messagesCounterService: MessagesCounterService,
+    private conversationsService: ConversationsService,
     private websocketService: WebsocketService
   ) {
-
+    this.conversations = this.conversationsService.conversations$;
+    this.selectedConservation = this.conversationsService.selectedConversation$;
+    this.count = this.conversationsService.count$;
+    this.loading = this.conversationsService.loading$;
+    this.loaded = this.conversationsService.loaded$
   }
 
   ngOnInit() {
-    setTimeout(() => {
-      this.messagesCounterService.refreshCounter();
-    }, 500);
+    this.conversationsService.resetData();
+    this.conversationsService.emptyConversations();
+    this.conversationsService.loadConversations();
 
-    //subscribe to inbox service updates
-    this.inboxServiceInstance = this.inboxService.serviceObserver()
-      .subscribe((res) => {
-        this.loadingInbox = res.loading;
-        this.threads = res.data;
-        this.loadingInboxFinished = res.finished;
-        this.isInboxEmpty = res.isEmpty;
-        this.inboxNext = res.next;
-        this.activeThread = res.selected;
-
-        if (this.loadingInboxFinished === false) {
-          jQuery('#inbox').bind('scroll', this.handleScrollEvent.bind(this));
-        } else {
-          jQuery('#inbox').unbind('scroll');
-        }
-
-      });
-
-    //start loading inbox
-    this.inboxService.startLoadingInbox();
-
-    this.websocketServiceInstance = this.websocketService.on('messages:new').subscribe((data: any) => {
-
-      if (this.activeThread !== null) {
-        this.inboxService.markRead(this.activeThread);
+    this.loadedSub = this.loaded.subscribe((loaded: boolean) => {
+      if (loaded === false) {
+        jQuery('#inbox').bind('scroll', this.handleScrollEvent.bind(this));
+      } else {
+        jQuery('#inbox').unbind('scroll');
       }
-
-      setTimeout(() => {
-        this.inboxService.addSender(data.friend_id);
-        this.messagesCounterService.refreshCounter();
-      }, 500);
-
     });
 
-  }
-
-  onSelect(thread) {
-    this.inboxService.select(thread.threadId);
-    this.selected.emit(thread.threadId);
-  }
-
-  handleScrollEvent(event) {
-    let scrollOffset = jQuery('#inbox').scrollTop();
-    let threshold = jQuery(document).height() - jQuery('#inbox').height() - 60;
-
-    if (this.inboxNext && scrollOffset > threshold) {
-      if (!this.loadingInbox) {
-        this.inboxService.loadMore();
-      }
-    }
-
+    this.websocketServiceInstance = this.websocketService.on('messages:new').subscribe((data: any) => {
+      this.conversationsService.receivedNewMessage(data);
+    });
   }
 
   ngOnDestroy() {
-    if (this.inboxServiceInstance) {
-      this.inboxServiceInstance.unsubscribe();
+    this.conversationsService.setSelectedConversationId(null);
+
+    if (this.loadedSub) {
+      this.loadedSub.unsubscribe();
     }
+
     if (this.websocketServiceInstance) {
       this.websocketServiceInstance.unsubscribe();
     }
+  }
 
+  onSelect(conversation: Conversation): void {
+    this.conversationsService.setSelectedConversationId(null);
+    this.conversationsService.selectConversation(conversation);
+    this.conversationsService.notifySelectedConversationRead();
+
+    this.selected.emit(conversation.id);
+  }
+
+  private handleScrollEvent(): void {
+    let scrollOffset = jQuery('#inbox').scrollTop();
+    let threshold = jQuery(document).height() - jQuery('#inbox').height() - 60;
+
+    if (scrollOffset > threshold) {
+      this.conversationsService.loadConversations();
+    }
   }
 }

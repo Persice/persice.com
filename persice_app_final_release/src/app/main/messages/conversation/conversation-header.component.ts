@@ -5,5 +5,5 @@ import { Component, Input } from '@angular/core';
   templateUrl: './conversation-header.html'
 })
 export class ConversationHeaderComponent {
-  @Input() name;
+  @Input() name: string;
 }

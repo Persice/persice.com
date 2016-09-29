@@ -1,19 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { InboxService } from '../../../common/services/inbox.service';
 
 @Component({
   selector: 'prs-messages',
-  templateUrl: './messages.html',
-  providers: [
-    InboxService
-  ]
+  templateUrl: './messages.html'
 })
 export class MessagesComponent implements OnInit {
-  public counter: number = 0;
-
-  constructor(private _router: Router) {
-  }
+  constructor(private _router: Router) { }
 
   ngOnInit() {
     document.body.scrollTop = document.documentElement.scrollTop = 0;

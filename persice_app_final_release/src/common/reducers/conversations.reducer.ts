@@ -70,11 +70,13 @@ export function conversationsReducer(state = initialState, action: Action): Conv
           if (conversation.id === newConversation.id) {
             conversationExists = true;
 
-            conversation.unread = newConversation.unread;
-            conversation.unreadCounter = newConversation.unreadCounter;
-            conversation.body = newConversation.body;
-            conversation.sentAt = newConversation.sentAt;
-            return conversation;
+            let conv: Conversation = conversation.clone();
+            conv.unread = newConversation.unread;
+            conv.unreadCounter = newConversation.unreadCounter;
+            conv.body = newConversation.body;
+            conv.sentAt = newConversation.sentAt;
+
+            return conv;
           }
           return conversation;
         });
@@ -89,6 +91,36 @@ export function conversationsReducer(state = initialState, action: Action): Conv
         });
       }
 
+    }
+
+    case ConversationActions.MARK_SELECTED_CONVERSATION_READ: {
+      const selectedConversation: Conversation = state.selectedItem;
+
+      let conversations = state.entities
+        .map((conversation: Conversation) => {
+          if (conversation.id === selectedConversation.id) {
+            let conv = conversation.clone();
+            conv.unread = false;
+            conv.unreadCounter = 0;
+
+            return conv;
+          }
+          return conversation;
+        });
+
+      return Object.assign({}, state, {entities: [...conversations], selectedItem: selectedConversation});
+    }
+
+    case ConversationActions.SELECT_CONVERSATION_BY_ID: {
+      const id: number = action.payload;
+      let index: number = state.entities.findIndex(conversation => +conversation.id === id);
+
+      if (index >= 0) {
+        let selectedConversation = state.entities[index];
+        return Object.assign({}, state, {selectedItem: selectedConversation});
+      } else {
+        return state;
+      }
     }
 
     default: {

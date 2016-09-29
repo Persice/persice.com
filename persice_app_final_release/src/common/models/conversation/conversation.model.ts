@@ -1,4 +1,5 @@
 import { StringUtil } from '../../../common/core';
+import { DateUtil } from '../../core/util';
 
 const BODY_LENGTH_LIMIT: number = 30;
 
@@ -25,6 +26,21 @@ export class Conversation {
     return items;
   }
 
+  public clone(): Conversation {
+    let conversation: Conversation = new Conversation({
+      id: this.id,
+      friend_id: this.senderId,
+      first_name: this.name,
+      sent_at: this.sentAt,
+      read_at: this.readAt,
+      unread_counter: this.unreadCounter,
+      last_message_body: this.body,
+      image: this.image
+    });
+
+    return conversation;
+  }
+
   constructor(dto: any) {
     this._id = dto.id;
     this._senderId = dto.friend_id;
@@ -41,6 +57,14 @@ export class Conversation {
 
   get id(): number {
     return this._id;
+  }
+
+  set id(id: number) {
+    this._id = id;
+  }
+
+  set senderId(senderId: string) {
+    this._senderId = senderId;
   }
 
   get senderId(): string {
@@ -62,6 +86,10 @@ export class Conversation {
   set sentAt(date: string) {
     this._date = date;
     this._sentAt = date;
+  }
+
+  get sentAtFormatted(): string {
+    return DateUtil.format(this._sentAt, 'MMMM do YYYY, h:mm:ss a');
   }
 
   get readAt(): string {

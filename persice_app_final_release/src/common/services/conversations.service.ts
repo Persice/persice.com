@@ -19,7 +19,9 @@ export class ConversationsService {
   public loaded$: Observable<boolean>;
 
   private _next: string = '';
-  private _loading: boolean;
+  private _loading: boolean = false;
+
+  private selectedId: number;
 
   constructor(private store: Store<AppState>, private http: HttpClient, private actions: ConversationActions) {
     const store$ = store.let(getConversationsState());
@@ -29,6 +31,11 @@ export class ConversationsService {
     this.count$ = store$.map(state => state[ 'count' ]);
     this.loading$ = store$.map(state => state[ 'loading' ]);
     this.loaded$ = store$.map(state => state[ 'loaded' ]);
+  }
+
+  public resetData() {
+    this._next = '';
+    this._loading = false;
   }
 
   public emptyConversations(): void {
@@ -69,6 +76,12 @@ export class ConversationsService {
 
         this.store.dispatch(this.actions.loadCollectionSuccess(data));
 
+        if (this.selectedId) {
+          this.store.dispatch(this.actions.selectConversationByID(this.selectedId));
+          this.notifySelectedConversationRead();
+          this.selectedId = null;
+        }
+
         if (this._next === null) {
           this.store.dispatch(this.actions.collectionFullyLoaded());
         }
@@ -97,11 +110,11 @@ export class ConversationsService {
       });
   }
 
-  public selectConversationById(id: number): void {
-    this.store.dispatch(this.actions.selectConversationByID(id));
+  public setSelectedConversationId(id: number): void {
+    this.selectedId = id;
   }
 
-  private notifySelectedConversationRead(): void {
+  public notifySelectedConversationRead(): void {
     this.store.dispatch(this.actions.markSelectedConversationRead());
   }
 

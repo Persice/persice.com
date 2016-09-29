@@ -19,7 +19,8 @@ import {
   UnreadMessagesCounterActions, NewConnectionsCounterActions, ConversationActions,
   MessageActions, SelectedPersonActions
 } from '../../common/actions';
-import { NewConnectionsCounterService } from '../../common/services';
+import { ConversationsService } from '../../common/services/conversations.service';
+import { UnreadMessagesCounterService } from '../../common/services/unread-messages-counter.service';
 
 @Component({
   selector: 'prs-main',
@@ -32,12 +33,13 @@ import { NewConnectionsCounterService } from '../../common/services';
     GeolocationService,
     LocationService,
     UserAuthService,
-    MessagesCounterService,
     ConnectionsCounterService,
     NotificationsService,
     MyProfileService,
+    ConversationsService,
     UnreadMessagesCounterActions,
     NewConnectionsCounterActions,
+    UnreadMessagesCounterService,
     ConversationActions,
     MessageActions,
     SelectedPersonActions
@@ -66,7 +68,7 @@ export class MainComponent implements OnInit, OnDestroy {
     private websocketService: WebsocketService,
     private locationService: LocationService,
     private geolocationService: GeolocationService,
-    private messagesCounterService: MessagesCounterService,
+    private unreadMessagesCounterService: UnreadMessagesCounterService,
     private connectionsCounterService: ConnectionsCounterService,
     private notificationsService: NotificationsService,
     private router: Router,
@@ -148,7 +150,7 @@ export class MainComponent implements OnInit, OnDestroy {
       switch (channel) {
         case 'messages:new':
           if (!!this.activeRoute && this.activeRoute.indexOf('messages') === -1) {
-            this.messagesCounterService.refreshCounter();
+            this.unreadMessagesCounterService.refresh();
             this.notificationsService.set({
               title: `1 new message from ${data.sender_name}`,
               body: data.body,
