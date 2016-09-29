@@ -75,6 +75,7 @@ if (isProd) {
 const PORT = port;
 
 console.log('PRODUCTION BUILD: ', isProd);
+console.log('FACEBOOK APP: ', FACEBOOK_ID);
 console.log('AWS3 DOMAIN: ', AWS_S3_CUSTOM_DOMAIN);
 console.log('DEV SERVER: ', isDevServer);
 console.log('MOBILE DEV SERVER ENABLED: ', isMobileDevServerEnabled);

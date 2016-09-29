@@ -7,10 +7,6 @@ import { rootReducer } from '../common/reducers/index';
 import { CustomConfig } from '../common/auth/config.service';
 import { AuthModule } from '../common/auth/auth.module';
 
-export const FACEBOOK_ID = '634990373263225'; //'633834406712155';
-export const FACEBOOK_SCOPE = 'email,user_about_me,user_birthday,user_likes,user_friends,user_managed_groups,user_photos,user_work_history,user_religion_politics,user_hometown,user_location,user_events';
-export const LINKEDIN_ID = '77x6ttwe3nhjen';
-
 export class AuthConfig extends CustomConfig {
   defaultHeaders = { 'Content-Type': 'application/json' };
   providers = {
