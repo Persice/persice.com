@@ -1,8 +1,8 @@
 {
   "main-mobile": {
-    "js": "https://d2v6m3k9ul63ej.cloudfront.net/assets/js/main-mobile.380bf4f5b833ca72108023d49d1ddf681bfc76b6.prod.bundle.js"
+    "js": "https://d2v6m3k9ul63ej.cloudfront.net/assets/js/main-mobile.8d5c99d7abf6fb98b610b09bcaef3b4747e8b1c0.prod.bundle.js"
   },
   "main": {
-    "js": "https://d2v6m3k9ul63ej.cloudfront.net/assets/js/main.380bf4f5b833ca72108023d49d1ddf681bfc76b6.prod.bundle.js"
+    "js": "https://d2v6m3k9ul63ej.cloudfront.net/assets/js/main.8d5c99d7abf6fb98b610b09bcaef3b4747e8b1c0.prod.bundle.js"
   }
 }
