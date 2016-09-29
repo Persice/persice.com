@@ -50,11 +50,11 @@ export class NewConversationComponent implements OnInit, OnDestroy {
 
   sendMessage(message): void {
     if (this.tokens.length === 1) {
-      let channel = this.messagesService.sendMessage(this.tokens[0].friend_id, message)
+      let channel = this.messagesService.sendMessage(this.tokens[ 0 ].friend_id, message)
         .subscribe(() => {
           this.messagesService.messageSent();
           channel.unsubscribe();
-          this._router.navigateByUrl('/messages/' + this.tokens[0].friend_id);
+          this._router.navigateByUrl('/messages/' + this.tokens[ 0 ].friend_id);
         }, () => {
           this.messagesService.messageNotSent();
           channel.unsubscribe();

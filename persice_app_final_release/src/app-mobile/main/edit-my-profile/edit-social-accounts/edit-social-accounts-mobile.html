@@ -61,7 +61,8 @@
     </div>
     <div class="tableize__cell 2/4">
       <div class="tableize__content text-right">
-        <a class="link-blank" (click)="connect('twitter')" *ngIf="!connectStatus.twitter.connected && connectStatus.twitter.username !== ''">Connect</a>
+        <a class="link-blank" (click)="connect('twitter')"
+           *ngIf="!connectStatus.twitter.connected && connectStatus.twitter.username !== ''">Connect</a>
         <svg (click)="disconnect('twitter')" role="img" class="icon icon--tiny icon--green"
              *ngIf="connectStatus.twitter.connected">
           <use xlink:href="/assets/icons/icons.svg#icon-checker"></use>

@@ -15,13 +15,13 @@ import { Photo } from '../../../../../common/models/photo';
       (onDelete)="onDelete.emit($event)">
     </prs-mobile-edit-profile-photo>
   `,
-  directives: [EditProfilePhotoComponent],
+  directives: [ EditProfilePhotoComponent ],
   providers: [
     AppStateService
   ]
 })
 class TestComponent {
-  profilePhoto: Photo = new Photo({order: 0});
+  profilePhoto: Photo = new Photo({ order: 0 });
   onDelete: EventEmitter<any> = new EventEmitter();
   isProfilePhotoDeletable: boolean = true;
 
@@ -40,12 +40,12 @@ describe('Edit profile photo mobile component', () => {
       {
         provide: Http,
         useFactory: (backend, options) => new Http(backend, options),
-        deps: [MockBackend, BaseRequestOptions]
+        deps: [ MockBackend, BaseRequestOptions ]
       },
     ]);
   });
 
-  beforeEach(async(inject([TestComponentBuilder],
+  beforeEach(async(inject([ TestComponentBuilder ],
     (tcb: TestComponentBuilder) => {
       return tcb.createAsync(TestComponent)
         .then((componentFixture: any) => {
@@ -71,7 +71,7 @@ describe('Edit profile photo mobile component', () => {
 
   it('should display upload profile photo when profile photo is not set', () => {
     //given
-    component.profilePhoto = new Photo({order: 0});
+    component.profilePhoto = new Photo({ order: 0 });
 
     //when
     this.componentFixture.detectChanges();

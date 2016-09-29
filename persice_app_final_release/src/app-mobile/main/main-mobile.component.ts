@@ -12,8 +12,11 @@ import { UserService } from '../../common/services/user.service';
 import { AppState, getUnreadMessagesCounterState, getNewConnectionsCounterState } from '../../common/reducers';
 import { TokenUtil, IntercomUtil } from '../../common/core';
 import {
-  UnreadMessagesCounterActions, NewConnectionsCounterActions, ConversationActions,
-  MessageActions, SelectedPersonActions
+  UnreadMessagesCounterActions,
+  NewConnectionsCounterActions,
+  ConversationActions,
+  MessageActions,
+  SelectedPersonActions
 } from '../../common/actions';
 
 require('hammerjs');

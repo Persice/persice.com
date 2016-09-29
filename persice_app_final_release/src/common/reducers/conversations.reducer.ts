@@ -108,7 +108,7 @@ export function conversationsReducer(state = initialState, action: Action): Conv
           return conversation;
         });
 
-      return Object.assign({}, state, {entities: [...conversations], selectedItem: selectedConversation});
+      return Object.assign({}, state, { entities: [ ...conversations ], selectedItem: selectedConversation });
     }
 
     case ConversationActions.SELECT_CONVERSATION_BY_ID: {
@@ -116,8 +116,8 @@ export function conversationsReducer(state = initialState, action: Action): Conv
       let index: number = state.entities.findIndex(conversation => +conversation.id === id);
 
       if (index >= 0) {
-        let selectedConversation = state.entities[index];
-        return Object.assign({}, state, {selectedItem: selectedConversation});
+        let selectedConversation = state.entities[ index ];
+        return Object.assign({}, state, { selectedItem: selectedConversation });
       } else {
         return state;
       }

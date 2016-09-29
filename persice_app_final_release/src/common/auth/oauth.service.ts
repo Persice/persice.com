@@ -3,7 +3,6 @@ import { Oauth1Service } from './oauth1.service';
 import { Oauth2Service } from './oauth2.service';
 import { SharedService } from './shared.service';
 import { Response, RequestOptionsArgs } from '@angular/http';
-import { joinUrl } from './utils';
 import { ConfigService, IOauth1Options } from './config.service';
 import { Observable } from 'rxjs/Observable';
 import { JwtHttp } from './jwt-http.service';
@@ -33,7 +32,7 @@ export class OauthService {
 
   unlink(provider: string, opts: RequestOptionsArgs) {
     opts = opts || {};
-    let url = this.config.providers[provider].unlinkUrl;
+    let url = this.config.providers[ provider ].unlinkUrl;
     opts.body = JSON.stringify({ provider: provider }) || opts.body;
     opts.method = opts.method || 'POST';
 

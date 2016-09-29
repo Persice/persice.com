@@ -4,7 +4,6 @@ import { EventsService } from '../../../common/events/events.service';
 import { EventMembersService } from '../../../common/services/eventmembers.service';
 import { EventsComponent } from '../../../common/events/events.component';
 import { EventsType } from '../../../common/models/event/event';
-import { Event } from '../../../common/models/event/index';
 import { AppStateService } from '../../shared/services/app-state.service';
 
 @Component({

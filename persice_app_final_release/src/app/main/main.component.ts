@@ -8,7 +8,6 @@ import { WebsocketService } from '../../common/services/websocket.service';
 import { GeolocationService } from '../../common/services/geolocation.service';
 import { LocationService } from '../../common/services/location.service';
 import { UserAuthService } from '../../common/services/userauth.service';
-import { MessagesCounterService } from '../../common/services/messages_counter.service';
 import { ConnectionsCounterService } from '../../common/services/connections_counter.service';
 import { NotificationsService } from '../../common/services/notifications.service';
 import { AuthUserModel } from '../../common/models/user/user.model';
@@ -16,8 +15,11 @@ import { IntercomUtil } from '../../common/core/util';
 import { InterfaceNotification } from '../../common/models/notification/notification.model';
 import { MyProfileService } from '../../common/services/myprofile.service';
 import {
-  UnreadMessagesCounterActions, NewConnectionsCounterActions, ConversationActions,
-  MessageActions, SelectedPersonActions
+  UnreadMessagesCounterActions,
+  NewConnectionsCounterActions,
+  ConversationActions,
+  MessageActions,
+  SelectedPersonActions
 } from '../../common/actions';
 import { ConversationsService } from '../../common/services/conversations.service';
 import { UnreadMessagesCounterService } from '../../common/services/unread-messages-counter.service';

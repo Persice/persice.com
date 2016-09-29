@@ -20,7 +20,8 @@ export class ConnectionsDesktopComponent extends ConnectionsComponent implements
   constructor(
     protected listService: ConnectionsService,
     protected filterService: FilterService,
-    private newConnectionsCounterService: ConnectionsCounterService) {
+    private newConnectionsCounterService: ConnectionsCounterService
+  ) {
     super(listService, filterService, ConnectionsDesktopComponent.LIST_REFRESH_TIMEOUT);
   }
 

@@ -10,7 +10,7 @@ import { TokenUtil } from '../../../../common/core';
 @Component({
   selector: 'prs-mobile-edit-my-profile-navigation',
   templateUrl: './edit-my-profile-navigation.html',
-  providers: [InterestsService, GoalsService, OffersService, PhotosService]
+  providers: [ InterestsService, GoalsService, OffersService, PhotosService ]
 })
 export class EditMyProfileNavigationComponent implements OnInit {
 

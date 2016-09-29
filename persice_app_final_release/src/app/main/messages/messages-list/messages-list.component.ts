@@ -20,23 +20,23 @@ export class MessagesListComponent {
   @Input() set messages(messages: Message[]) {
     this.groups = [];
     for (var i = 0; i < messages.length; i++) {
-      let dateRaw = messages[i].dateRaw;
+      let dateRaw = messages[ i ].dateRaw;
 
-      let idx = ListUtil.findIndex(this.groups, {date: dateRaw});
+      let idx = ListUtil.findIndex(this.groups, { date: dateRaw });
 
       if (idx === -1) {
-        this.groups = [...this.groups, {
+        this.groups = [ ...this.groups, {
           date: dateRaw,
           data: []
-        }];
+        } ];
         idx = this.groups.length - 1;
       }
 
-      this.groups[idx].data = [...this.groups[idx].data, {
-        message: messages[i]
-      }];
+      this.groups[ idx ].data = [ ...this.groups[ idx ].data, {
+        message: messages[ i ]
+      } ];
 
-      this.groups[idx].data = ListUtil.orderBy(this.groups[idx].data, ['date'], ['desc']);
+      this.groups[ idx ].data = ListUtil.orderBy(this.groups[ idx ].data, [ 'date' ], [ 'desc' ]);
     }
   };
 }

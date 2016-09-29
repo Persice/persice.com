@@ -38,14 +38,14 @@ export class MessagesService {
     const storeMessages$ = store.let(getMessagesState());
     const storeConversations$ = store.let(getConversationsState());
 
-    this.messages$ = storeMessages$.map(state => state['entities']);
-    this.loading$ = storeMessages$.map(state => state['loading']);
-    this.totalCount$ = storeMessages$.map(state => state['totalCount']);
-    this.loaded$ = storeMessages$.map(state => state['loaded']);
-    this.loadedCount$ = storeMessages$.map(state => state['loadedCount']);
-    this.conversationTitle$ = storeMessages$.map(state => state['conversationTitle']);
-    this.isNewMessageBeingSent$ = storeMessages$.map(state => state['isNewMessageBeingSent']);
-    this.selectedConversation$ = storeConversations$.map(state => state['selectedItem']);
+    this.messages$ = storeMessages$.map(state => state[ 'entities' ]);
+    this.loading$ = storeMessages$.map(state => state[ 'loading' ]);
+    this.totalCount$ = storeMessages$.map(state => state[ 'totalCount' ]);
+    this.loaded$ = storeMessages$.map(state => state[ 'loaded' ]);
+    this.loadedCount$ = storeMessages$.map(state => state[ 'loadedCount' ]);
+    this.conversationTitle$ = storeMessages$.map(state => state[ 'conversationTitle' ]);
+    this.isNewMessageBeingSent$ = storeMessages$.map(state => state[ 'isNewMessageBeingSent' ]);
+    this.selectedConversation$ = storeConversations$.map(state => state[ 'selectedItem' ]);
   }
 
   public resetUser(): void {

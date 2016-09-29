@@ -48,7 +48,7 @@ export class ConversationComponent implements OnInit, OnDestroy {
   ngOnInit(): any {
     this.routerSubs = this.route.params.subscribe(params => {
       this.messagesService.resetUser();
-      this.senderId = params['threadId'];
+      this.senderId = params[ 'threadId' ];
       this.conversationsService.setSelectedConversationId(+this.senderId);
 
       this.init();
@@ -107,7 +107,7 @@ export class ConversationComponent implements OnInit, OnDestroy {
 
   private handleScrollEvent(): void {
     // reverse scroll
-    let elem = jQuery('#messages')[0];
+    let elem = jQuery('#messages')[ 0 ];
     if (elem.scrollTop <= 10) {
       this.scrollOffset = elem.scrollHeight;
       this.loadMessages();
@@ -115,9 +115,9 @@ export class ConversationComponent implements OnInit, OnDestroy {
   }
 
   private scroll(): void {
-    let elem = jQuery('#messages')[0];
+    let elem = jQuery('#messages')[ 0 ];
     setTimeout(() => {
-        elem.scrollTop = elem.scrollHeight - this.scrollOffset;
+      elem.scrollTop = elem.scrollHeight - this.scrollOffset;
     });
   }
 

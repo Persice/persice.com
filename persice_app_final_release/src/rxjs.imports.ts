@@ -16,7 +16,6 @@ import 'rxjs/add/operator/mapTo';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/pluck';
-// import 'rxjs/add/operator/sample';
 import 'rxjs/add/operator/switch';
 import 'rxjs/add/operator/share';
 import 'rxjs/add/operator/switchMap';
@@ -30,4 +29,4 @@ import 'rxjs/Observable';
 import 'rxjs/Subject';
 import 'rxjs/Subscription';
 import '@ngrx/core/add/operator/select';
-
+// import 'rxjs/add/operator/sample';

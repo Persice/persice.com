@@ -10,5 +10,6 @@ export class AboutMobileComponent extends ViewMoreComponent {
   @Input('about') set about(value: string) {
     this.setInitialState(value);
   }
+
   @Input('type') type: any;
 }

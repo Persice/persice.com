@@ -14,7 +14,6 @@ export class ReligiousViewsMobileComponent implements OnInit {
   public religiousViews: any[];
   private usernameFromToken: string;
 
-
   constructor(
     private appStateService: AppStateService,
     private religiousViewsService: ReligiousViewsService,

@@ -58,8 +58,8 @@ export class Person {
     this._mutual = dto.mutual;
 
     if (dto.distance) {
-      this._distance = dto.distance[0];
-      this._distanceUnit = dto.distance[1];
+      this._distance = dto.distance[ 0 ];
+      this._distanceUnit = dto.distance[ 1 ];
     }
     this._image = dto.image;
     this._score = dto.score;
@@ -72,17 +72,17 @@ export class Person {
     this._connectionsMutualCount = 0;
 
     if (!!dto.top_interests) {
-      let topInterestsFromDto = ObjectUtil.firstSorted(dto.top_interests[0], 6);
+      let topInterestsFromDto = ObjectUtil.firstSorted(dto.top_interests[ 0 ], 6);
       let halfLength = Math.ceil(topInterestsFromDto.length / 2);
 
-      this._topInterests = ObjectUtil.firstSorted(dto.top_interests[0], 6);
+      this._topInterests = ObjectUtil.firstSorted(dto.top_interests[ 0 ], 6);
       this.topInterestsFirstHalf = topInterestsFromDto.splice(0, halfLength);
       this.topInterestsSecondHalf = topInterestsFromDto;
     }
 
-    let goalsFromDto = !!dto.goals ? ObjectUtil.transformSorted(dto.goals[0]) : [],
-      offersFromDto = !!dto.offers ? ObjectUtil.transformSorted(dto.offers[0]) : [],
-      interestsFromDto = !!dto.interests ? ObjectUtil.transformSorted(dto.interests[0]) : [];
+    let goalsFromDto = !!dto.goals ? ObjectUtil.transformSorted(dto.goals[ 0 ]) : [],
+      offersFromDto = !!dto.offers ? ObjectUtil.transformSorted(dto.offers[ 0 ]) : [],
+      interestsFromDto = !!dto.interests ? ObjectUtil.transformSorted(dto.interests[ 0 ]) : [];
 
     this._goals = goalsFromDto;
     this._goalsCount = goalsFromDto.length;
@@ -304,12 +304,12 @@ export class Person {
       interests: this.interests,
       about: this.about,
       lives_in: this.livesIn,
-      position: {job: this.job, company: this.company},
+      position: { job: this.job, company: this.company },
       first_name: this.firstName,
       total_likes_count: this.likesCount,
       mutual_likes_count: this.likesMutualCount,
       last_name: this.lastName,
-      distance: [this.distance, this.distanceUnit],
+      distance: [ this.distance, this.distanceUnit ],
       connected: this.connected,
       top_interests: this.topInterests,
       gender: this._gender.shortCode,
