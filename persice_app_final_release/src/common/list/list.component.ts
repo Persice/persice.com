@@ -155,7 +155,7 @@ export abstract class ListComponent {
    * @param {DOM event} event
    */
   public nextItem(event) {
-    let currentIndex = findIndex(this.items, { id: this.selectedItem.id });
+    let currentIndex = findIndex(this.items, <any>{ id: this.selectedItem.id });
     let newIndex = currentIndex + 1;
 
     if (!this.loading && newIndex > this.items.length - 13 && this.next) {
