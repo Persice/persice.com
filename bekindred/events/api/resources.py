@@ -833,7 +833,14 @@ class EventFeedResource(Resource):
                 feed = 'connections'
             else:
                 feed = 'all'
-            cache_key = 'e_%s_%s' % (feed, request.user.id)
+            fs = FilterState.objects.filter(user=request.user.id)
+            attrs = [fs[0].gender, fs[0].min_age, fs[0].max_age,
+                     fs[0].distance, fs[0].distance_unit,
+                     fs[0].order_criteria, fs[0].keyword]
+            filter_updated = '.'.join(map(str, attrs))
+            filter_updated_sha = hashlib.sha1(filter_updated).hexdigest()
+            cache_key = 'e_%s_%s_%s' % (feed, request.user.id,
+                                        filter_updated_sha)
             cached_match = cache.get(cache_key)
             if cached_match:
                 match = cached_match
@@ -841,8 +848,8 @@ class EventFeedResource(Resource):
                 match = MatchQuerySet. \
                     all_event(request.user.id, feed=feed,
                               is_filter=True)
-                cache.set('e_%s_%s' % (feed, request.user.id), match, 180)
-            fs = FilterState.objects.filter(user=request.user.id)
+                cache.set('e_%s_%s_%s' % (feed, request.user.id,
+                                          filter_updated_sha), match, 180)
             if fs:
                 if fs[0].order_criteria == 'match_score':
                     return sorted(

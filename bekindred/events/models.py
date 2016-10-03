@@ -130,7 +130,7 @@ class EventFilterState(models.Model):
 
 class FilterState(models.Model):
     user = models.ForeignKey(FacebookCustomUser)
-    distance = models.IntegerField(default=10000)
+    distance = models.IntegerField(default=100)
     distance_unit = models.CharField(max_length=5, default='miles')
     cumulative_match_score = models.IntegerField(default=0)
     gender = models.CharField(max_length=3, default='m,f')
