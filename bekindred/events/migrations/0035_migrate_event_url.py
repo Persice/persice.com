@@ -14,7 +14,7 @@ class Migration(DataMigration):
         # and orm['appname.ModelName'] for models in other applications.
         events = orm.Event.objects.filter(event_type='facebook')
         for event in events:
-            event.event_url = 'https://facebook.com/{}'.format(event.eid)
+            event.event_url = 'https://facebook.com/events/{}'.format(event.eid)
             event.save()
 
     def backwards(self, orm):

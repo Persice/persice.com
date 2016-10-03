@@ -179,7 +179,7 @@ def refresh_events(user):
             event.ends_on = fb_event.end_time
             event.event_photo = image_file
             event.event_type = 'facebook'
-            event.event_url = u'https://facebook.com/{}'.format(event.eid)
+            event.event_url = u'https://facebook.com/events/{}'.format(event.eid)
             event.location_name = fb_event.location_name
             event.location = fb_event.location
             event.save()
@@ -193,7 +193,7 @@ def refresh_events(user):
                 ends_on=fb_event.end_time,
                 event_photo=image_file,
                 event_type='facebook',
-                event_url=u'https://facebook.com/{}'.format(event.eid),
+                event_url=u'https://facebook.com/events/{}'.format(event.eid),
                 location_name=fb_event.location_name,
                 location=fb_event.location
             )
