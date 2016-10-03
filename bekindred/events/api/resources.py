@@ -1,5 +1,7 @@
 import json
 import logging
+
+import hashlib
 import re
 import time
 from datetime import datetime
@@ -7,6 +9,7 @@ from datetime import datetime
 import redis
 from django.conf.urls import url
 from django.contrib.humanize.templatetags.humanize import intcomma
+from django.core.cache import cache
 from django.core.paginator import InvalidPage, Paginator
 from django.db import IntegrityError
 from django.forms import model_to_dict
@@ -27,6 +30,7 @@ from tastypie.http import HttpUnauthorized
 from tastypie.resources import ModelResource, Resource
 from tastypie.utils import trailing_slash
 from tastypie.validation import Validation
+from tastypie.cache import SimpleCache
 
 from accounts.api.authentication import JSONWebTokenAuthentication
 from events.authorization import GuardianAuthorization
@@ -822,17 +826,23 @@ class EventFeedResource(Resource):
         match = []
         if request.GET.get('filter') == 'true':
             if request.GET.get('feed') == 'my':
-                match = MatchQuerySet.\
-                    all_event(request.user.id, feed='my', is_filter=True)
+                feed = 'my'
             elif request.GET.get('feed') == 'all':
-                match = MatchQuerySet.\
-                    all_event(request.user.id, feed='all', is_filter=True)
+                feed = 'all'
             elif request.GET.get('feed') == 'connections':
-                match = MatchQuerySet.\
-                    all_event(request.user.id, feed='connections',
+                feed = 'connections'
+            else:
+                feed = 'all'
+            cache_key = 'e_%s_%s' % (feed, request.user.id)
+            cached_match = cache.get(cache_key)
+            if cached_match:
+                match = cached_match
+            else:
+                match = MatchQuerySet. \
+                    all_event(request.user.id, feed=feed,
                               is_filter=True)
+                cache.set('e_%s_%s' % (feed, request.user.id), match)
             fs = FilterState.objects.filter(user=request.user.id)
-
             if fs:
                 if fs[0].order_criteria == 'match_score':
                     return sorted(match, key=lambda x: -x.cumulative_match_score)
