@@ -47,9 +47,11 @@ class UserLocation(models.Model):
     objects = models.GeoManager()
 
     def __unicode__(self):
-        return '%s %s %s' % (self.user, self.position.longitude, self.position.latitude)
+        return '%s %s %s' % (self.user, self.position.longitude,
+                             self.position.latitude)
 
     def save(self, *args, **kwargs):
-        point = fromstr("POINT(%s %s)" % (self.position.longitude, self.position.latitude))
+        point = fromstr("POINT(%s %s)" % (self.position.longitude,
+                                          self.position.latitude))
         self.geometry = point
         super(UserLocation, self).save(*args, **kwargs)
