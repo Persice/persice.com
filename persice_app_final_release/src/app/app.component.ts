@@ -1,5 +1,5 @@
 import { AfterContentInit, Component, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'persice-app',
@@ -17,7 +17,13 @@ export class AppComponent implements AfterContentInit {
   ) { }
 
   ngAfterContentInit() {
-
+    this.router.events.subscribe(ev => {
+      if (ev instanceof NavigationEnd) {
+        setTimeout(() => {
+          document.body.scrollTop = 0;
+        });
+      }
+    });
   }
 
   activateEvent(event) {

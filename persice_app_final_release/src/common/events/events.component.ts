@@ -29,7 +29,6 @@ export abstract class EventsComponent {
   }
 
   onInit(): void {
-
     this.events$ = this.eventsService.events$;
     this.isLoading$ = this.eventsService.isLoading$;
     this.notFound$ = this.eventsService.notFound$;

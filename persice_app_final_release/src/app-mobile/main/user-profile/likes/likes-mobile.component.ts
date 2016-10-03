@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { HeaderState } from '../../header';
 import { LikesMobileService } from '../../../shared/services/likes-mobile.service';
 import { AppStateService } from '../../../shared/services';
@@ -9,7 +9,7 @@ import { TwoListMobileComponent } from '../../../shared/components/two-list/two-
   templateUrl: '../../../shared/components/two-list/two-list-mobile.html',
   providers: [ LikesMobileService ]
 })
-export class LikesMobileComponent extends TwoListMobileComponent implements OnInit, OnDestroy, AfterViewInit {
+export class LikesMobileComponent extends TwoListMobileComponent implements OnInit, OnDestroy {
 
   @Input() userId: string;
   @Input() hideMutualLikesTitle: boolean;
@@ -38,12 +38,6 @@ export class LikesMobileComponent extends TwoListMobileComponent implements OnIn
 
   ngOnDestroy(): any {
     super.ngOnDestroy();
-  }
-
-  ngAfterViewInit(): any {
-    setTimeout(() => {
-      window.scrollTo(0, 0);
-    });
   }
 
 }
