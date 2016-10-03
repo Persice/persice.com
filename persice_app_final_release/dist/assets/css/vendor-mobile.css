@@ -6231,7 +6231,7 @@ li > ul, li > ol {
 }
 
 .mob-signup-landing .site-logo {
-  color: #39c9f5
+  color: #fff
 }
 
 .mob-signup-landing .site-logo .site-logo__mark {
@@ -13780,4 +13780,9 @@ html.remodal-is-locked > body {
   height: 16px !important;
   background: url("/assets/images/close.png") !important;
   cursor: pointer !important
+}
+
+/* Disables zoom, use font-size for a better user experience on Mobile browsers */
+input[type="text"], input[type="number"], textarea {
+  font-size: 16px!important;
 }
