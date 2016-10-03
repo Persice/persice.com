@@ -129,7 +129,7 @@ if ! which nginx > /dev/null 2>&1; then
 fi
 
 if [ ! -f /etc/nginx/sites-available/test-local.com ]; then
-    cp /home/vagrant/bekindred/nginx/test-local.com.conf /etc/nginx/sites-available/test-local.com
+    cp /home/vagrant/bekindred/nginx/test-local.com.conf.new /etc/nginx/sites-available/test-local.com
     chmod 644 /etc/nginx/sites-available/test-local.com
     ln -s /etc/nginx/sites-available/test-local.com /etc/nginx/sites-enabled/test-local.com
     service nginx restart

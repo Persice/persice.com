@@ -4,10 +4,9 @@ set -xe
 source .env
 
 git pull origin $1
-pushd persice_app
+pushd persice_app_final_release
 npm install
-gulp
-npm run build:prod
+npm run compile
 popd
 
 git ls-files . | grep -E '(\.gif$)|(\.png$)|(\.jpg$)|(\.html$)|(\.js$)|(\.css$)|(\.gz$)|(\.map$)|(\.svg$)' | xargs git add

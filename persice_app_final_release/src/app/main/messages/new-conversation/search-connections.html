@@ -1,0 +1,22 @@
+<input (click)="resultsVisible = true" (focus)="resultsVisible = true" (blur)="resultsVisible = false"
+       (keydown)="keyEvent($event)" #term [formControl]="searchTerm" type="text"
+       class="left-labeled-input__element js-message-to"
+       placeholder="NAME">
+<div class="message-drop" [ngClass]="{'is-invisible': !resultsVisible}">
+  <div class="message-drop__results">
+    <a class="message-drop__results__result" *ngFor="let result of results | async; let i = index"
+       (mouseover)="selectedIndex = i" (click)="select(result)" [ngClass]="{'is-active': selectedIndex === i}">
+      <div class="flag flag--small">
+        <div class="flag__img">
+          <div class="avatar avatar--medium">
+            <div class="avatar-holder" checkimage="{{result.image}}" [suffix]="'.56x56_q100_crop.jpg'">
+            </div>
+          </div>
+        </div>
+        <div class="flag__body">
+          <div class="message__name">{{result.first_name}}</div>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>

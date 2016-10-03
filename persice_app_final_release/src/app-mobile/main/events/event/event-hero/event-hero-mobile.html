@@ -1,0 +1,12 @@
+<div class="event-hero">
+  <div class="event-hero__content">
+    <h1 class="event-hero__title">{{event.name}}</h1>
+    <h4 class="event-hero__hosted"><span *ngIf="event.hostedBy">Hosted by</span> {{event.hostedBy}} <span
+      class="event-hero__hosted__view">({{event.accessLevel}})</span>
+    </h4>
+    <prs-mobile-event-description [type]="'event'" [description]="event.description"></prs-mobile-event-description>
+  </div>
+  <div class="event-hero-fake-bg-overlay"></div>
+  <img default="{{event.image}}" src="{{event.image + '.375x145_q100_crop.jpg'}}" alt="event image"
+       class="event-hero-fake-bg">
+</div>

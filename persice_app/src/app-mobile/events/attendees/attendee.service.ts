@@ -11,7 +11,6 @@ enum RsvpStatus {
 }
 
 interface Attendees {
-  host: Person;
   connections: Person[];
   connectionsTotalCount: number;
   others: Person[];
@@ -19,7 +18,6 @@ interface Attendees {
 }
 
 interface AttendeesMapped {
-  host: Person;
   connections: Person[];
   others: Person[];
   nextUrl: string;
@@ -28,28 +26,31 @@ interface AttendeesMapped {
 @Injectable()
 export class AttendeeService {
   public static API_URL = '/api/v2/attendees/';
+  public static API_URL_EVENT_HOST = '/api/v2/organizer/';
 
   public attendees$: Observable<Attendees>;
+  public host$: Observable<Person>;
   public isLoading$: Observable<boolean>;
   public isLoaded$: Observable<boolean>;
 
   public counters$: Observable<number[]>;
 
   private _attendees$: BehaviorSubject<Attendees> = new BehaviorSubject({
-    host: <Person>{},
     connections: [],
     connectionsTotalCount: 0,
     others: [],
     othersTotalCount: 0
   });
+  private _host$: BehaviorSubject<Person> = new BehaviorSubject(null);
   private _isLoading$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private _isLoaded$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private _nextUrl: string = '';
 
-  private _counters$: BehaviorSubject<number[]> = new BehaviorSubject([0, 0, 0]);
+  private _counters$: BehaviorSubject<number[]> = new BehaviorSubject([ 0, 0, 0 ]);
 
   constructor(protected http: HttpClient) {
     this.attendees$ = this._attendees$.asObservable();
+    this.host$ = this._host$.asObservable();
     this.isLoading$ = this._isLoading$.asObservable();
     this.isLoaded$ = this._isLoaded$.asObservable();
 
@@ -63,6 +64,7 @@ export class AttendeeService {
       this._getCounters(RsvpStatus.maybe, eventId),
       this._getCounters(RsvpStatus.no, eventId))
       .subscribe((data: number[]) => {
+        data[ 0 ] = data[ 0 ] + 1;
         this._counters$.next(data);
 
       }, (err) => {
@@ -83,7 +85,7 @@ export class AttendeeService {
   private _getCounters(rsvp: RsvpStatus, eventId: number): Observable<any> {
     const params: string = [
       `format=json`,
-      `rsvp=${RsvpStatus[rsvp]}`,
+      `rsvp=${RsvpStatus[ rsvp ]}`,
       `event_id=${eventId}`,
       `limit=1`,
       `offset=0`
@@ -114,7 +116,7 @@ export class AttendeeService {
     // Set API url and params
     const params: string = [
       `format=json`,
-      `rsvp=${RsvpStatus[rsvp]}`,
+      `rsvp=${RsvpStatus[ rsvp ]}`,
       `event_id=${eventId}`,
       `limit=12`,
       `offset=0`
@@ -123,9 +125,11 @@ export class AttendeeService {
     let apiUrl = `${AttendeeService.API_URL}?${params}`;
 
     if (!!loadingInitial) {
+
+      this._loadEventHost(eventId);
+
       this._nextUrl = '';
       this._attendees$.next({
-        host: <Person>{},
         connections: [],
         connectionsTotalCount: 0,
         others: [],
@@ -148,12 +152,10 @@ export class AttendeeService {
 
         this._nextUrl = data.nextUrl;
 
-        const connectionsList: Person[] = [...this._attendees$.getValue().connections, ...data.connections];
-        const othersList: Person[] = [...this._attendees$.getValue().others, ...data.others];
-        const hostPerson: Person = data.host;
+        const connectionsList: Person[] = [ ...this._attendees$.getValue().connections, ...data.connections ];
+        const othersList: Person[] = [ ...this._attendees$.getValue().others, ...data.others ];
 
         this._attendees$.next({
-          host: hostPerson,
           connections: connectionsList,
           connectionsTotalCount: connectionsList.length,
           others: othersList,
@@ -173,6 +175,18 @@ export class AttendeeService {
       });
   }
 
+  private _loadEventHost(eventId: any): void {
+    // Load event host
+    let eventOrganizerApiUrl = `${AttendeeService.API_URL_EVENT_HOST}${eventId}/?format=json`;
+    this.http.get(eventOrganizerApiUrl)
+      .map((res: Response) => this._mapResponseToHost(res))
+      .subscribe((host: Person) => {
+        this._host$.next(host);
+      }, (err) => {
+        console.log('organizer error: ', err);
+      });
+  }
+
   private _mapResponse(response: Response): AttendeesMapped {
     const dto: any = response.json();
 
@@ -184,24 +198,17 @@ export class AttendeeService {
     // based on value of "connected" attribute.
     let connectionsList: Person[] = [];
     let othersList: Person[] = [];
-    let hostPerson: Person = <Person>{};
 
     for (let i = 0; i < personsList.length; i++) {
 
-      if (!!personsList[i].isEventOrganizer) {
-        hostPerson = personsList[i];
+      if (!!personsList[ i ].connected) {
+        connectionsList = [ ...connectionsList, personsList[ i ] ];
       } else {
-        if (!!personsList[i].connected) {
-          connectionsList = [...connectionsList, personsList[i]];
-        } else {
-          othersList = [...othersList, personsList[i]];
-        }
+        othersList = [ ...othersList, personsList[ i ] ];
       }
-
     }
 
     let data: AttendeesMapped = {
-      host: hostPerson,
       connections: connectionsList,
       others: othersList,
       nextUrl: next
@@ -209,6 +216,13 @@ export class AttendeeService {
 
     return data;
 
+  }
+
+  private _mapResponseToHost(response: Response): Person {
+    const dto: any = response.json();
+    // Parse API response.
+    let host: Person = this._toPerson(dto);
+    return host;
   }
 
   private _toPerson(dto: any): Person {

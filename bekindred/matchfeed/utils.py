@@ -555,30 +555,31 @@ def persice_organizer(user):
 
 
 def build_organizer(event):
-    if event.event_type == 'persice':
-        return persice_organizer(event.organizer)
+    if event.organizer:
+        return {
+            'name': event.organizer.facebook_name,
+            'image': get_attendee_photo(event.organizer),
+            'username': event.organizer.username,
+            'age': calculate_age(event.organizer.date_of_birth),
+            'gender': event.organizer.gender,
+            'about_me': event.organizer.about_me,
+            'link': 'https://persice.com/{}/'.format(
+                event.organizer.username
+            )
+        }
     else:
         fb_event = FacebookEvent.objects.filter(facebook_id=event.eid).first()
-        if fb_event:
-            prs_user = FacebookCustomUserActive.objects.filter(
-                facebook_id=fb_event.owner_info.get('id', -11)
-            ).first()
-            if prs_user:
-                return persice_organizer(prs_user)
-
-        elif fb_event:
-            return {
-                'name': fb_event.owner_info.get('name'),
-                'image': None,
-                'link': 'https://www.facebook.com/{}/'.format(
-                    fb_event.owner_info.get('id')
-                ),
-                'username': None,
-                'age': None,
-                'gender': None,
-                'about_me': None
-            }
-        return None
+        return {
+            'name': fb_event.owner_info.get('name'),
+            'image': None,
+            'link': 'https://www.facebook.com/{}/'.format(
+                fb_event.owner_info.get('id')
+            ),
+            'username': None,
+            'age': None,
+            'gender': None,
+            'about_me': None
+        }
 
 
 class MatchEvent(object):
@@ -631,6 +632,8 @@ class MatchEvent(object):
             self.current_user_id, self.event, self.matched_users, rsvp='maybe')
 
     def match_score(self):
+        # TODO:
+        # Added match current user with event name and description
         return sum(self.names[0].values()) + sum(self.descriptions[0].values())
 
     def highlight(self, event_object, target='name'):

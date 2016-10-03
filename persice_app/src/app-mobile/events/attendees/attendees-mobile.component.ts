@@ -63,7 +63,7 @@ export class AttendeesMobileComponent implements OnInit, OnDestroy {
     });
 
     this.connections$ = this.attendeeService.attendees$.map(data => data.connections);
-    this.host$ = this.attendeeService.attendees$.map(data => data.host);
+    this.host$ = this.attendeeService.host$;
     this.connectionsTotalCount$ = this.attendeeService.attendees$.map(data => data.connectionsTotalCount);
     this.others$ = this.attendeeService.attendees$.map(data => data.others);
     this.othersTotalCount$ = this.attendeeService.attendees$.map(data => data.othersTotalCount);
@@ -95,7 +95,12 @@ export class AttendeesMobileComponent implements OnInit, OnDestroy {
   }
 
   public viewProfile(person: Person) {
-    this.router.navigateByUrl('/' + person.username);
+    if (person.isNonPersiceUser) {
+      window.open(person.url, '_new');
+    } else {
+      this.router.navigateByUrl('/' + person.username);
+    }
+
   }
 
   public openNewConversation(person: Person) {

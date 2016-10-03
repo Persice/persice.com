@@ -6,14 +6,14 @@ import { SelectedPersonActions } from '../../../common/actions';
 import { AppState, getSelectedPersonState } from '../../../common/reducers';
 import { AppStateService } from '../../shared/services';
 import { HeaderState } from '../../header';
-import { NewConversationMobileService } from './new-conversation-mobile.service';
+import { NewConversationService } from '../../../common/messages/new-conversation.service';
 import { CheckImageDirective } from '../../../app/shared/directives';
 import { HttpClient } from '../../../common/core/http-client';
 
 @Component({
   selector: 'prs-mobile-new-conversation',
   template: <any>require('./new-conversation-mobile.html'),
-  providers: [NewConversationMobileService],
+  providers: [NewConversationService],
   directives: [CheckImageDirective]
 })
 export class NewConversationMobileComponent implements OnInit, OnDestroy, AfterViewInit {
@@ -31,7 +31,7 @@ export class NewConversationMobileComponent implements OnInit, OnDestroy, AfterV
     private appStateService: AppStateService,
     private _router: Router,
     private http: HttpClient,
-    private service: NewConversationMobileService,
+    private service: NewConversationService,
     private store: Store<AppState>,
     private actions: SelectedPersonActions
   ) {

@@ -1,49 +1,66 @@
-import time
 import json
 import logging
+
+import hashlib
+import re
+import time
 from datetime import datetime
 
-import re
 import redis
 from django.conf.urls import url
 from django.contrib.humanize.templatetags.humanize import intcomma
+from django.core.cache import cache
 from django.core.paginator import InvalidPage, Paginator
 from django.db import IntegrityError
 from django.forms import model_to_dict
 from django.http import Http404
 from django.utils.timezone import now
-from guardian.shortcuts import assign_perm, remove_perm
+from guardian.shortcuts import assign_perm
 from haystack.backends import SQ
 from haystack.query import SearchQuerySet
+
+from matchfeed.api.resources import A
+from postman.api import pm_write
 from tastypie import fields
 from tastypie.authorization import Authorization
 from tastypie.bundle import Bundle
 from tastypie.constants import ALL, ALL_WITH_RELATIONS
-from tastypie.exceptions import BadRequest, ImmediateHttpResponse
+from tastypie.exceptions import BadRequest, ImmediateHttpResponse, NotFound
 from tastypie.http import HttpUnauthorized
 from tastypie.resources import ModelResource, Resource
 from tastypie.utils import trailing_slash
 from tastypie.validation import Validation
+from tastypie.cache import SimpleCache
 
 from accounts.api.authentication import JSONWebTokenAuthentication
 from events.authorization import GuardianAuthorization
-from events.tasks import assign_perm_task, remove_perm_task, \
-    publish_to_redis_channel
-from events.models import (Event, Membership, FilterState)
+from events.models import Event, FilterState, Membership, FacebookEvent
+from events.tasks import (
+    assign_perm_task,
+    publish_to_redis_channel,
+    remove_perm_task
+)
 from events.utils import ResourseObject
 from friends.models import Friend
 from friends.utils import NeoFourJ
 from goals.models import Goal, Offer
-from goals.utils import (calculate_age, get_current_position, get_lives_in)
+from goals.utils import calculate_age, get_current_position, get_lives_in
 from interests import Interest
-from matchfeed.utils import MatchQuerySet, MatchEvent, NonMatchUser, \
+from matchfeed.utils import (
+    MatchEvent,
+    MatchQuerySet,
+    NonMatchUser,
     build_organizer
+)
 from members.models import FacebookCustomUserActive
 from photos.api.resources import UserResource
 from photos.models import FacebookPhoto
-from postman.api import pm_write
 
 logger = logging.getLogger(__name__)
+
+
+class Object(object):
+    pass
 
 
 class EventValidation(Validation):
@@ -670,7 +687,6 @@ class Attendees(ModelResource):
     position = fields.DictField(attribute='position', null=True)
     lives_in = fields.CharField(attribute='lives_in', null=True)
     connected = fields.BooleanField(attribute='connected', default=False)
-    is_organizer = fields.BooleanField(attribute='is_organizer', default=False)
 
     class Meta:
         # max_limit = 10
@@ -701,13 +717,8 @@ class Attendees(ModelResource):
             rsvp=rsvp, event_id=event_id, is_organizer=False
         ).values_list('user_id', flat=True)
 
-        event_organizer = Membership.objects.filter(
-            event_id=event_id, is_organizer=True
-        ).first()
-
         if rsvp == 'yes':
             attendees_ids = list(attendees_ids)
-            attendees_ids.append(event_organizer.user_id)
 
         match_users = MatchQuerySet.all(request.user.id,
                                         is_filter=False, exclude_ids=())
@@ -715,10 +726,6 @@ class Attendees(ModelResource):
         matched_attendees_ids = []
         for match_user in match_users:
             if match_user.id in attendees_ids:
-                if match_user.id == event_organizer.user_id:
-                    match_user.is_organizer = True
-                else:
-                    match_user.is_organizer = False
                 attendees.append(match_user)
                 matched_attendees_ids.append(match_user.id)
         non_match_attendees = set(attendees_ids) - set(matched_attendees_ids)
@@ -726,17 +733,12 @@ class Attendees(ModelResource):
             try:
                 non_match_user = NonMatchUser(request.user.id,
                                               non_match_attendee)
-                if non_match_user.id == event_organizer.user_id:
-                    non_match_user.is_organizer = True
-                else:
-                    non_match_user.is_organizer = False
                 attendees.append(non_match_user)
             except FacebookCustomUserActive.DoesNotExist as er:
                 logger.error(er)
 
         logger.info('/api/v2/attendees/: {}'.format(time.time() - now))
-        return sorted(attendees, key=lambda x: (-x.is_organizer,
-                                                -x.score,
+        return sorted(attendees, key=lambda x: (-x.score,
                                                 -x.connected))
 
     def obj_get_list(self, bundle, **kwargs):
@@ -821,20 +823,26 @@ class EventFeedResource(Resource):
         return kwargs
 
     def get_object_list(self, request):
-        match = MatchQuerySet.all_event(request.user.id, feed='my')
+        match = []
         if request.GET.get('filter') == 'true':
             if request.GET.get('feed') == 'my':
-                match = MatchQuerySet.\
-                    all_event(request.user.id, feed='my', is_filter=True)
+                feed = 'my'
             elif request.GET.get('feed') == 'all':
-                match = MatchQuerySet.\
-                    all_event(request.user.id, feed='all', is_filter=True)
+                feed = 'all'
             elif request.GET.get('feed') == 'connections':
-                match = MatchQuerySet.\
-                    all_event(request.user.id, feed='connections',
+                feed = 'connections'
+            else:
+                feed = 'all'
+            cache_key = 'e_%s_%s' % (feed, request.user.id)
+            cached_match = cache.get(cache_key)
+            if cached_match:
+                match = cached_match
+            else:
+                match = MatchQuerySet. \
+                    all_event(request.user.id, feed=feed,
                               is_filter=True)
+                cache.set('e_%s_%s' % (feed, request.user.id), match)
             fs = FilterState.objects.filter(user=request.user.id)
-
             if fs:
                 if fs[0].order_criteria == 'match_score':
                     return sorted(match, key=lambda x: -x.cumulative_match_score)
@@ -853,4 +861,95 @@ class EventFeedResource(Resource):
 
     def obj_get_list(self, bundle, **kwargs):
         # Filtering disabled for brevity...
+        return self.get_object_list(bundle.request)
+
+
+class OrganizerResource(ModelResource):
+    id = fields.CharField(attribute='id')
+    first_name = fields.CharField(attribute='first_name', null=True, blank=True)
+    last_name = fields.CharField(attribute='last_name', null=True, blank=True)
+    name = fields.CharField(attribute='name', null=True, blank=True)
+    facebook_id = fields.CharField(attribute='facebook_id', null=True, blank=True)
+    username = fields.CharField(attribute='username', null=True, blank=True)
+    image = fields.FileField(attribute="image", null=True, blank=True)
+    user_id = fields.CharField(attribute='user_id', null=True, blank=True)
+    age = fields.IntegerField(attribute='age', null=True, blank=True)
+    distance = fields.ListField(attribute='distance', null=True)
+    about = fields.CharField(attribute='about', null=True)
+    gender = fields.CharField(attribute='gender', default=u'all')
+
+    photos = fields.ListField(attribute='photos', null=True)
+    goals = fields.ListField(attribute='goals', null=True)
+    offers = fields.ListField(attribute='offers', null=True)
+    interests = fields.ListField(attribute='interests', null=True)
+    top_interests = fields.ListField(attribute='top_interests', null=True)
+
+    score = fields.IntegerField(attribute='score', null=True, default=0)
+    mutual_likes_count = fields.IntegerField(
+        attribute='mutual_likes_count',
+        null=True)
+    total_likes_count = fields.IntegerField(attribute='total_likes_count',
+                                            null=True)
+    es_score = fields.FloatField(attribute='es_score', null=True, default=0)
+    friends_score = fields.IntegerField(attribute='friends_score',
+                                        null=True)
+    last_login = fields.DateField(attribute='last_login', null=True)
+    keywords = fields.ListField(attribute='keywords', null=True)
+    position = fields.DictField(attribute='position', null=True)
+    lives_in = fields.CharField(attribute='lives_in', null=True)
+    connected = fields.BooleanField(attribute='connected', default=False)
+    event_type = fields.CharField(attribute='event_type', null=True)
+    url = fields.CharField(attribute='link', null=True)
+
+    class Meta:
+        resource_name = 'organizer'
+        authentication = JSONWebTokenAuthentication()
+        authorization = Authorization()
+        allowed_methods = ['get']
+
+    def detail_uri_kwargs(self, bundle_or_obj):
+        kwargs = {}
+        if isinstance(bundle_or_obj, Bundle):
+            kwargs['pk'] = bundle_or_obj.obj.id
+        else:
+            kwargs['pk'] = bundle_or_obj.id
+
+        return kwargs
+
+    def obj_get(self, bundle, **kwargs):
+        event_id = int(kwargs.get('pk'))
+        try:
+            event = Event.objects.get(pk=event_id)
+        except Event.DoesNotExist:
+            raise NotFound("Organizer not found")
+        if event.organizer:
+            event_organizer = event.organizer
+            match_user = MatchQuerySet.between(
+                user_id1=bundle.request.user.id, user_id2=event_organizer.id
+            )
+            if match_user:
+                match_user = match_user[0]
+                match_user.id = event_id
+            else:
+                match_user = NonMatchUser(
+                    bundle.request.user.id, event_organizer.id
+                )
+            match_user.event_type = event.event_type
+        else:
+            fb_event = FacebookEvent.objects.filter(
+                facebook_id=event.eid).first()
+            obj = A()
+            obj.id = event.id
+            obj.first_name = fb_event.owner_info.get('name')
+            obj.link = 'https://www.facebook.com/{}/'.format(
+                fb_event.owner_info.get('id')
+            )
+            obj.event_type = event.event_type
+            return obj
+        return match_user
+
+    def get_object_list(self, request):
+        return []
+
+    def obj_get_list(self, bundle, **kwargs):
         return self.get_object_list(bundle.request)

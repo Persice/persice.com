@@ -13,10 +13,10 @@ const TOKEN_LIMIT: number = 1;
 })
 export class NewConversationHeaderComponent implements OnChanges {
   @Output() selected: EventEmitter<any> = new EventEmitter;
-  @Input() initialTokens;
-  tokens: any[] = [];
-  searchInputVisible: boolean = true;
-  activeToken: number = -1;
+  @Input() initialTokens: any;
+  private tokens: any[] = [];
+  private searchInputVisible: boolean = true;
+  private activeToken: number = -1;
 
   ngOnChanges(values) {
     if (values.initialTokens && values.initialTokens.currentValue[0]) {
@@ -25,7 +25,7 @@ export class NewConversationHeaderComponent implements OnChanges {
     }
   }
 
-  addToken(token) {
+   private addToken(token): void {
     //check if limit is reached
     if (this.tokens.length < TOKEN_LIMIT) {
       //check if token already exists
@@ -44,7 +44,7 @@ export class NewConversationHeaderComponent implements OnChanges {
     }
   }
 
-  removeToken(index) {
+  private removeToken(index): void {
     this.activeToken = -1;
     this.tokens.splice(index, 1);
     this.selected.emit(this.tokens);

@@ -1,0 +1,26 @@
+<div class="user-card">
+  <div class="flag flag--small flag--top">
+    <a class="flag__img" [href]="person.url" target="_new">
+      <div class="avatar-place">
+        <div class="avatar avatar--small cover-background"
+             [ngStyle]="{'background-image': 'url(' + person.image + ')'}">
+        </div>
+        <svg role="img" *ngIf="person.type === 'facebook'" class="icon avatar-icon">
+          <use xmlns:xlink="http://www.w3.org/1999/xlink"
+               xlink:href="/assets/icons/icons.svg#icon-facebook"></use>
+        </svg>
+        <svg role="img" *ngIf="person.type === 'twitter'" class="icon avatar-icon">
+          <use xmlns:xlink="http://www.w3.org/1999/xlink"
+               xlink:href="/assets/icons/icons.svg#icon-twitter"></use>
+        </svg>
+        <svg role="img" *ngIf="person.type === 'linkedin'" class="icon avatar-icon">
+          <use xmlns:xlink="http://www.w3.org/1999/xlink"
+               xlink:href="/assets/icons/icons.svg#icon-linkedin"></use>
+        </svg>
+      </div>
+    </a>
+    <div class="flag__body">
+      <div class="user-card__name" (click)="openLink($event)">{{person.name}}</div>
+    </div>
+  </div>
+</div>

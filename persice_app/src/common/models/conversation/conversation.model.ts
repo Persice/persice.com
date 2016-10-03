@@ -1,4 +1,5 @@
 import { StringUtil } from '../../../common/core';
+import {DateUtil} from '../../core/util';
 
 const BODY_LENGTH_LIMIT: number = 30;
 
@@ -62,6 +63,10 @@ export class Conversation {
   set sentAt(date: string) {
     this._date = date;
     this._sentAt = date;
+  }
+
+  get sentAtFormated(): string {
+    return DateUtil.format(this._sentAt, 'MMMM do YYYY, h:mm:ss a');
   }
 
   get readAt(): string {

@@ -1,0 +1,25 @@
+<div class="conversation-top conversation-top--mobile">
+  <span class="conversation-top__label">To:</span>
+  <div class="tokenfield" *ngIf="tokens.length > 0">
+    <div class="token token--mobile" *ngFor="let token of tokens; let i = index;">
+      <span class="token-label">{{token.first_name}}</span>
+      <a (click)="removeRecipient(i)" class="close">×</a>
+    </div>
+  </div>
+  <input [(ngModel)]="recipientName" #recipientNameInput [ngClass]="{'is-hidden': tokens.length >= 1}" type="text"
+         class="c-input c-input--conversation-top">
+  <ul class="conversation-top__drop" *ngIf="possibleRecipients.length > 0">
+    <li *ngFor="let item of possibleRecipients" (click)="selectRecipient(item)">
+      <div class="flag flag--small">
+        <div class="flag__img">
+          <div checkimage="{{item.image}}" [suffix]="'.56x56_q100_crop.jpg'"
+               class="avatar avatar--small cover-background">
+          </div>
+        </div>
+        <div class="flag__body"><span class="conversation-top__drop__name">{{item.first_name}}</span></div>
+      </div>
+    </li>
+  </ul>
+</div>
+<textarea [(ngModel)]="messageText" placeholder="Write a message"
+          class="c-input c-input--textarea c-input--textarea-noborder c-input--textarea--new-message c-input--textarea--new-message--mobile"></textarea>

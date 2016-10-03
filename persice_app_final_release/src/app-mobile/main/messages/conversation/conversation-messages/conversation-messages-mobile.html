@@ -1,0 +1,25 @@
+<div class="chat-wrapper" prs-infinite-scroll-reverse [loadedCount]="loadedCount" [totalCount]="totalCount"
+     [scrollEnabled]="!loaded" [topOffset]="60" (scrolled)="onScrollTop.emit($event)" #scrollContainer>
+  <div class="chat__messages-wrapper">
+    <div class="chat__messages">
+      <prs-loading [ngClass]="{'chat__messages--initial-loading': loading && totalCount === 0}" [type]="2"
+                   [status]="loading"></prs-loading>
+      <div class="message" *ngFor="let message of messages; let i = index">
+        <div class="flag flag--middle flag--small mb--">
+          <div class="flag__img" [routerLink]="'/' + message.senderUsername">
+            <div class="avatar avatar--small avatar--messages" checkimage="{{message.image}}"
+                 [suffix]="'.56x56_q100_crop.jpg'">
+            </div>
+          </div>
+          <div class="flag__body">
+            <div class="message__name">{{message.senderName}}
+              <span class="message__timestamp">
+              <span class="message__timestamp__day">{{message.date}},</span> {{message.time}}</span>
+            </div>
+          </div>
+        </div>
+        <prs-mobile-conversation-message [message]="message.body"></prs-mobile-conversation-message>
+      </div>
+    </div>
+  </div>
+</div>

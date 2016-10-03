@@ -1,0 +1,13 @@
+<prs-mobile-conversation-header [title]="conversationTitle | async">
+</prs-mobile-conversation-header>
+<prs-mobile-conversation-messages [messages]="messages | async"
+                                  [loading]="loading | async"
+                                  [loaded]="loaded | async"
+                                  [loadedCount]="loadedCount | async"
+                                  [totalCount]="totalCount | async"
+                                  [isNewMessageBeingSent]="isNewMessageBeingSent | async"
+                                  (onScrollTop)="loadConversationMessages($event)">
+</prs-mobile-conversation-messages>
+<prs-mobile-conversation-input [isNewMessageBeingSent]="isNewMessageBeingSent | async"
+                               (onSendMessage)="sendMessage($event)">
+</prs-mobile-conversation-input>

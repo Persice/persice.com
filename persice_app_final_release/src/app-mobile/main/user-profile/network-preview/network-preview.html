@@ -1,0 +1,54 @@
+<div class="connections-preview-container" (click)="openConnections($event)">
+  <span class="profile-titleline">{{ownerName}}'s Network
+    <span class="profile-titleline__value">({{connectionsTotalCount}})</span>
+    <span class="profile-titleline__subvalue"
+          *ngIf="type !== 'my-profile'"> - {{mutualConnectionsTotalCount}} mutual</span>
+  </span>
+  <div class="has-user-links">
+    <div class="layout layout--small">
+      <template ngFor let-person [ngForOf]="items">
+        <div class="layout__item 1/5">
+          <div class="user-link" *ngIf="!!person.id">
+            <div class="avatar-place">
+              <div class="avatar avatar--small cover-background" checkimage="{{person.image}}"
+                   [suffix]="'.56x56_q100_crop.jpg'"></div>
+              <svg *ngIf="!!person.mutual" role="img" class="icon avatar-icon network-preview">
+                <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                     xlink:href="/assets/icons/icons.svg#icon-persice"></use>
+              </svg>
+            </div>
+            <span class="user-link__username">{{person.firstName}}</span>
+          </div>
+          <div class="user-link" *ngIf="!person.id">
+            <div class="avatar-place">
+              <div class="avatar avatar--small cover-background"
+                   [ngStyle]="{'background-image': 'url(' + person.image + ')'}"></div>
+              <svg *ngIf="person.type === 'facebook'" role="img" class="icon avatar-icon network-preview">
+                <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                     xlink:href="/assets/icons/icons.svg#icon-facebook"></use>
+              </svg>
+              <svg *ngIf="person.type === 'twitter'" role="img" class="icon avatar-icon network-preview">
+                <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                     xlink:href="/assets/icons/icons.svg#icon-twitter"></use>
+              </svg>
+              <svg *ngIf="person.type === 'linkedin'" role="img" class="icon avatar-icon network-preview">
+                <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                     xlink:href="/assets/icons/icons.svg#icon-linkedin"></use>
+              </svg>
+            </div>
+            <span class="user-link__username">{{person.name}}</span>
+          </div>
+        </div>
+      </template>
+      <div class="layout__item 1/5" *ngFor="let empty of emptyPlacesArray">
+      </div>
+      <div class="layout__item 1/5 text-center" *ngIf="items.length > 0">
+        <a>
+          <svg role="img" class="icon">
+            <use xlink:href="/assets/icons/icons.svg#icon-arrow_swipe_right"></use>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

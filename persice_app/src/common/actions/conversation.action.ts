@@ -16,6 +16,8 @@ export class ConversationActions {
   public static SELECT_CONVERSATION = '[Conversation] Select Conversation';
   public static COLLECTION_FULLY_LOADED = '[Conversation] Collection Fully Loaded';
   public static ADD_NEW_OR_REPLACE_EXISTING = '[Conversation] Add New Or Replace Existing';
+  public static MARK_SELECTED_CONVERSATION_READ = '[Conversation] Mark Selected Conversation Read';
+  public static SELECT_CONVERSATION_BY_ID = '[Conversation] Select Conversation By ID';
 
   public loadCollectionSuccess(data: ConversationsData): Action {
     return {
@@ -57,6 +59,20 @@ export class ConversationActions {
       type: ConversationActions.ADD_NEW_OR_REPLACE_EXISTING,
       payload: conversation
     };
+  }
+
+  public markSelectedConversationRead(): Action {
+    return {
+      type: ConversationActions.MARK_SELECTED_CONVERSATION_READ,
+      payload: {}
+    }
+  }
+
+  public selectConversationByID(id: number): Action {
+    return {
+      type: ConversationActions.SELECT_CONVERSATION_BY_ID,
+      payload: id
+    }
   }
 
 }

@@ -1,0 +1,22 @@
+<div class="swiper-container js-profile-swiper-1 pt" *ngIf="people.length > 0" swiper="{{swiperOptions}}">
+  <div class="swiper-wrapper">
+    <div class="swiper-slide" *ngFor="let person of people">
+      <a class=" user-listed user-listed--1 " (click)="openProfile(person.username)">
+        <div class="listed-user-avatar-place ">
+          <div class="avatar avatar--medium ">
+            <div class="avatar-holder " checkimage="{{person.image}}" [suffix]="'.56x56_q100_crop.jpg'"></div>
+          </div>
+          <svg role="img" class="icon avatar-icon" *ngIf="person.is_connection">
+            <use xlink:href="/assets/icons/icons.svg#icon-persice"></use>
+          </svg>
+          <div class="user-listed__match-percents ">
+            <span class="user-listed__match-percents__value ">{{person.match_score}}&deg;</span>
+          </div>
+        </div>
+        <h5 class="user-name ">{{person.first_name}}</h5>
+      </a>
+    </div>
+  </div>
+  <div class="slide-users__next js-slide-users__next-1">Next</div>
+  <div class="slide-users__prev js-slide-users__prev-1">Prev</div>
+</div>

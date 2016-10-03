@@ -1,0 +1,17 @@
+<div prs-infinite-scroll (scrolled)="onLoadMoreFBAlbums.emit($event)"
+     [scrollEnabled]="1"
+     [bottomOffset]="60">
+  <a class="mob-photo-album" (click)="openChoosePhoto(album.id)" *ngFor="let album of albums">
+    <div class="flag flag--small">
+      <div class="flag__img 1/4">
+        <div class="mob-photo-album__image"
+             [ngStyle]="{'background-image': 'url(' + album.picture.data.url + ')'}"></div>
+      </div>
+      <div class="flag__body">
+        <h3 class="mob-photo-album__title">{{album.name}}</h3>
+        <span class="mob-photo-album__num">{{album.count}} photos</span>
+      </div>
+    </div>
+  </a>
+  <prs-loading [status]="loading"></prs-loading>
+</div>

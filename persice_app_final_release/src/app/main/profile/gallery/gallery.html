@@ -1,0 +1,25 @@
+<button data-remodal-action="close" class="remodal-close">
+  <svg role="img" class="icon ">
+    <use xlink:href="/assets/icons/icons.svg#icon-close"></use>
+  </svg>
+</button>
+<div class="swiper-container gallery-top">
+  <div class="swiper-wrapper">
+    <div class="swiper-slide" *ngFor="let photo of photos"><img [src]="photo.photo" alt=""></div>
+    <div class="swiper-slide" *ngIf="photos.length === 0"><img [src]="defaultPhoto" alt=""></div>
+    <div *ngIf="photos.length === 0 && (defaultPhoto === '' || defaultPhoto === null)" class="swiper-slide"><img
+      src="/assets/images/empty_avatar.png" alt=""></div>
+  </div>
+</div>
+<div class="modal-gallery__arrow modal-gallery__arrow--prev"></div>
+<div class="modal-gallery__arrow modal-gallery__arrow--next"></div>
+<div class="swiper-container gallery-thumbs">
+  <div class="swiper-wrapper">
+    <div class="swiper-slide" *ngFor="let photo of photos"
+         [ngStyle]="{'background-image': 'url(' + photo.photo + ')'}"></div>
+    <div class="swiper-slide" *ngIf="photos.length === 0"
+         [ngStyle]="{'background-image': 'url(' + defaultPhoto + ')'}"></div>
+    <div class="swiper-slide" *ngIf="photos.length === 0 && (defaultPhoto === '' || defaultPhoto === null)"
+         [ngStyle]="{'background-image': 'url(/assets/images/empty_avatar.png)'}"></div>
+  </div>
+</div>

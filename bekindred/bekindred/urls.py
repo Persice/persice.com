@@ -3,36 +3,71 @@ from django.conf.urls import include, patterns, url
 from django.contrib import admin
 from tastypie.api import Api
 
-from accounts.api.resources import SocialLoginResource, \
-    TwitterSocialConnectResource, LinkedinSocialConnectResource, \
-    TwitterSocialDisconnectResource, LinkedinSocialDisconnectResource
-from events.api.resources import (AboutMeResource, EventAttendees,
-                                  EventConnections, EventResource,
-                                  MembershipResource, EventFeedResource,
-                                  UserProfileResource, FilterStateResource,
-                                  Attendees)
-from friends.api.resources import (ConnectionsSearchResource,
-                                   FriendsNewCounterResource,
-                                   FriendsNewResource, FriendsResource,
-                                   ConnectionsResource, NeoFriendsResource,
-                                   NeoFriendsNewCounterResource,
-                                   NeoFriendsNewResource,
-                                   MutualFriendsCountResource)
-from goals.api.resources import (FacebookLikeResource, GoalResource,
-                                 MatchFilterStateResource, OfferResource,
-                                 SubjectResource, FacebookMutualLikeResource,
-                                 FacebookOtherLikeResource)
-from interests.api.resources import InterestResource, InterestSubjectResource,\
-    ReligiousViewResource, ReligiousIndexResource, PoliticalViewResource, \
-    PoliticalIndexResource
-from matchfeed.api.resources import (MatchedFeedResource,
-                                     MutualFriendsResource,
-                                     ProfileResource, MutualConnections)
-from msgs.api.resources import (ChatMessageResource, InboxLastResource,
-                                InboxResource, MessageResource,
-                                UnreadMessageCounter)
-from photos.api.resources import FacebookPhotoResource, UserResource, \
-    OnBoardingFlowResource
+from accounts.api.resources import (
+    LinkedinSocialConnectResource,
+    LinkedinSocialDisconnectResource,
+    SocialLoginResource,
+    TwitterSocialConnectResource,
+    TwitterSocialDisconnectResource
+)
+from events.api.resources import (
+    AboutMeResource,
+    Attendees,
+    EventAttendees,
+    EventConnections,
+    EventFeedResource,
+    EventResource,
+    FilterStateResource,
+    MembershipResource,
+    OrganizerResource,
+    UserProfileResource
+)
+from friends.api.resources import (
+    ConnectionsResource,
+    ConnectionsSearchResource,
+    FriendsNewCounterResource,
+    FriendsNewResource,
+    FriendsResource,
+    MutualFriendsCountResource,
+    NeoFriendsNewCounterResource,
+    NeoFriendsNewResource,
+    NeoFriendsResource
+)
+from goals.api.resources import (
+    FacebookLikeResource,
+    FacebookMutualLikeResource,
+    FacebookOtherLikeResource,
+    GoalResource,
+    MatchFilterStateResource,
+    OfferResource,
+    SubjectResource
+)
+from interests.api.resources import (
+    InterestResource,
+    InterestSubjectResource,
+    PoliticalIndexResource,
+    PoliticalViewResource,
+    ReligiousIndexResource,
+    ReligiousViewResource
+)
+from matchfeed.api.resources import (
+    MatchedFeedResource,
+    MutualConnections,
+    MutualFriendsResource,
+    ProfileResource
+)
+from msgs.api.resources import (
+    ChatMessageResource,
+    InboxLastResource,
+    InboxResource,
+    MessageResource,
+    UnreadMessageCounter
+)
+from photos.api.resources import (
+    FacebookPhotoResource,
+    OnBoardingFlowResource,
+    UserResource
+)
 from world.api.resources import UserLocationResource
 
 admin.autodiscover()
@@ -89,6 +124,7 @@ v2_api.register(TwitterSocialConnectResource())
 v2_api.register(TwitterSocialDisconnectResource())
 v2_api.register(LinkedinSocialConnectResource())
 v2_api.register(LinkedinSocialDisconnectResource())
+v2_api.register(OrganizerResource())
 
 
 urlpatterns = patterns('',

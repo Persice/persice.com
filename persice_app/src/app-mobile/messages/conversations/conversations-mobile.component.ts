@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
-import { ConversationsMobileService } from './conversations-mobile.service';
+import { ConversationsService } from '../../../common/messages/conversations.service';
 import { WebsocketService } from './../../../app/shared/services';
 import { ConversationsListMobileComponent } from './conversations-list';
 import { Conversation } from '../../../common/models';
@@ -21,7 +21,7 @@ import { HeaderState } from '../../header';
     </prs-mobile-conversations-list>
   `,
   directives: [ConversationsListMobileComponent],
-  providers: [ConversationsMobileService, UnreadMessagesCounterService]
+  providers: [ConversationsService, UnreadMessagesCounterService]
 })
 export class ConversationsMobileComponent implements OnInit, OnDestroy {
   private conversations: Observable<Conversation[]>;
@@ -31,7 +31,7 @@ export class ConversationsMobileComponent implements OnInit, OnDestroy {
   private websocketServiceSubscription: Subscription;
 
   constructor(
-    private conversationsService: ConversationsMobileService,
+    private conversationsService: ConversationsService,
     private router: Router,
     private unreadMessagesCounterService: UnreadMessagesCounterService,
     private websocketService: WebsocketService,
