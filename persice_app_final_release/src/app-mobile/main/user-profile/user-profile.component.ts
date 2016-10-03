@@ -125,6 +125,10 @@ export class UserProfileComponent implements OnInit, OnDestroy {
       this.clearSelectedPersonFromStore();
     });
 
+    setTimeout(() => {
+      document.body.scrollTop = 0;
+    });
+
   }
 
   ngOnDestroy(): any {

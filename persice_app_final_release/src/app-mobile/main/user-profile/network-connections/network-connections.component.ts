@@ -41,6 +41,10 @@ export class NetworkConnectionsComponent implements OnInit, OnDestroy {
 
     this.getConnections();
 
+    setTimeout(() => {
+      document.body.scrollTop = 0;
+    });
+
   }
 
   ngOnDestroy(): any {
