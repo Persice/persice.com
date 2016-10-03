@@ -841,17 +841,18 @@ class EventFeedResource(Resource):
                 match = MatchQuerySet. \
                     all_event(request.user.id, feed=feed,
                               is_filter=True)
-                cache.set('e_%s_%s' % (feed, request.user.id), match)
+                cache.set('e_%s_%s' % (feed, request.user.id), match, 180)
             fs = FilterState.objects.filter(user=request.user.id)
             if fs:
                 if fs[0].order_criteria == 'match_score':
-                    return sorted(match, key=lambda x: -x.cumulative_match_score)
+                    return sorted(
+                        match, key=lambda x: -x.cumulative_match_score)
                 elif fs[0].order_criteria == 'event_score':
                     return sorted(match,
                                   key=lambda x: -x.recommended_event_score)
                 elif fs[0].order_criteria == 'mutual_friends':
-                    return sorted(match, key=lambda x: (-x.distance[0],
-                                                        x.distance[1]))
+                    return sorted(
+                        match, key=lambda x: -x.friend_attendees_count)
                 elif fs[0].order_criteria == 'date':
                     return sorted(match, key=lambda x: x.starts_on)
         else:
