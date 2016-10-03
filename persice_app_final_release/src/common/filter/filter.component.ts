@@ -19,7 +19,7 @@ export abstract class FilterComponent {
   renderSlider: boolean = false;
   orderBy: Array<Object> = [
     {
-      'label': 'Similarity',
+      'label': 'Attendee Similarity',
       'value': 'match_score',
       'selected': false
     },
@@ -34,7 +34,7 @@ export abstract class FilterComponent {
       'selected': false
     },
     {
-      'label': 'Mutual Friends',
+      'label': 'Network Connections',
       'value': 'mutual_friends',
       'selected': false
     }
@@ -179,7 +179,7 @@ export abstract class FilterComponent {
       this.showGender = false;
       this.showDateRange = true;
       this.orderBy = [ ...this.orderBy, {
-        'label': 'Event score',
+        'label': 'My Interests',
         'value': 'event_score',
         'selected': false
       } ];
