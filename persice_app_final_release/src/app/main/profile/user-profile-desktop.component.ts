@@ -65,7 +65,7 @@ export class UserProfileDesktopComponent implements OnInit {
 
     setTimeout(() => {
       jQuery('#userprofile').focus();
-      window.scrollTo(0, 0);
+      document.body.scrollTop = 0;
     });
   }
 

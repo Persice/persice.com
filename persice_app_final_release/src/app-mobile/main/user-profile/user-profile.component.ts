@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy, AfterViewInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { Subscription, Observable } from 'rxjs';
 import { Location } from '@angular/common';
 import { HeaderState } from '../header';
@@ -28,7 +28,7 @@ enum ViewsType {
     MutualConnectionsCountService
   ]
 })
-export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
+export class UserProfileComponent implements OnInit, OnDestroy {
   // Profile type, crowd or connection
   @Input() type: string;
 
@@ -139,12 +139,6 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
   clearSelectedPersonFromStore() {
     // Clear selected person from SelectedPerson App Store
     this.store.dispatch(this.actions.clear());
-  }
-
-  ngAfterViewInit() {
-    setTimeout(() => {
-      window.scrollTo(0, 0);
-    });
   }
 
   public makeProfileHeaderVisible() {

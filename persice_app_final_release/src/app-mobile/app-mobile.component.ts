@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, ApplicationRef, OnInit } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 
 @Component({
@@ -13,18 +13,15 @@ export class AppMobileComponent implements OnInit {
 
   constructor(
     public route: ActivatedRoute,
-    public router: Router,
-    public ref: ApplicationRef
+    public router: Router
   ) { }
 
   ngOnInit() {
     this.router.events.subscribe(ev => {
       if (ev instanceof NavigationEnd) {
-        // setTimeout(() => {
-        //   if (this.ref.  ) {
-        //     this.ref.zone.run(() => this.ref.tick());
-        //   }
-        // });
+        setTimeout(() => {
+          document.body.scrollTop = 0;
+        });
       }
     });
   }
