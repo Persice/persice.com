@@ -64,6 +64,10 @@ export class NetworkMutualConnectionsComponent implements OnInit,  OnDestroy {
 
     // Start inital loading of mutual connections
     this._loadData(true);
+
+    setTimeout(() => {
+      document.body.scrollTop = 0;
+    });
   }
 
   ngOnDestroy(): any {

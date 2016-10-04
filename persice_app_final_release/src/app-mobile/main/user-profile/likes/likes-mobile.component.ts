@@ -33,6 +33,10 @@ export class LikesMobileComponent extends TwoListMobileComponent implements OnIn
     this.secondList.title = 'Other';
     this.firstList.hideTitle = this.hideMutualLikesTitle;
 
+    setTimeout(() => {
+      document.body.scrollTop = 0;
+    });
+
     super.ngOnInit();
   }
 

@@ -9599,6 +9599,11 @@ input[type=date] {
   line-height: 1.3
 }
 
+.noresult__title__pals {
+  margin-top: 10px;
+  font-size: 22px !important;
+}
+
 .noresult__par {
   font-size: 14px;
   font-family: "Open Sans", sans-serif;
@@ -9611,6 +9616,41 @@ input[type=date] {
   color: #39c9f5;
   text-decoration: underline;
   white-space: nowrap
+}
+
+.noresult__par--multi {
+  color: #63727a;
+  font-family: "Open Sans", sans-serif;
+  font-size: 14px;
+}
+
+.noresult__par--multi a {
+  text-decoration: underline;
+  white-space: nowrap;
+  color: #39c9f5;
+}
+
+.noresult__par--image {
+  position: relative;
+  margin-right: 22px;
+}
+
+.noresult__par--image::after {
+  display: inline-block;
+  position: absolute;
+  top: -25px;
+  margin-left: 5px;
+  background-image: url('/assets/images/arrow.png');
+  background-size: 60px 45px;
+  width: 60px;
+  height: 45px;
+  content: "";
+}
+
+.content__noresult__img--multi {
+  margin-top: 35px !important;
+  max-width: 220px !important;
+  max-height: 220px !important;
 }
 
 .conversation-top {

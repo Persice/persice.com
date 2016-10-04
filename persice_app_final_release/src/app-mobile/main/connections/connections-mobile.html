@@ -4,6 +4,7 @@
      [bottomOffset]="60">
   <prs-mobile-user-card (onProfileTap)="selectPerson($event)" [person]="person"
                         *ngFor="let person of items"></prs-mobile-user-card>
+  <prs-mobile-connections-not-found *ngIf="!loading && isListEmpty"></prs-mobile-connections-not-found>
   <prs-loading [status]="loading"></prs-loading>
 </div>
 <prs-mobile-filter *ngIf="isFilterVisible" [type]="LIST_TYPE"></prs-mobile-filter>

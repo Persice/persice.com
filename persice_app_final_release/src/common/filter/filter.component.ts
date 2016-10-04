@@ -185,6 +185,7 @@ export abstract class FilterComponent {
       } ];
     } else {
       this.orderBy[ 2 ][ 'label' ] = 'Recently Active';
+      this.orderBy[ 0 ][ 'label' ] = 'Similarity';
     }
   }
 
