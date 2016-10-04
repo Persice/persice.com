@@ -11233,6 +11233,12 @@ ul.tagit li.tagit-choice .tagit-close {
   line-height: 1.5;
 }
 
+.no-results__par a {
+  text-decoration: underline;
+  white-space: nowrap;
+  color: #39c9f5;
+}
+
 .has-signup-empty-state {
   padding-top: 80px;
 }

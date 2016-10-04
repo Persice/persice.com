@@ -61,10 +61,12 @@ import { PersonalInfoMobileComponent } from './edit-my-profile/edit-personal-inf
 import { EditOffersMobileComponent } from './edit-my-profile/edit-offers/edit-offers-mobile.component';
 import { EditMyProfileNavigationComponent } from './edit-my-profile/navigation/edit-my-profile-navigation.component';
 import { ChoosePhotoComponent } from './edit-my-profile/edit-photos/choose-photo/choose-photo.component';
+import { ConnectionsNotFoundMobileComponent } from './connections/connections-not-found/connections-not-found-mobile.component';
 
 export const MAIN_MOBILE_DECLARATIONS = [
   CrowdMobileComponent,
   ConnectionsMobileComponent,
+  ConnectionsNotFoundMobileComponent,
   NavigationMobileComponent,
 
   HeaderComponent,
