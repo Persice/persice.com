@@ -20,5 +20,7 @@ export declare const MY_CLIENT_PRODUCTION_PLUGINS: any[];
 export declare const MY_CLIENT_RULES: any[];
 export declare const MY_TEST_PLUGINS: any[];
 export declare const MY_TEST_RULES: any[];
+export declare const MY_COPY_FOLDERS: any[];
+export declare const MY_VENDOR_DLLS: any[];
 
 export declare const EXCLUDE_SOURCE_MAPS: any[];

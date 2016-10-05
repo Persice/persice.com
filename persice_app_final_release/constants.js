@@ -8,6 +8,18 @@ exports.DEV_PORT_MOBILE = 8089;
 exports.E2E_PORT = 4201;
 exports.PROD_PORT = 8080; //8088;
 
+exports.MY_VENDOR_DLLS = [
+  // list vendors that you want to be included in your dlls files
+  // this will speed up initial dev server build and incremental builds.
+  // Be sure to run `npm run build:dll` if you make changes to this array.
+];
+
+exports.MY_COPY_FOLDERS = [
+  // use this for folders you want to be copied in to Client dist
+  // src/assets and index.html are already copied by default.
+  // format is { from: 'folder_name', to: 'folder_name' }
+];
+
 /**
  * These constants set whether or not you will use proxy for Webpack DevServer
  * For advanced configuration details, go to:
@@ -51,8 +63,8 @@ exports.DEV_SERVER_STATS_CONFIG = {
  * For info on source map options, go to:
  * https://webpack.github.io/docs/configuration.html#devtool
  */
-exports.DEV_SOURCE_MAPS = 'eval';
-exports.PROD_SOURCE_MAPS = 'source-map';
+exports.DEV_SOURCE_MAPS = '#eval';
+exports.PROD_SOURCE_MAPS = '#source-map';
 
 /**
  * specifies which @ngrx dev tools will be available when you build and load

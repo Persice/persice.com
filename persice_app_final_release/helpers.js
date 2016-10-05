@@ -1,26 +1,10 @@
 const path = require('path');
-var crypto = require('crypto');
-var dotenv = require('dotenv');
+const crypto = require('crypto');
+const dotenv = require('dotenv');
+const fs = require('fs');
 
 // Helper functions
 const _root = path.resolve(__dirname);
-
-function checkNodeImport(context, request, cb) {
-  if (!path.isAbsolute(request) && request.charAt(0) !== '.') {
-    cb(null, 'commonjs ' + request);
-    return;
-  }
-  cb();
-}
-
-function includeClientPackages(packages) {
-  return function (context, request, cb) {
-    if (packages && packages.indexOf(request) !== -1) {
-      return cb();
-    }
-    return checkNodeImport(context, request, cb);
-  };
-}
 
 function hasProcessFlag(flag) {
   return process.argv.join('').indexOf(flag) > -1;
@@ -36,9 +20,15 @@ function generateHash() {
   return hash;
 }
 
-exports.checkNodeImport;
-exports.includeClientPackages = includeClientPackages;
+function testDll() {
+  if (!fs.existsSync('./dll/polyfill.dll.js') || !fs.existsSync('./dll/vendor.dll.js')) {
+    throw "DLL files do not exist, please use 'npm run build:dll' once to generate dll files.";
+  }
+};
+
+
 exports.hasProcessFlag = hasProcessFlag;
 exports.root = root;
 exports.generateHash = generateHash;
 exports.dotenv = dotenv;
+exports.testDll = testDll;
