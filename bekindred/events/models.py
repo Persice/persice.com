@@ -87,10 +87,10 @@ class Event(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
-        if self.pk is None and self.location:
-                point = fromstr("POINT(%s %s)" % (self.location.longitude,
-                                                  self.location.latitude))
-                self.point = point
+        if self.location:
+            point = fromstr("POINT(%s %s)" % (self.location.longitude,
+                                              self.location.latitude))
+            self.point = point
         super(Event, self).save(*args, **kwargs)
 
     @property
@@ -130,7 +130,7 @@ class EventFilterState(models.Model):
 
 class FilterState(models.Model):
     user = models.ForeignKey(FacebookCustomUser)
-    distance = models.IntegerField(default=10000)
+    distance = models.IntegerField(default=100)
     distance_unit = models.CharField(max_length=5, default='miles')
     cumulative_match_score = models.IntegerField(default=0)
     gender = models.CharField(max_length=3, default='m,f')

@@ -19,7 +19,9 @@ import {
   STORE_DEV_TOOLS,
   MY_CLIENT_PLUGINS,
   MY_CLIENT_PRODUCTION_PLUGINS,
-  MY_CLIENT_RULES
+  MY_CLIENT_RULES,
+  MY_VENDOR_DLLS,
+  MY_COPY_FOLDERS
 } from './constants';
 
 const {
@@ -27,7 +29,9 @@ const {
   DefinePlugin,
   ProgressPlugin,
   NoErrorsPlugin,
-  IgnorePlugin
+  IgnorePlugin,
+  DllPlugin,
+  DllReferencePlugin
 } = require('webpack');
 
 const CompressionPlugin = require('compression-webpack-plugin');
@@ -39,34 +43,31 @@ const webpackMerge = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const AssetsPlugin = require('assets-webpack-plugin');
 
-const includeClientPackages = require('./helpers.js').includeClientPackages;
-const hasProcessFlag = require('./helpers.js').hasProcessFlag;
-const root = require('./helpers.js').root;
-const HASH = require('./helpers.js').generateHash(); // Generate unique hash used for cache busting
-const dotenv = require('./helpers').dotenv;
+const { hasProcessFlag, generateHash, dotenv, root, testDll } = require('./helpers.js');
+const HASH = generateHash();
 
-dotenv.config({path: './.env.settings'});
+dotenv.config({ path: './.env.settings' });
 
-const ENV = process.env.npm_lifecycle_event;
-const AOT = ENV === 'build:aot' || ENV === 'build:aot:dev' || ENV === 'server:aot' || ENV === 'watch:aot';
-const isProd = ENV === 'build:prod' || ENV === 'server:prod' || ENV === 'watch:prod' || ENV === 'build:aot';
+const EVENT = process.env.npm_lifecycle_event;
+const AOT = EVENT.includes('aot');
+const PROD = EVENT.includes('prod');
+const DEV_SERVER = EVENT.includes('webdev');
+const DLL = EVENT.includes('dll');
 const HMR = hasProcessFlag('hot');
-
-const isMobileDevServerEnabled = process.env.NODE_ENV === 'mobile';
-const isDevServer = process.env.NODE_SERVER === 'dev';
+const MOBILE_SERVER = process.env.NODE_SERVER === 'mobile';
 
 const AWS_S3_CUSTOM_DOMAIN = process.env.AWS_S3_CUSTOM_DOMAIN;
-const FACEBOOK_ID = isProd ? process.env.FACEBOOK_ID_PRODUCTION : process.env.FACEBOOK_ID_DEVELOPMENT;
-const LINKEDIN_ID = isProd ? process.env.LINKEDIN_ID_PRODUCTION : process.env.LINKEDIN_ID_DEVELOPMENT;
+const FACEBOOK_ID = PROD ? process.env.FACEBOOK_ID_PRODUCTION : process.env.FACEBOOK_ID_DEVELOPMENT;
+const LINKEDIN_ID = PROD ? process.env.LINKEDIN_ID_PRODUCTION : process.env.LINKEDIN_ID_DEVELOPMENT;
 const FACEBOOK_SCOPE = process.env.FACEBOOK_SCOPE;
 const GOOGLE_MAP_API_KEY = process.env.GOOGLE_MAP_API_KEY;
 
 // DEFINE PORT
 let port: number;
-if (isProd) {
+if (PROD) {
   port = PROD_PORT;
 } else {
-  if (isMobileDevServerEnabled) {
+  if (MOBILE_SERVER) {
     port = DEV_PORT_MOBILE;
   } else {
     port = DEV_PORT;
@@ -74,28 +75,66 @@ if (isProd) {
 }
 const PORT = port;
 
-console.log('PRODUCTION BUILD: ', isProd);
-console.log('FACEBOOK APP: ', FACEBOOK_ID);
-console.log('AWS3 DOMAIN: ', AWS_S3_CUSTOM_DOMAIN);
-console.log('DEV SERVER: ', isDevServer);
-console.log('MOBILE DEV SERVER ENABLED: ', isMobileDevServerEnabled);
-console.log('AOT: ', AOT);
-if (ENV === 'webdev') {
+if (DEV_SERVER) {
+  testDll();
   console.log(`Starting dev server on: http://${HOST}:${PORT}`);
 }
 
+console.log('EVENT: ', EVENT);
+console.log('PRODUCTION BUILD: ', PROD);
+console.log('FACEBOOK APP: ', FACEBOOK_ID);
+console.log('AWS3 DOMAIN: ', AWS_S3_CUSTOM_DOMAIN);
+console.log('DEV SERVER: ', DEV_SERVER);
+console.log('MOBILE: ', MOBILE_SERVER);
+console.log('AOT: ', AOT);
+console.log('DLL: ', DLL);
+
 const CONSTANTS = {
   AOT: AOT,
-  ENV: isProd || AOT ? JSON.stringify('production') : JSON.stringify('development'),
+  ENV: PROD || AOT ? JSON.stringify('production') : JSON.stringify('development'),
   HMR: HMR,
   HOST: JSON.stringify(HOST),
   PORT: PORT,
   STORE_DEV_TOOLS: JSON.stringify(STORE_DEV_TOOLS),
-  FACEBOOK_ID:  JSON.stringify(FACEBOOK_ID),
-  LINKEDIN_ID:  JSON.stringify(LINKEDIN_ID),
-  FACEBOOK_SCOPE:  JSON.stringify(FACEBOOK_SCOPE),
-  GOOGLE_MAP_API_KEY:  JSON.stringify(GOOGLE_MAP_API_KEY)
+  FACEBOOK_ID: JSON.stringify(FACEBOOK_ID),
+  LINKEDIN_ID: JSON.stringify(LINKEDIN_ID),
+  FACEBOOK_SCOPE: JSON.stringify(FACEBOOK_SCOPE),
+  GOOGLE_MAP_API_KEY: JSON.stringify(GOOGLE_MAP_API_KEY)
 };
+
+const DLL_VENDORS = [
+  '@angular/common',
+  '@angular/compiler',
+  '@angular/core',
+  '@angular/forms',
+  '@angular/http',
+  '@angular/platform-browser',
+  '@angular/platform-browser-dynamic',
+  '@angular/platform-server',
+  '@angular/router',
+  '@ngrx/core',
+  '@ngrx/core/add/operator/select.js',
+  '@ngrx/effects',
+  '@ngrx/router-store',
+  '@ngrx/store',
+  '@ngrx/store-devtools',
+  '@ngrx/store-log-monitor',
+  'ngrx-store-freeze',
+  'ngrx-store-logger',
+  'rxjs',
+  ...MY_VENDOR_DLLS
+];
+
+const COPY_FOLDERS = [
+  { from: 'src/assets', to: 'assets' },
+  ...MY_COPY_FOLDERS
+];
+
+if (!DEV_SERVER) {
+  // COPY_FOLDERS.unshift({ from: 'src/index.html' });
+} else {
+  COPY_FOLDERS.push({ from: 'dll' });
+}
 
 const commonConfig = function webpackConfig(): WebpackConfig {
   let config: WebpackConfig = Object.assign({});
@@ -183,23 +222,16 @@ const commonConfig = function webpackConfig(): WebpackConfig {
       /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
       root('./src')
     ),
-    // new ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
     new IgnorePlugin(/^\.\/locale$/, /moment$/),
     new ProgressPlugin(),
     new ForkCheckerPlugin(),
     new DefinePlugin(CONSTANTS),
     new NamedModulesPlugin(),
-    new CopyWebpackPlugin([
-      {
-        from: 'src/assets',
-        to: 'assets'
-      }
-    ]),
     ...MY_CLIENT_PLUGINS
   ];
 
-  // PRODUCTION with or wuthout AOT
-  if (isProd && !isDevServer) {
+  // PRODUCTION with or without AOT
+  if (PROD && AOT) {
     config.plugins.push(
       ...productionPluginsForOptimization,
       ...productionPluginsForTemplates,
@@ -207,18 +239,60 @@ const commonConfig = function webpackConfig(): WebpackConfig {
     );
   }
 
-  // DEVELOPMENT (with not dev server)
-  if (!isProd && !isDevServer && !AOT) {
+  // DEVELOPMENT (without dev server)
+  if (!PROD && !DEV_SERVER && !AOT && !DLL) {
     config.plugins.push(
       ...developmentPluginsForTemplates
     );
   }
 
-  // DEVELOPMENT + AOT (with not dev server)
-  if (!isProd && !isDevServer && AOT) {
+  // DEVELOPMENT + AOT (without dev server)
+  if (!PROD && AOT) {
     config.plugins.push(
       ...productionPluginsForOptimization,
       ...developmentPluginsForTemplates
+    );
+  }
+
+  if (DEV_SERVER) {
+    config.plugins.push(
+      new DllReferencePlugin({
+        context: '.',
+        manifest: require(`./dll/polyfill-manifest.json`)
+      }),
+      new DllReferencePlugin({
+        context: '.',
+        manifest: require(`./dll/vendor-manifest.json`)
+      })
+    );
+
+    if (MOBILE_SERVER) {
+      config.plugins.push(
+        new HtmlWebpackPlugin({
+          template: 'src/index-mobile.html',
+          inject: false
+        })
+      );
+    } else {
+      config.plugins.push(
+        new HtmlWebpackPlugin({
+          template: 'src/index.html',
+          inject: false
+        })
+      );
+    }
+  }
+
+  if (DLL) {
+    config.plugins.push(
+      new DllPlugin({
+        name: '[name]',
+        path: root('dll/[name]-manifest.json'),
+      })
+    );
+  } else {
+    config.plugins.push(
+      new CopyWebpackPlugin(COPY_FOLDERS)
     );
   }
 
@@ -231,38 +305,88 @@ const clientConfig = function webpackConfig(): WebpackConfig {
   let config: WebpackConfig = Object.assign({});
 
   config.cache = true;
-  isProd ? config.devtool = PROD_SOURCE_MAPS : config.devtool = DEV_SOURCE_MAPS;
-
-  if (AOT) {
+  PROD ? config.devtool = PROD_SOURCE_MAPS : config.devtool = DEV_SOURCE_MAPS;
+  if (DLL) {
     config.entry = {
-      'main': './src/main.browser.aot',
-      'main-mobile': './src/main-mobile.browser.aot'
+      'main': [ './src/main.browser' ],
+      'main-mobile': [ './src/main-mobile.browser' ],
+      'polyfill': [
+        'sockjs-client',
+        '@angularclass/hmr',
+        'ts-helpers',
+        'zone.js',
+        'core-js/client/shim.js',
+        'core-js/es6/reflect.js',
+        'core-js/es7/reflect.js',
+        'querystring-es3',
+        'strip-ansi',
+        'url',
+        'punycode',
+        'events',
+        'webpack-dev-server/client/socket.js',
+        'webpack/hot/emitter.js',
+        'zone.js/dist/long-stack-trace-zone.js'
+      ],
+      vendor: [ ...DLL_VENDORS ]
     };
   } else {
-    config.entry = {
-      'main': './src/main.browser',
-      'main-mobile': './src/main-mobile.browser'
+
+    if (DEV_SERVER) {
+      if (MOBILE_SERVER) {
+        config.entry = {
+          'main-mobile': './src/main-mobile.browser'
+        };
+      } else {
+        config.entry = {
+          'main': './src/main.browser',
+        };
+      }
+    } else {
+      if (AOT) {
+        config.entry = {
+          'main': './src/main.browser.aot',
+          'main-mobile': './src/main-mobile.browser.aot'
+        };
+      } else {
+        config.entry = {
+          'main': './src/main.browser',
+          'main-mobile': './src/main-mobile.browser'
+        };
+      }
+    }
+
+  }
+
+  if (!DLL) {
+    config.output = {
+      path: root('dist'),
+      filename: PROD ? '[name].' + HASH + '.prod.bundle.js' : '[name].bundle.js',
+      sourceMapFilename: PROD ? '[name].' + HASH + '.prod.bundle.map' : '[name].bundle.map',
+      chunkFilename: PROD ? '[id].' + HASH + '.chunk.js' : '[id].chunk.js',
+    };
+  } else {
+    config.output = {
+      path: root('dll'),
+      filename: '[name].dll.js',
+      library: '[name]'
     };
   }
 
-  config.output = {
-    path: root('dist'),
-    filename: isProd ? '[name].' + HASH + '.prod.bundle.js' : '[name].bundle.js',
-    sourceMapFilename: isProd ? '[name].' + HASH + '.prod.bundle.map' : '[name].bundle.map',
-    chunkFilename: isProd ? '[id].' + HASH + '.chunk.js' : '[id].chunk.js',
-  };
-
-  if (!isDevServer) {
-    config.output.publicPath = isProd ? AWS_S3_CUSTOM_DOMAIN + '/assets/js/' : '/assets/js/';
+  if (!DEV_SERVER && !DLL) {
+    config.output.publicPath = PROD ? AWS_S3_CUSTOM_DOMAIN + '/assets/js/' : '/assets/js/';
   }
 
   config.devServer = {
     contentBase: AOT ? './src/compiled' : './src',
     port: CONSTANTS.PORT,
     historyApiFallback: {
-      index: isMobileDevServerEnabled ? 'index-mobile.html' : 'index.html'
+      index: MOBILE_SERVER ? 'index-mobile.html' : 'index.html'
     },
-    host: '0.0.0.0'
+    host: '0.0.0.0',
+    watchOptions: {
+      aggregateTimeout: 0,
+      poll: 300
+    }
   };
 
   if (USE_DEV_SERVER_PROXY) {
@@ -301,7 +425,7 @@ const defaultConfig = {
   }
 };
 
-console.log('BUILDING APP');
+DLL ? console.log('BUILDING DLLs') : console.log('BUILDING APP');
 module.exports = webpackMerge({}, defaultConfig, commonConfig, clientConfig);
 
 // Types
@@ -325,7 +449,10 @@ interface WebpackConfig {
     inline?: boolean;
     proxy?: any;
     host?: string;
+    quiet?: boolean;
     outputPath?: string;
+    noInfo?: boolean;
+    watchOptions?: any;
   };
   node?: {
     process?: boolean;

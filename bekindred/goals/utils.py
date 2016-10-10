@@ -356,7 +356,7 @@ def get_current_position(user):
     user_id = user.id
     try:
         qs = UserSocialAuth.objects.filter(user_id=user_id, provider='linkedin')[0]
-        positions = qs.extra_data.get('positions', {}).get('position')
+        positions = qs.extra_data.get('positions', {}).get('values')
 
         if isinstance(positions, list):
             position['company'] = positions[0].get('company', {}).get('name')

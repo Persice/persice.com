@@ -26,9 +26,6 @@ export abstract class EventComponent {
   ) { }
 
   protected ngInit(): void {
-    setTimeout(() => {
-      window.scrollTo(0, 0);
-    });
 
     // Subscribe to event service observables
     this.event$ = this.eventService.event$;

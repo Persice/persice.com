@@ -1,6 +1,6 @@
 <div class="layout layout--flush content crowd-page" [ngClass]="{'is-hidden': itemViewActive}" prs-infinite-scroll
      (scrolled)="loadMoreItems($event)" [scrollEnabled]="1" [bottomOffset]="60">
-  <div class="layout__item 3/4 extralarge-and-up-4/5" id="crowd">
+  <div class="layout__item 3/4 huge-and-up-4/5" id="crowd">
     <prs-users-list [checkSeen]="0" (passEvent)="pass($event)" (acceptEvent)="accept($event)" [showButtons]="1"
                     [users]="items"
                     (onClicked)="selectItem($event)"></prs-users-list>
@@ -12,7 +12,7 @@
       <img src="/assets/images/polar-bear.png" alt="Polar Bear">
     </div>
   </div>
-  <div class="layout__item 1/4 extralarge-and-up-1/5 filter-place">
+  <div class="layout__item 1/4 huge-and-up-1/5 filter-place">
     <prs-filters [type]="''"></prs-filters>
   </div>
 </div>

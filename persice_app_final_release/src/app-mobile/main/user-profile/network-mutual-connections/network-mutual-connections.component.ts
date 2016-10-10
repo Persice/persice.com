@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { MutualConnectionsService } from './mutual-connections.service';
@@ -15,7 +15,7 @@ import { AppStateService } from '../../../shared/services';
   templateUrl: './network-mutual-connections.html',
   providers: [ MutualConnectionsService ]
 })
-export class NetworkMutualConnectionsComponent implements OnInit, AfterViewInit, OnDestroy {
+export class NetworkMutualConnectionsComponent implements OnInit,  OnDestroy {
   @Input() set person(data: Person) {
     this.name = data.firstName;
     this.userId = data.id;
@@ -64,11 +64,9 @@ export class NetworkMutualConnectionsComponent implements OnInit, AfterViewInit,
 
     // Start inital loading of mutual connections
     this._loadData(true);
-  }
 
-  ngAfterViewInit(): any {
     setTimeout(() => {
-      window.scrollTo(0, 0);
+      document.body.scrollTop = 0;
     });
   }
 
