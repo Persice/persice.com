@@ -389,7 +389,8 @@ NEO4J_URL = 'http://neo4j:admin@localhost:7474/db/data/'
 JWT_ENCODE_HANDLER = 'jwt_auth.utils.jwt_encode_handler'
 JWT_DECODE_HANDLER = 'jwt_auth.utils.jwt_decode_handler',
 JWT_PAYLOAD_HANDLER = 'jwt_auth.utils.jwt_payload_handler'
-JWT_PAYLOAD_GET_USER_ID_HANDLER = 'jwt_auth.utils.jwt_get_user_id_from_payload_handler'
+JWT_PAYLOAD_GET_USER_ID_HANDLER = \
+    'jwt_auth.utils.jwt_get_user_id_from_payload_handler'
 JWT_SECRET_KEY = SECRET_KEY
 JWT_ALGORITHM = 'HS256'
 JWT_VERIFY = True
@@ -401,3 +402,7 @@ JWT_REFRESH_EXPIRATION_DELTA = datetime.timedelta(days=7)
 JWT_AUTH_HEADER_PREFIX = 'Bearer'
 
 GOOGLE_PLACES_API_KEY = 'AIzaSyBAWQcFnYQwEJiW7SzLcQXHJJ2LNUii3Cc'
+
+SENDGRID_API_KEY = "SG.7Ih_x0O4TRSI1sGc101JcA.o9cdXJx_I_fW9dFrumLL1Mho-LoA-" \
+                   "GdfV3g6sikbaG8"
+SENDGRID_TEMPLATE_ID = "0ef77a58-38ad-4d6d-8630-5686a7570a20"
