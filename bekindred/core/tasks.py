@@ -59,5 +59,5 @@ def update_index_delay(*args, **kwargs):
 
 
 @task
-def send_mail(message_id, sender_name, body):
-    send_sg_mail(message_id, sender_name, body)
+def send_mail(message_id, sender_name, body, to_email):
+    send_sg_mail(message_id, sender_name, body, to_email)

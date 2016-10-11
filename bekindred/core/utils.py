@@ -29,7 +29,7 @@ def send_sg_mail(message_id, sender_name, body, to_email):
     sg = sendgrid.SendGridAPIClient(apikey=settings.SENDGRID_API_KEY)
 
     from_email = Email("do-not-reply@mail.persice.com")
-    to_email = Email("andrii.soldatenko@gmail.com")
+    to_email = Email(to_email)
     body = Content("text/html",
                    body)
     subject = "I'm replacing the subject tag"
@@ -46,4 +46,4 @@ def send_sg_mail(message_id, sender_name, body, to_email):
         response = sg.client.mail.send.post(request_body=mail.get())
     except urllib.HTTPError as e:
         print e.read()
-    print(response.status_code, response.body, response.headers)
+    print(response.status_code, str(response.body), str(response.headers))
