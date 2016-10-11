@@ -81,7 +81,7 @@ class MessageResource(ModelResource):
         r.publish('message.%s' % user.id, json.dumps(data))
         if user.email:
             send_mail.delay(
-                user.id, bundle.obj.sender.first_name,
+                bundle.obj.sender.id, bundle.obj.sender.first_name,
                 bundle.obj.body, user.email
             )
         return bundle
