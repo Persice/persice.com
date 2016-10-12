@@ -5,7 +5,7 @@ import { HttpClient } from '../core/http-client';
 
 @Injectable()
 export class EventConnectionsService {
-  static API_URL: string = '/api/v1/events/connections/';
+  static API_URL: string =  SERVER_URI + '/api/v1/events/connections/';
   next: string = '';
 
   constructor(private http: HttpClient) {

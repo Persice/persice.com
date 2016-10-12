@@ -19,7 +19,7 @@ validate.extend(<any>validate.validators.datetime, {
 
 @Injectable()
 export class EventServiceTemp {
-  static API_URL: string = '/api/v1/event/';
+  static API_URL: string = SERVER_URI + '/api/v1/event/';
   static VALIDATION_OPTIONS = {
     fullMessages: true
   };

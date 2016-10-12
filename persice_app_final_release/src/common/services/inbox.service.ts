@@ -5,8 +5,8 @@ import { DateUtil, StringUtil, ListUtil } from '../core/util';
 
 @Injectable()
 export class InboxService {
-  static API_URL = '/api/v1/inbox/last/';
-  static API_URL_MARK_READ = '/api/v1/inbox/reat_at/';
+  static API_URL = SERVER_URI + '/api/v1/inbox/last/';
+  static API_URL_MARK_READ = SERVER_URI + '/api/v1/inbox/reat_at/';
 
   _name: string = '';
   _counter: string = '';

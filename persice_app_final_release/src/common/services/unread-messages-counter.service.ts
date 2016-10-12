@@ -8,7 +8,7 @@ import { UnreadMessagesCounterActions } from '../actions';
 
 @Injectable()
 export class UnreadMessagesCounterService {
-  static API_URL = '/api/v1/inbox/unread_counter/';
+  static API_URL = SERVER_URI + '/api/v1/inbox/unread_counter/';
   public counter$: Observable<number>;
 
   constructor(private http: HttpClient, private store: Store<AppState>, private actions: UnreadMessagesCounterActions) {

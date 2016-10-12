@@ -24,6 +24,12 @@ export class DropdownDirective implements OnDestroy {
   }
 
   public toggle(event?: any) {
+
+    if (event) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
+
     if (this.opened) {
       this.close();
     } else {

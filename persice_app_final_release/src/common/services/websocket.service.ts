@@ -15,7 +15,7 @@ export class WebsocketService {
   }
 
   public connect() {
-    WebsocketService._socket = io('/', {
+    WebsocketService._socket = io(SERVER_URI + '/', {
       query: 'token=' + this.token
     });
     WebsocketService._socket.connect();

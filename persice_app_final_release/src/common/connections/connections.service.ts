@@ -13,7 +13,7 @@ interface Connections {
 
 @Injectable()
 export class ConnectionsService {
-  static API_URL: string = '/api/v1/connections/';
+  static API_URL: string = SERVER_URI + '/api/v1/connections/';
   next: string = '';
 
   public connections$: Observable<Connections>;
@@ -74,7 +74,7 @@ export class ConnectionsService {
   }
 
   public markNewConnectionsAsSeen(id: number): Observable<any> {
-    let url = `/api/v2/new_connections/updated_at/?format=json&friend_id=${id}`;
+    let url = SERVER_URI + `/api/v2/new_connections/updated_at/?format=json&friend_id=${id}`;
     return this.http.get(url).map(res => res.json());
   }
 

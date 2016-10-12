@@ -5,9 +5,9 @@ import { HttpClient } from '../core/http-client';
 
 @Injectable()
 export class LikesService {
-  static API_URL: string = '/api/v1/likes/';
-  static MUTUAL_LIKES_API_URL: string = '/api/v1/mutual_likes/';
-  static OTHER_LIKES_API_URL: string = '/api/v1/other_likes/';
+  static API_URL: string = SERVER_URI + '/api/v1/likes/';
+  static MUTUAL_LIKES_API_URL: string = SERVER_URI + '/api/v1/mutual_likes/';
+  static OTHER_LIKES_API_URL: string = SERVER_URI + '/api/v1/other_likes/';
   next: string = '';
 
   constructor(private http: HttpClient) {

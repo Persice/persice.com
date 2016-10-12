@@ -6,7 +6,7 @@ import { TokenUtil } from '../core/util';
 
 @Injectable()
 export class OnboardingService {
-  static API_URL: string = '/api/v1/onboardingflow/';
+  static API_URL: string = SERVER_URI + '/api/v1/onboardingflow/';
 
   constructor(private http: HttpClient) {
 

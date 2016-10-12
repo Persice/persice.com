@@ -4,7 +4,7 @@ import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class MessagesCounterService {
-  static API_URL = '/api/v1/inbox/unread_counter/';
+  static API_URL = SERVER_URI + '/api/v1/inbox/unread_counter/';
   _state: number = 0;
   _observer: Subject<any> = new Subject();
 

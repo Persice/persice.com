@@ -6,8 +6,8 @@ import { TokenUtil } from '../core/util';
 
 @Injectable()
 export class PoliticalViewsService {
-  static API_URL: string = '/api/v1/political_view/';
-  static API_URL_INDEX: string = '/api/v1/political_index/';
+  static API_URL: string = SERVER_URI + '/api/v1/political_view/';
+  static API_URL_INDEX: string = SERVER_URI + '/api/v1/political_index/';
   next: string = '';
   public emitter: EventEmitter<any> = new EventEmitter();
 

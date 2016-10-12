@@ -1,17 +1,17 @@
 <a class="page-arrow page-arrow--prev" *ngIf="currentIndex !== 0 && count > 1" (click)="previousEvent.next($event)">
   <svg role="img" class="icon ">
-    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/icons.svg#icon-arrow_left"></use>
+    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="assets/icons/icons.svg#icon-arrow_left"></use>
   </svg>
 </a>
 <a class="page-arrow page-arrow--next" *ngIf="currentIndex < count - 1 && count > 1" (click)="nextEvent.next($event)">
   <svg role="img" class="icon ">
-    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/icons.svg#icon-arrow_right"></use>
+    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="assets/icons/icons.svg#icon-arrow_right"></use>
   </svg>
 </a>
 <div class="platform m" id="userprofile" (keyup)="eventHandler($event.keyCode)" tabindex="0">
   <a (click)="closeProfile()" class="platform__back">
     <svg role="img" class="icon ">
-      <use xlink:href="/assets/icons/icons.svg#icon-close"></use>
+      <use xlink:href="assets/icons/icons.svg#icon-close"></use>
     </svg>
   </a>
   <div class="tableize tableize--fixed tableize--full content">
@@ -56,7 +56,7 @@
             Religious views
             <span class="edit-link__icon">
               <svg *ngIf="type === 'my-profile'" role="img" class="icon ">
-                <use xlink:href="/assets/icons/icons.svg#icon-edit_info"></use>
+                <use xlink:href="assets/icons/icons.svg#icon-edit_info"></use>
               </svg>
             </span>
           </a>
@@ -74,7 +74,7 @@
             Political views
             <span class="edit-link__icon">
               <svg role="img" class="icon ">
-                <use xlink:href="/assets/icons/icons.svg#icon-edit_info"></use>
+                <use xlink:href="assets/icons/icons.svg#icon-edit_info"></use>
               </svg>
             </span>
           </a>
@@ -118,14 +118,14 @@
               <a class="user-messages mr-" [routerLink]="['/messages/' + person.id]" *ngIf="type === 'connection'">
                 <svg role="img" class="icon ">
                   <use xmlns:xlink="http://www.w3.org/1999/xlink"
-                       xlink:href="/assets/icons/icons.svg#icon-menu-messages"></use>
+                       xlink:href="assets/icons/icons.svg#icon-menu-messages"></use>
                 </svg>
               </a>
               <div class="event-share" *ngIf="type === 'connection'">
                 <a class="btn btn-1 btn-1--blue btn--icon-circle js-share" dropdown="#friendDropdown">
                   <svg role="img" class="icon icon--tiny">
                     <use xmlns:xlink="http://www.w3.org/1999/xlink"
-                         xlink:href="/assets/icons/icons.svg#icon-more"></use>
+                         xlink:href="assets/icons/icons.svg#icon-more"></use>
                   </svg>
                 </a>
                 <!-- TODO insert dropdown component -->

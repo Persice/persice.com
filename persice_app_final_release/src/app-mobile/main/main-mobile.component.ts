@@ -47,6 +47,7 @@ export class MainMobileComponent implements OnInit, OnDestroy {
   unreadMessagesCounter: Observable<number>;
   newConnectionsCounter: Observable<number>;
   routerSub;
+  isCordova = 'enabled' === CORDOVA_BUILD;
 
   constructor(
     private userService: UserService,
@@ -75,7 +76,6 @@ export class MainMobileComponent implements OnInit, OnDestroy {
 
     // Initialize and connect to socket.io websocket
     this.websocketService.connect();
-
     // Get unread messages counter
     this.unreadMessagesCounterService.refresh();
 

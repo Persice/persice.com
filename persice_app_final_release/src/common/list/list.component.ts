@@ -133,7 +133,7 @@ export abstract class ListComponent {
    * @param {DOM event} event
    */
   public previousItem(event: any): void {
-    let currentIndex = findIndex(this.items, { id: this.selectedItem.id });
+    let currentIndex = findIndex(this.items, <any>{ id: this.selectedItem.id });
     let newIndex = currentIndex - 1;
 
     if (newIndex < 0) {
@@ -268,7 +268,7 @@ export abstract class ListComponent {
 
     if (this.items.length > 0) {
       let more = data.objects;
-      for (var i = 0; i <= more.length - 1; i++) {
+      for (let i = 0; i <= more.length - 1; i++) {
         this.items = [ ...this.items, more[ i ] ];
       }
       this.total_count += more.length;

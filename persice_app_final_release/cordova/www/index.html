@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<!--[if IE 8]>
+<html class=" no-js  is-scrollable-y ie8 oldie" lang="en"> <![endif]-->
+<!--[if IE 9]>
+<html class=" no-js  is-scrollable-y ie9 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class=" no-js is-scrollable-y " lang="en">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"
+        content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, target-densityDpi=device-dpi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <!--
+       Customize this policy to fit your own app's needs. For more guidance, see:
+           https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+       Some notes:
+           * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+           * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+           * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+               * Enable inline JS: add 'unsafe-inline' to default-src
+       -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self' data: gap: ws://test-local.com:8000/socket.io/ ws://test-local.com:8000 ws://persice.com https://persice.com https://graph.facebook.com https://ssl.gstatic.com https://ajax.googleapis.com https://cdn.heapanalytics.com https://maps.googleapis.com https://facebook.com https://fonts.googleapis.com http://test-local.com:8000 https://widget.intercom.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="msapplication-tap-highlight" content="no">
+  <title>Persice</title>
+  <base href="./" target="_blank">
+  <link rel="dns-prefetch" href="//ajax.googleapis.com">
+  <link rel="dns-prefetch" href="//maps.googleapis.com">
+  <link rel="dns-prefetch" href="//fonts.googleapis.com">
+  <link rel="dns-prefetch" href="//themes.googleusercontent.com">
+  <link rel="dns-prefetch" href="//www.google-analytics.com">
+  <link rel="dns-prefetch" href="//widget.intercom.io">
+  <link rel="dns-prefetch" href="//cdn.heapanalytics.com">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/icon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="assets/icon/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="assets/icon/favicon-16x16.png" sizes="16x16">
+  <link rel="manifest" href="assets/icon/manifest.json">
+  <link rel="mask-icon" href="assets/icon/safari-pinned-tab.svg" color="#5bbad5">
+  <link rel="shortcut icon" href="assets/icon/favicon.ico">
+  <meta name="apple-mobile-web-app-title" content="Persice">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="Persice">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="description" content="Persice">
+  <meta name="author" content="">
+  <link rel="stylesheet" type="text/css" href="css/index.css">
+  <link rel="stylesheet" href="assets/css/vendor-mobile.css"/>
+  <link
+    href="https://fonts.googleapis.com/css?family=Montserrat:400,700|Open+Sans:400,300,700,600,400italic,300italic,600italic,800"
+    rel="stylesheet" type="text/css">
+  <script type="text/javascript" src="assets/js/analytics.js"></script>
+</head>
+<body>
+<persice-app-mobile>
+  <div id="loadingIndicator">
+    <div class="spinner">
+      <div class="rect1"></div>
+      <div class="rect2"></div>
+      <div class="rect3"></div>
+      <div class="rect4"></div>
+      <div class="rect5"></div>
+    </div>
+  </div>
+</persice-app-mobile>
+
+<script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+
+<script src="assets/js/plugins-mobile.min.js"></script>
+
+<script type="text/javascript" src="assets/js/main-mobile.bundle.js"></script>
+</body>
+</html>

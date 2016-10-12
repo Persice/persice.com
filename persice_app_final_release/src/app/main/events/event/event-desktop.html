@@ -3,7 +3,7 @@
   <div class="platform event-content is-visible" *ngIf="(isLoaded$ | async)">
     <a (click)="goBack()" class="platform__back">
       <svg role="img" class="icon ">
-        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/icons.svg#icon-close"></use>
+        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="assets/icons/icons.svg#icon-close"></use>
       </svg>
     </a>
     <prs-event-info [event]="(event$ | async)" [username]="usernameFromToken"

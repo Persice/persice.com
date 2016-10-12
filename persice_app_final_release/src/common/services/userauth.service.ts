@@ -6,7 +6,7 @@ import { TokenUtil } from '../core/util';
 
 @Injectable()
 export class UserAuthService {
-  static API_URL: string = '/api/v1/auth/user/';
+  static API_URL: string = SERVER_URI + '/api/v1/auth/user/';
   connectStatus = {
     twitter: {
       connected: false,

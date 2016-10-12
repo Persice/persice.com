@@ -6,8 +6,8 @@ import { TokenUtil } from '../core/util';
 @Injectable()
 export class NewConversationService {
 
-  static API_URL = '/api/v1/messages/';
-  static API_USER_URL = '/api/v1/auth/user/';
+  static API_URL = SERVER_URI + '/api/v1/messages/';
+  static API_USER_URL = SERVER_URI + '/api/v1/auth/user/';
 
   public sendingInProgress: boolean = false;
   private _me: string;

@@ -6,7 +6,7 @@ import { TokenUtil } from '../core/util';
 
 @Injectable()
 export class OffersService {
-  static API_URL: string = '/api/v1/offer/';
+  static API_URL: string = SERVER_URI + '/api/v1/offer/';
   next: string = '';
 
   constructor(private http: HttpClient) {
@@ -24,7 +24,7 @@ export class OffersService {
 
       this.next = `${OffersService.API_URL}?${params}`;
     } else {
-      this.next = url;
+      this.next = SERVER_URI + url;
     }
 
     return this.http.get(this.next).map((res: Response) => res.json());
@@ -55,7 +55,7 @@ export class OffersService {
   }
 
   public delete(url: string): Observable<any> {
-    return this.http.delete(`${url}?format=json`);
+    return this.http.delete(SERVER_URI + `${url}?format=json`);
   }
 
 }

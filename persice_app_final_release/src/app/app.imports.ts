@@ -11,27 +11,27 @@ export class AuthConfig extends CustomConfig {
   defaultHeaders = { 'Content-Type': 'application/json' };
   providers = {
     facebook: {
-      url: '/api/v2/accounts/facebook/login/',
+      url: SERVER_URI + '/api/v2/accounts/facebook/login/',
       authorizationEndpoint: 'https://www.facebook.com/v2.7/dialog/oauth',
-      redirectUri: window.location.origin + '/public/close_popup/',
+      redirectUri: SERVER_URI + '/public/close_popup/',
       clientId: FACEBOOK_ID,
       display: 'popup',
       scope: FACEBOOK_SCOPE.split(',')
     },
     twitter: {
-      url: '/api/v2/accounts/twitter/connect/',
+      url: SERVER_URI + '/api/v2/accounts/twitter/connect/',
       authorizationEndpoint: 'https://api.twitter.com/oauth/authorize',
-      redirectUri: window.location.origin + '/public/close_popup/',
-      unlinkUrl: '/api/v2/accounts/twitter/disconnect/'
+      redirectUri: SERVER_URI + '/public/close_popup/',
+      unlinkUrl: SERVER_URI + '/api/v2/accounts/twitter/disconnect/'
     },
     linkedin: {
       clientId: LINKEDIN_ID,
-      url: '/api/v2/accounts/linkedin/connect/',
-      redirectUri: window.location.origin + '/public/close_popup/',
+      url: SERVER_URI + '/api/v2/accounts/linkedin/connect/',
+      redirectUri: SERVER_URI + '/public/close_popup/',
       scope: [ 'r_basicprofile', 'rw_company_admin', 'r_emailaddress', 'w_share' ],
       scopeDelimiter: ',',
       state: 'ZjUV40DdytBHaLPj',
-      unlinkUrl: '/api/v2/accounts/linkedin/disconnect/'
+      unlinkUrl: SERVER_URI + '/api/v2/accounts/linkedin/disconnect/'
     }
   };
 }

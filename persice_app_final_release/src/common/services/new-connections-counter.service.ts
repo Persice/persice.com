@@ -8,7 +8,7 @@ import { AppState, getNewConnectionsCounterState } from '../reducers';
 
 @Injectable()
 export class NewConnectionsCounterService {
-  static API_URL = '/api/v2/new_connections/counter/';
+  static API_URL = SERVER_URI + '/api/v2/new_connections/counter/';
   public counter$: Observable<number>;
 
   constructor(private http: HttpClient, private store: Store<AppState>, private actions: NewConnectionsCounterActions) {

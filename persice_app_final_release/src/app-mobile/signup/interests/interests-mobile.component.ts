@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ManageInterestsComponent } from '../../../common/manage-interests';
 import { SignupStateService } from '../../../common/services';
 import { InterestsService } from '../../../common/services/interests.service';
@@ -13,7 +13,8 @@ export class SignupInterestsMobileComponent extends ManageInterestsComponent imp
   constructor(
     protected interestsService: InterestsService,
     protected keywordsService: KeywordsService,
-    private signupStateService: SignupStateService
+    private signupStateService: SignupStateService,
+    private cd: ChangeDetectorRef
   ) {
     super(interestsService, keywordsService);
   }
@@ -27,6 +28,11 @@ export class SignupInterestsMobileComponent extends ManageInterestsComponent imp
       type: 'interests',
       count: this.counter
     });
+    this.cd.detectChanges();
+  }
+
+  public afterListLoaded() {
+    this.cd.detectChanges();
   }
 
 }

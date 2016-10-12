@@ -5,8 +5,8 @@ import { HttpClient } from '../core/http-client';
 
 @Injectable()
 export class FriendService {
-  static API_URL: string = '/api/v1/friends/';
-  static API_URLv2: string = '/api/v2/friends/';
+  static API_URL: string = SERVER_URI + '/api/v1/friends/';
+  static API_URLv2: string = SERVER_URI + '/api/v2/friends/';
   next: string = '';
 
   constructor(private http: HttpClient) { }

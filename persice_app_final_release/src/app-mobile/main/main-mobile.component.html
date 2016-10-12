@@ -1,7 +1,7 @@
-<nav class="push-menu push-menu--left" id="push-menu-s1">
+<nav class="push-menu push-menu--left" [ngClass]="{'cordova': isCordova}" id="push-menu-s1">
   <div class="push-menu__logo">
     <a class="site-logo">
-      <img alt="Perice" src="/assets/images/logo.svg" class="site-logo__mark">
+      <img alt="Perice" src="assets/images/logo.svg" class="site-logo__mark">
       <h1 class="site-logo__type">Persice</h1></a>
   </div>
   <prs-mobile-navigation
@@ -11,7 +11,7 @@
   </prs-mobile-navigation>
 </nav>
 <div class="content-mask" prs-close-left-menu></div>
-<div class="container push-menu-push">
+<div class="container push-menu-push" [ngClass]="{'cordova': isCordova}">
   <prs-mobile-header></prs-mobile-header>
   <div class="content content--main">
     <router-outlet></router-outlet>

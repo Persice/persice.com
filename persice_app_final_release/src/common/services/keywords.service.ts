@@ -5,7 +5,7 @@ import { HttpClient } from '../core/http-client';
 
 @Injectable()
 export class KeywordsService {
-  static API_URL: string = '/api/v1/interest_subject/';
+  static API_URL: string = SERVER_URI + '/api/v1/interest_subject/';
   next: string = '';
 
   constructor(private http: HttpClient) {
@@ -23,7 +23,7 @@ export class KeywordsService {
 
       this.next = `${KeywordsService.API_URL}?${params}`;
     } else {
-      this.next = url;
+      this.next = SERVER_URI + url;
     }
 
     return this.http.get(this.next).map((res: Response) => res.json());

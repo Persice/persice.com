@@ -4,7 +4,7 @@ import { HttpClient } from '../core/http-client';
 
 @Injectable()
 export class ConnectionsCounterService {
-  static API_URL = '/api/v2/new_connections/counter/';
+  static API_URL = SERVER_URI + '/api/v2/new_connections/counter/';
   _state: number = 0;
   _observer: Subject<any> = new Subject();
 

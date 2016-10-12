@@ -25,7 +25,6 @@ export const routes: Routes = [
   {
     path: '',
     component: MainMobileComponent,
-    // canActivate: [ AuthGuard ],
     children: [
       { path: '', redirectTo: '/events/all/list', pathMatch: 'full' },
       { path: 'crowd', component: CrowdMobileComponent },

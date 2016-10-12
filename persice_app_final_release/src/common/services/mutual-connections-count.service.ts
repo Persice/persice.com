@@ -7,7 +7,7 @@ import { HttpClient } from '../core/http-client';
 
 @Injectable()
 export class MutualConnectionsCountService {
-  public static API_URL = '/api/v2/mutual-friends/count/';
+  public static API_URL = SERVER_URI + '/api/v2/mutual-friends/count/';
   public totalCount$: Observable<number>;
   private _totalCount$: BehaviorSubject<number> = new BehaviorSubject(0);
 

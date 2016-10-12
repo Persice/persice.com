@@ -8,7 +8,7 @@ import { InterfaceFilter } from '../models/filter/filter.model';
 
 @Injectable()
 export class FilterService {
-  static API_URL: string = '/api/v1/filter/state2/';
+  static API_URL: string = SERVER_URI + '/api/v1/filter/state2/';
   static DEFAULT_FILTERS: InterfaceFilter = {
     cumulative_match_score: 0,
     distance: 10000,
@@ -65,12 +65,12 @@ export class FilterService {
   }
 
   public findOneByUri(resourceUri: string): Observable<any> {
-    return this.http.get(resourceUri).map((res: Response) => res.json());
+    return this.http.get(SERVER_URI + resourceUri).map((res: Response) => res.json());
   }
 
   public updateOne(resourceUri: string, data: any): Observable<any> {
     const body = JSON.stringify(data);
-    return this.http.patch(`${resourceUri}?format=json`, body)
+    return this.http.patch(`${SERVER_URI}${resourceUri}?format=json`, body)
       .map((res: Response) => res.json());
   }
 

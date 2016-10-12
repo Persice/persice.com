@@ -15,7 +15,12 @@ export function main() {
 }
 
 export function bootstrapDomReady() {
-  document.addEventListener('DOMContentLoaded', main);
+  if ('enabled' === CORDOVA_BUILD) {
+    document.addEventListener('deviceready', main);
+  } else {
+    document.addEventListener('DOMContentLoaded', main);
+  }
+
 }
 
 bootstrapDomReady();

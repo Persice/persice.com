@@ -1,8 +1,3 @@
-/* tslint:disable: variable-name max-line-length */
-/**
- * Try to not make your own edits to this file, use the constants folder instead.
- * If more constants should be added file an issue or create PR.
- */
 import 'ts-helpers';
 import {
   DEV_PORT,
@@ -55,10 +50,13 @@ const DEV_SERVER = EVENT.includes('webdev');
 const DLL = EVENT.includes('dll');
 const HMR = hasProcessFlag('hot');
 const MOBILE_SERVER = process.env.NODE_SERVER === 'mobile';
+const CORDOVA_BUILD = EVENT.includes('cordova');
 
 const AWS_S3_CUSTOM_DOMAIN = process.env.AWS_S3_CUSTOM_DOMAIN;
 const FACEBOOK_ID = PROD ? process.env.FACEBOOK_ID_PRODUCTION : process.env.FACEBOOK_ID_DEVELOPMENT;
 const LINKEDIN_ID = PROD ? process.env.LINKEDIN_ID_PRODUCTION : process.env.LINKEDIN_ID_DEVELOPMENT;
+const SERVER_URI = DEV_SERVER ? process.env.SERVER_URI_WEBPACK_DEV_SERVER : (PROD ? process.env.SERVER_URI_PRODUCTION : process.env.SERVER_URI_DEVELOPMENT);
+const MEDIA_URI = PROD ? process.env.MEDIA_URI_PRODUCTION : process.env.MEDIA_URI_DEVELOPMENT;
 const FACEBOOK_SCOPE = process.env.FACEBOOK_SCOPE;
 const GOOGLE_MAP_API_KEY = process.env.GOOGLE_MAP_API_KEY;
 
@@ -67,11 +65,12 @@ let port: number;
 if (PROD) {
   port = PROD_PORT;
 } else {
-  if (MOBILE_SERVER) {
-    port = DEV_PORT_MOBILE;
-  } else {
-    port = DEV_PORT;
-  }
+  // if (MOBILE_SERVER) {
+  //   port = DEV_PORT_MOBILE;
+  // } else {
+  //   port = DEV_PORT;
+  // }
+  port = DEV_PORT;
 }
 const PORT = port;
 
@@ -81,6 +80,7 @@ if (DEV_SERVER) {
 }
 
 console.log('EVENT: ', EVENT);
+console.log('BUILDING FOR CORDOVA: ', CORDOVA_BUILD);
 console.log('PRODUCTION BUILD: ', PROD);
 console.log('FACEBOOK APP: ', FACEBOOK_ID);
 console.log('AWS3 DOMAIN: ', AWS_S3_CUSTOM_DOMAIN);
@@ -91,11 +91,14 @@ console.log('DLL: ', DLL);
 
 const CONSTANTS = {
   AOT: AOT,
-  ENV: PROD || AOT ? JSON.stringify('production') : JSON.stringify('development'),
+  ENV: PROD || AOT || CORDOVA_BUILD ? JSON.stringify('production') : JSON.stringify('development'),
   HMR: HMR,
   HOST: JSON.stringify(HOST),
   PORT: PORT,
+  CORDOVA_BUILD: CORDOVA_BUILD ? JSON.stringify('enabled') : JSON.stringify('disabled'),
   STORE_DEV_TOOLS: JSON.stringify(STORE_DEV_TOOLS),
+  SERVER_URI: JSON.stringify(SERVER_URI),
+  MEDIA_URI: JSON.stringify(MEDIA_URI),
   FACEBOOK_ID: JSON.stringify(FACEBOOK_ID),
   LINKEDIN_ID: JSON.stringify(LINKEDIN_ID),
   FACEBOOK_SCOPE: JSON.stringify(FACEBOOK_SCOPE),
@@ -231,10 +234,18 @@ const commonConfig = function webpackConfig(): WebpackConfig {
   ];
 
   // PRODUCTION with or without AOT
-  if (PROD && AOT) {
+  if (PROD && AOT && !CORDOVA_BUILD) {
     config.plugins.push(
       ...productionPluginsForOptimization,
       ...productionPluginsForTemplates,
+      ...MY_CLIENT_PRODUCTION_PLUGINS
+    );
+  }
+
+  // PRODUCTION with or without AOT
+  if (PROD && AOT && CORDOVA_BUILD) {
+    config.plugins.push(
+      ...productionPluginsForOptimization,
       ...MY_CLIENT_PRODUCTION_PLUGINS
     );
   }
@@ -343,10 +354,17 @@ const clientConfig = function webpackConfig(): WebpackConfig {
       }
     } else {
       if (AOT) {
-        config.entry = {
-          'main': './src/main.browser.aot',
-          'main-mobile': './src/main-mobile.browser.aot'
-        };
+        if (CORDOVA_BUILD) {
+          config.entry = {
+            'main-mobile': './src/main-mobile.browser.aot'
+          };
+        } else {
+          config.entry = {
+            'main': './src/main.browser.aot',
+            'main-mobile': './src/main-mobile.browser.aot'
+          };
+        }
+
       } else {
         config.entry = {
           'main': './src/main.browser',
@@ -359,10 +377,10 @@ const clientConfig = function webpackConfig(): WebpackConfig {
 
   if (!DLL) {
     config.output = {
-      path: root('dist'),
-      filename: PROD ? '[name].' + HASH + '.prod.bundle.js' : '[name].bundle.js',
-      sourceMapFilename: PROD ? '[name].' + HASH + '.prod.bundle.map' : '[name].bundle.map',
-      chunkFilename: PROD ? '[id].' + HASH + '.chunk.js' : '[id].chunk.js',
+      path: !CORDOVA_BUILD ? root('dist') : root('dist_cordova'),
+      filename: PROD && !CORDOVA_BUILD ? '[name].' + HASH + '.prod.bundle.js' : '[name].bundle.js',
+      sourceMapFilename: PROD && !CORDOVA_BUILD ? '[name].' + HASH + '.prod.bundle.map' : '[name].bundle.map',
+      chunkFilename: PROD && !CORDOVA_BUILD ? '[id].' + HASH + '.chunk.js' : '[id].chunk.js',
     };
   } else {
     config.output = {
@@ -373,7 +391,7 @@ const clientConfig = function webpackConfig(): WebpackConfig {
   }
 
   if (!DEV_SERVER && !DLL) {
-    config.output.publicPath = PROD ? AWS_S3_CUSTOM_DOMAIN + '/assets/js/' : '/assets/js/';
+    config.output.publicPath = PROD && !CORDOVA_BUILD ? AWS_S3_CUSTOM_DOMAIN + '/assets/js/' : 'assets/js/';
   }
 
   config.devServer = {

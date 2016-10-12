@@ -1,6 +1,7 @@
 import { Router } from '@angular/router';
 import { OnboardingService } from '../services/onboarding.service';
 import { AuthService } from '../auth/auth.service';
+import { ChangeDetectorRef } from '@angular/core';
 
 export abstract class LoginComponent {
   protected static MESSAGE_POPUP_OPENED = 'A Facebook pop-up window has opened, please follow the instructions to sign in.';
@@ -11,18 +12,27 @@ export abstract class LoginComponent {
   public isInfoVisible: boolean = false;
   public isLoading: boolean = false;
   public message: string = '';
+  public isCordova: boolean = 'enabled' === CORDOVA_BUILD ? true : false;
 
-  constructor(protected router: Router, protected auth: AuthService, protected onboardingService: OnboardingService) {
+  constructor(
+    protected router: Router,
+    protected auth: AuthService,
+    protected onboardingService: OnboardingService,
+    protected cd: ChangeDetectorRef
+  ) {
 
+  }
+
+  public onInit() {
     this.auth.isLoggingIn().subscribe((loginInProgress: boolean) => {
       if (!!loginInProgress) {
         this.message = LoginComponent.MESSAGE_LOGIN_IN_PROGRESS;
       }
     });
-
   }
 
   public authenticate(provider: string) {
+
     this.isInfoVisible = true;
     this.isLoading = true;
     this.message = LoginComponent.MESSAGE_POPUP_OPENED;
@@ -30,10 +40,13 @@ export abstract class LoginComponent {
       .subscribe((res) => {
         this.checkOnboardingAndRedirect();
       }, (err) => {
+        console.log('err', err);
         this.isInfoVisible = true;
         this.isLoading = false;
         this.message = LoginComponent.MESSAGE_LOGIN_ERROR;
+        this.cd.detectChanges();
       });
+
   }
 
   public closeInfo(event: MouseEvent) {
