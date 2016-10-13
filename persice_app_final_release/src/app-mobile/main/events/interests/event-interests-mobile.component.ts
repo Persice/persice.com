@@ -69,7 +69,7 @@ export class EventInterestsMobileComponent implements OnInit, OnDestroy {
   }
 
   public viewAttendeesWithInterest(interest: EventInterest) {
-    this.router.navigateByUrl('/event/' + this.eventId + '/attendees?interest=' + interest.id );
+    this.router.navigateByUrl('/event/' + this.eventId + '/attendees?interest=' + interest.id + '&title=' + interest.name);
   }
 
   public loadMoreData(event: MouseEvent) {

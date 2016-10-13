@@ -27,6 +27,7 @@ export class AttendeesMobileComponent implements OnInit, OnDestroy {
   public activeTab: AttendeeTab = AttendeeTab.Going;
 
   public interest: string = '';
+  public interestName: string = '';
   public isLoaded: boolean = false;
   public isLoading$: Observable<boolean>;
   private isLoadedSub: Subscription;
@@ -41,7 +42,8 @@ export class AttendeesMobileComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private store: Store<AppState>,
-    private actions: SelectedPersonActions
+    private actions: SelectedPersonActions,
+    private headerState: HeaderState
   ) {
 
   }
@@ -53,9 +55,16 @@ export class AttendeesMobileComponent implements OnInit, OnDestroy {
       .queryParams
       .subscribe(params => {
         this.interest = params['interest'] || null;
-      });
+        this.interestName = params['title'] || null;
 
-    this.appStateService.headerStateEmitter.emit(HeaderState.attendees);
+        if (this.interestName) {
+          this.appStateService.headerStateEmitter.emit(
+            this.headerState.backWithTitle(this.interestName, HeaderState.actions.Back)
+          );
+        } else {
+          this.appStateService.headerStateEmitter.emit(HeaderState.attendees);
+        }
+      });
 
     this.isLoading$ = this.attendeeService.isLoading$;
 
