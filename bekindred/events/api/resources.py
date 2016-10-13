@@ -974,6 +974,7 @@ class EventFeedResource(Resource):
 
 class SharedInterestsResource(Resource):
     id = fields.CharField(attribute='id')
+    total_count = fields.IntegerField(attribute='total_count')
     shared_interests = fields.DictField(attribute='shared_interests')
 
     class Meta:
@@ -993,17 +994,34 @@ class SharedInterestsResource(Resource):
 
     def obj_get(self, bundle, **kwargs):
         event_id = int(kwargs.get('pk'))
+        only_my = bundle.request.GET.get('only_my') == 'true'
+        user_id = bundle.request.user.id
         attendees = Membership.objects.filter(
             event_id=event_id, rsvp='yes'
         ).values_list('user_id', flat=True)
         if attendees:
-            results = []
-            interests = InterestSubject.objects.filter(
-                interest__user__in=attendees
-            ).annotate(num_interests=Count('interest')).order_by(
-                '-num_interests').values_list('description', 'num_interests')
+            if only_my:
+                my_interests = Interest.objects.filter(
+                    user_id=user_id).values_list('interest', flat=True)
+                interest_qs = InterestSubject.objects.filter(
+                    interest__user__in=attendees,
+                    interest__interest__in=my_interests
+                )
+            else:
+                interest_qs = InterestSubject.objects.filter(
+                    interest__user__in=attendees
+                )
+            interests = interest_qs.annotate(
+                num_interests=Count('interest')
+            ).order_by('-num_interests').values_list(
+                'description', 'num_interests'
+            )
             shared_interests = ResourseObject(
-                {'id': event_id, 'shared_interests': OrderedDict(interests)}
+                {
+                    'id': event_id,
+                    'shared_interests': OrderedDict(interests),
+                    'total_count': len(interests)
+                 }
             )
             return shared_interests
         else:

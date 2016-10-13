@@ -556,9 +556,9 @@ class TestSharedInterestsResource(JWTResourceTestCase):
         s3 = InterestSubject.objects.create(description='learn ruby')
         Interest.objects.create(user=self.user, interest=s)
         Interest.objects.create(user=self.user, interest=s2)
-        Interest.objects.create(user=self.user, interest=s3)
         Interest.objects.create(user=self.user1, interest=s)
         Interest.objects.create(user=self.user1, interest=s2)
+        Interest.objects.create(user=self.user1, interest=s3)
         self.event = Event.objects. \
             create(starts_on='2055-06-13T05:15:22.792659',
                    ends_on='2055-06-14T05:15:22.792659',
@@ -574,7 +574,7 @@ class TestSharedInterestsResource(JWTResourceTestCase):
         self.neo = NeoFourJ()
         self.neo.graph.delete_all()
 
-    def test_get_event_organizer(self):
+    def test_get_shared_interests(self):
         response = self.api_client.get(
             '/api/v2/shared_interests/{}/'.format(self.event.id), format='json',
             authentication=self.get_credentials()
@@ -583,3 +583,14 @@ class TestSharedInterestsResource(JWTResourceTestCase):
         self.assertEqual(resp['shared_interests']['learn django'], 2)
         self.assertEqual(resp['shared_interests']['learn python'], 2)
         self.assertEqual(resp['shared_interests']['learn ruby'], 1)
+        self.assertEqual(resp['total_count'], 3)
+
+    def test_get_my_shared_interests(self):
+        response = self.api_client.get(
+            '/api/v2/shared_interests/{}/'.format(self.event.id), format='json',
+            authentication=self.get_credentials(), data={'only_my': 'true'},
+        )
+        resp = self.deserialize(response)
+        self.assertEqual(resp['shared_interests']['learn django'], 2)
+        self.assertEqual(resp['shared_interests']['learn python'], 2)
+        self.assertEqual(resp['total_count'], 2)
