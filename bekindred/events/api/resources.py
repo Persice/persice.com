@@ -714,7 +714,10 @@ class Attendees(ModelResource):
         try:
             interest_id = int(request.GET.get('interest_id'))
         except (ValueError, TypeError):
-            interest_id = None
+            try:
+                interest_id = int(request.GET.get('interest'))
+            except (ValueError, TypeError):
+                interest_id = None
         if rsvp is None and event_id is None:
             logger.error('rsvp and event_id is required')
             raise BadRequest('rsvp and event_id is required')
