@@ -1,0 +1,17 @@
+{
+  "meta": {
+    "limit": 5,
+    "next": null,
+    "offset": 0,
+    "previous": null,
+    "total_count": 0
+  },
+  "objects": [
+    {
+      "count": 7,
+      "friend_id": 57,
+      "resource_uri": "",
+      "user_id": 56
+    }
+  ]
+}

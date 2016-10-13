@@ -58,11 +58,11 @@ export class AttendeeService {
 
   }
 
-  public getCounters(eventId: number): void {
+  public getCounters(eventId: number, interest: string): void {
     let subs$: Subscription = Observable.forkJoin(
-      this._getCounters(RsvpStatus.yes, eventId),
-      this._getCounters(RsvpStatus.maybe, eventId),
-      this._getCounters(RsvpStatus.no, eventId))
+      this._getCounters(RsvpStatus.yes, eventId, interest),
+      this._getCounters(RsvpStatus.maybe, eventId, interest),
+      this._getCounters(RsvpStatus.no, eventId, interest))
       .subscribe((data: number[]) => {
         data[ 0 ] = data[ 0 ] + 1;
         this._counters$.next(data);
@@ -74,17 +74,18 @@ export class AttendeeService {
       });
   }
 
-  public loadInitial(rsvp: any, eventId: number): void {
-    this._getAttendees(rsvp, eventId, true);
+  public loadInitial(rsvp: any, eventId: number, interest: string): void {
+    this._getAttendees(rsvp, eventId, true, interest);
   }
 
-  public loadMore(rsvp: any, eventId: number): void {
-    this._getAttendees(rsvp, eventId, false);
+  public loadMore(rsvp: any, eventId: number, interest: string): void {
+    this._getAttendees(rsvp, eventId, false, interest);
   }
 
-  private _getCounters(rsvp: RsvpStatus, eventId: number): Observable<any> {
+  private _getCounters(rsvp: RsvpStatus, eventId: number, interest: string): Observable<any> {
     const params: string = [
       `format=json`,
+      `interest_id=${interest}`,
       `rsvp=${RsvpStatus[ rsvp ]}`,
       `event_id=${eventId}`,
       `limit=1`,
@@ -107,7 +108,7 @@ export class AttendeeService {
     return totalCount;
   }
 
-  private _getAttendees(rsvp: any, eventId: number, loadingInitial: boolean): void {
+  private _getAttendees(rsvp: any, eventId: number, loadingInitial: boolean, interest: string): void {
 
     if (!!this._isLoading$.getValue()) {
       return;
@@ -116,6 +117,7 @@ export class AttendeeService {
     // Set API url and params
     const params: string = [
       `format=json`,
+      `interest=${interest}`,
       `rsvp=${RsvpStatus[ rsvp ]}`,
       `event_id=${eventId}`,
       `limit=12`,
@@ -141,7 +143,7 @@ export class AttendeeService {
 
     // If url param is set, use it for loading more attendees
     if (!!this._nextUrl) {
-      apiUrl = this._nextUrl;
+      apiUrl = SERVER_URI + this._nextUrl;
     }
 
     this._isLoading$.next(true);

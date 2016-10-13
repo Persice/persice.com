@@ -1,0 +1,285 @@
+{
+  "meta": {
+    "limit": 4,
+    "next": "http://localhost:9999/api/v2/mutual-connections/?format=json&limit=12&offset=4",
+    "offset": 0,
+    "previous": null,
+    "total_count": 25
+  },
+  "objects": [
+    {
+      "about": "“Don’t waste my time, don’t mess with me, I am a magician, if you doubt me, I’ll put a spell on you”",
+      "age": 29,
+      "distance": [
+        189,
+        "miles"
+      ],
+      "es_score": null,
+      "facebook_id": "10207269494316005",
+      "first_name": "Mirjana",
+      "friends_score": 10,
+      "gender": "f",
+      "goals": [
+        {
+          "hire a dog sitter": 0,
+          "learn about 3d printing and drawing": 1,
+          "learn gymnastics": 1,
+          "learn to play piano": 1,
+          "plan a trip to europe": 0
+        }
+      ],
+      "id": "29",
+      "image": "https://d2v6m3k9ul63ej.cloudfront.net/images/facebook_profiles/2016/03/08/fb_image_10207269494316005_1.jpg",
+      "interests": [
+        {
+          "animals": 0,
+          "animation": 0,
+          "cooking": 0,
+          "crossfit": 1,
+          "design": 0,
+          "dogs": 0,
+          "drawing": 0,
+          "gardening": 0,
+          "gymnastics": 1,
+          "health": 0,
+          "horses": 1
+        }
+      ],
+      "keywords": [
+        "horses",
+        "coding",
+        "gardening",
+        "startup",
+        "gymnastics",
+        "mountain",
+        "health",
+        "piano",
+        "dogs",
+        "3d",
+        "europe",
+        "python",
+        "crossfit",
+        "hiring",
+        "dog",
+        "volleyball",
+        "django",
+        "tech",
+        "biking"
+      ],
+      "last_login": "2016-05-26T08:23:37.820531",
+      "last_name": "Popovic",
+      "linkedin_provider": null,
+      "lives_in": "Novi Sad, Serbia",
+      "mutual": true,
+      "mutual_likes_count": 1,
+      "offers": [
+        {
+          "find a mountain biking partner": 1,
+          "learn how to code django python": 1,
+          "learn to play volleyball": 0,
+          "network with tech startup people": 1,
+          "teach kids to play the piano": 1
+        }
+      ],
+      "photos": [],
+      "position": {
+        "company": "Saturized - The Interactive Agency",
+        "job": "Interface Designer"
+      },
+      "resource_uri": "/api/v2/mutual-connections/29/",
+      "score": 11,
+      "top_interests": [
+        {
+          "classical piano": 1,
+          "crossfit": 1,
+          "gymnastics": 1,
+          "horse riding": 1,
+          "mountain biking": 1,
+          "tech": 1
+        }
+      ],
+      "total_likes_count": 109,
+      "twitter_provider": null,
+      "twitter_username": null,
+      "user_id": "29",
+      "user_type": "persice",
+      "username": "minja10"
+    },
+    {
+      "about": null,
+      "age": null,
+      "distance": [
+        190,
+        "miles"
+      ],
+      "es_score": null,
+      "facebook_id": "10153499968741198",
+      "first_name": "Ljubomir",
+      "friends_score": null,
+      "gender": "all",
+      "goals": null,
+      "id": "10153499968741198",
+      "image": null,
+      "interests": null,
+      "keywords": null,
+      "last_login": null,
+      "last_name": "Simin",
+      "linkedin_provider": null,
+      "lives_in": null,
+      "mutual": true,
+      "mutual_likes_count": null,
+      "offers": null,
+      "photos": null,
+      "position": null,
+      "resource_uri": "/api/v2/mutual-connections/10153499968741198/",
+      "score": null,
+      "top_interests": null,
+      "total_likes_count": null,
+      "twitter_provider": null,
+      "twitter_username": null,
+      "user_id": "99",
+      "user_type": "facebook",
+      "username": null
+    },
+    {
+      "about": "\"Real stupidity beats artificial intelligence every time.\" \r\n    Terry Pratchett, Hogfather  change2\r\n",
+      "age": 31,
+      "distance": [
+        190,
+        "miles"
+      ],
+      "es_score": null,
+      "facebook_id": "10153499968741198",
+      "first_name": "Ljubomir",
+      "friends_score": 3,
+      "gender": "m",
+      "goals": [
+        {
+          "learn how to code django python": 1,
+          "learn to fly": 0
+        }
+      ],
+      "id": "99",
+      "image": "https://d2v6m3k9ul63ej.cloudfront.net/images/facebook_profiles/2016/04/20/fb_image_10153499968741198_1461156893.jpg",
+      "interests": [
+        {
+          "3d printing": 1,
+          "acting": 0,
+          "animals": 0,
+          "animation": 0,
+          "antiques": 1,
+          "archery": 0,
+          "architecture": 0,
+          "art": 0,
+          "artificial intelligence": 0,
+          "backpacking": 0,
+          "badminton": 0,
+          "ballet": 0,
+          "ballet dancing": 1,
+          "beer": 1,
+          "jazz": 0,
+          "kitesurfing / kiteboarding": 1,
+          "knitting": 0,
+          "laser tag": 0,
+          "linux": 0,
+          "live music": 0,
+          "magic": 0
+        }
+      ],
+      "keywords": [
+        "magic",
+        "coding",
+        "intelligence",
+        "tag",
+        "badminton",
+        "antiques",
+        "ballet",
+        "backpacking",
+        "beer",
+        "artificial",
+        "music",
+        "3d",
+        "knitting",
+        "python",
+        "jazzing",
+        "laser",
+        "archery",
+        "dancing",
+        "kitesurfing",
+        "django",
+        "kiteboarding",
+        "architecture"
+      ],
+      "last_login": "2016-07-12T10:53:52.918836",
+      "last_name": "Simin",
+      "linkedin_provider": null,
+      "lives_in": "Novi Sad, Serbia",
+      "mutual": true,
+      "mutual_likes_count": 0,
+      "offers": [
+        {
+          "learn linux": 0
+        }
+      ],
+      "photos": [],
+      "position": {
+        "company": "COING",
+        "job": "Software Engineering Lead"
+      },
+      "resource_uri": "/api/v2/mutual-connections/99/",
+      "score": 6,
+      "top_interests": [
+        {
+          "3d printing": 1,
+          "antiques": 1,
+          "ballet dancing": 1,
+          "beer": 1,
+          "coding": 1,
+          "kitesurfing": 1
+        }
+      ],
+      "total_likes_count": 64,
+      "twitter_provider": null,
+      "twitter_username": null,
+      "user_id": "99",
+      "user_type": "persice",
+      "username": "ljubomirsimin"
+    },
+    {
+      "about": null,
+      "age": null,
+      "distance": [
+        189,
+        "miles"
+      ],
+      "es_score": null,
+      "facebook_id": "10207269494316005",
+      "first_name": "Mirjana",
+      "friends_score": null,
+      "gender": "all",
+      "goals": null,
+      "id": "10207269494316005",
+      "image": null,
+      "interests": null,
+      "keywords": null,
+      "last_login": null,
+      "last_name": "Popovic",
+      "linkedin_provider": null,
+      "lives_in": null,
+      "mutual": true,
+      "mutual_likes_count": null,
+      "offers": null,
+      "photos": null,
+      "position": null,
+      "resource_uri": "/api/v2/mutual-connections/10207269494316005/",
+      "score": null,
+      "top_interests": null,
+      "total_likes_count": null,
+      "twitter_provider": null,
+      "twitter_username": null,
+      "user_id": "29",
+      "user_type": "facebook",
+      "username": null
+    }
+  ]
+}

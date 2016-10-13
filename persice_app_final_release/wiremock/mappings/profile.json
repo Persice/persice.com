@@ -1,0 +1,14 @@
+{
+    "request": {
+        "method": "GET",
+        "urlPattern": "/api/v1/profile/.*"
+    },
+    "response": {
+        "status": 200,
+  "headers" : {
+        "Access-Control-Allow-Origin" : "*"
+      },
+        "bodyFileName": "profile/profile.response.json",
+        "fixedDelayMilliseconds": 1000
+    }
+}

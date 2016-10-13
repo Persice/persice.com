@@ -20,6 +20,7 @@ import { EditGoalsMobileComponent } from './edit-my-profile/edit-goals/edit-goal
 import { EditOffersMobileComponent } from './edit-my-profile/edit-offers/edit-offers-mobile.component';
 import { EditSocialAccountsMobileComponent } from './edit-my-profile/edit-social-accounts/edit-social-accounts-mobile.component';
 import { EditMyProfileNavigationComponent } from './edit-my-profile/navigation/edit-my-profile-navigation.component';
+import { EventInterestsMobileComponent } from './events/interests/event-interests-mobile.component';
 
 export const routes: Routes = [
   {
@@ -33,6 +34,7 @@ export const routes: Routes = [
       { path: 'events', redirectTo: '/events/all/list' },
       { path: 'event/:eventId', component: EventMobileComponent },
       { path: 'event/:eventId/attendees', component: AttendeesMobileComponent },
+      { path: 'event/:eventId/interests', component: EventInterestsMobileComponent },
       {
         path: 'messages',
         component: MessagesMobileComponent,

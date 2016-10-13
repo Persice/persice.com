@@ -62,6 +62,7 @@ import { EditOffersMobileComponent } from './edit-my-profile/edit-offers/edit-of
 import { EditMyProfileNavigationComponent } from './edit-my-profile/navigation/edit-my-profile-navigation.component';
 import { ChoosePhotoComponent } from './edit-my-profile/edit-photos/choose-photo/choose-photo.component';
 import { ConnectionsNotFoundMobileComponent } from './connections/connections-not-found/connections-not-found-mobile.component';
+import { EventInterestsMobileComponent } from './events/interests/event-interests-mobile.component';
 
 export const MAIN_MOBILE_DECLARATIONS = [
   CrowdMobileComponent,
@@ -95,6 +96,7 @@ export const MAIN_MOBILE_DECLARATIONS = [
   EventSummaryComponent,
   EventsNotFoundMobileComponent,
   RsvpMobileComponent,
+  EventInterestsMobileComponent,
 
   // Messages
   MessagesMobileComponent,

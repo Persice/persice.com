@@ -1,7 +1,6 @@
 import 'ts-helpers';
 import {
   DEV_PORT,
-  DEV_PORT_MOBILE,
   PROD_PORT,
   EXCLUDE_SOURCE_MAPS,
   HOST,
@@ -65,11 +64,6 @@ let port: number;
 if (PROD) {
   port = PROD_PORT;
 } else {
-  // if (MOBILE_SERVER) {
-  //   port = DEV_PORT_MOBILE;
-  // } else {
-  //   port = DEV_PORT;
-  // }
   port = DEV_PORT;
 }
 const PORT = port;
@@ -403,7 +397,8 @@ const clientConfig = function webpackConfig(): WebpackConfig {
     host: '0.0.0.0',
     watchOptions: {
       aggregateTimeout: 0,
-      poll: 300
+      poll: 300,
+      ignored: /node_modules/
     }
   };
 

@@ -13824,9 +13824,14 @@ html.remodal-is-locked > body {
 
 /* Disables zoom, use font-size for a better user experience on Mobile browsers */
 input[type="text"], input[type="number"], textarea {
-  font-size: 16px!important;
+  font-size: 16px !important;
 }
 
 .push-menu.cordova, .container.cordova, .mob-header.cordova {
-  margin-top: 20px!important;
+  margin-top: 20px !important;
 }
+
+.mob-sec-tabs__centered ul {
+  text-align: center;
+}
+

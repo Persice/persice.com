@@ -1,0 +1,14 @@
+{
+    "request": {
+        "method": "POST",
+        "urlPattern": "/api/v1/member/.*"
+    },
+    "response": {
+        "status": 201,
+  "headers" : {
+        "Access-Control-Allow-Origin" : "*"
+      },
+        "bodyFileName": "member/member.response.json",
+        "fixedDelayMilliseconds": 1000
+    }
+}

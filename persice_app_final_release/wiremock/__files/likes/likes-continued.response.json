@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "limit": 20,
+    "next": null,
+    "offset": 20,
+    "previous": null,
+    "total_count": 23
+  },
+  "objects": [
+    {
+      "facebook_id": "383059411812617",
+      "id": 1,
+      "name": "Mak Na Konac",
+      "picture": "https://scontent.xx.fbcdn.net/v/t1.0-1/p200x200/11998955_849558685162685_5989506943804102779_n.png?oh=ba19d91fdb33aa8064894acffde30c35&oe=57CAE2F0",
+      "resource_uri": "/api/v1/likes/1/"
+    },
+    {
+      "facebook_id": "135578283226835",
+      "id": 2,
+      "name": "Coursera",
+      "picture": "https://scontent.xx.fbcdn.net/v/t1.0-1/p200x200/18311_738040899647234_8477230347191571252_n.jpg?oh=0d5b1bcd6e885349de5b22cd93399c95&oe=57CA1048",
+      "resource_uri": "/api/v1/likes/2/"
+    },
+    {
+      "facebook_id": "255230916034",
+      "id": 3,
+      "name": "Samoborski FaÅ¡nik",
+      "picture": "https://scontent.xx.fbcdn.net/v/t1.0-1/1557701_10151852913801035_784845050_n.jpg?oh=c30eba414236880209e98a12b419336a&oe=580939DB",
+      "resource_uri": "/api/v1/likes/3/"
+    }
+  ]
+}
