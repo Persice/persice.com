@@ -117,7 +117,7 @@ export class AttendeeService {
     // Set API url and params
     const params: string = [
       `format=json`,
-      `interest=${interest}`,
+      `interest_id=${interest}`,
       `rsvp=${RsvpStatus[ rsvp ]}`,
       `event_id=${eventId}`,
       `limit=12`,
