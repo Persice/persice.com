@@ -711,7 +711,10 @@ class Attendees(ModelResource):
         now = time.time()
         rsvp = request.GET.get('rsvp')
         event_id = request.GET.get('event_id')
-        interest_id = request.GET.get('interest_id')
+        try:
+            interest_id = int(request.GET.get('interest_id'))
+        except ValueError:
+            interest_id = None
         if rsvp is None and event_id is None:
             logger.error('rsvp and event_id is required')
             raise BadRequest('rsvp and event_id is required')
@@ -1007,7 +1010,7 @@ class SharedInterestsResource(Resource):
         only_my = bundle.request.GET.get('only_my') == 'true'
         user_id = bundle.request.user.id
         attendees = Membership.objects.filter(
-            event_id=event_id, rsvp='yes'
+            event_id=event_id, rsvp__in=('yes', 'maybe')
         ).values_list('user_id', flat=True)
         if attendees:
             if only_my:
