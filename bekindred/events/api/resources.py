@@ -975,7 +975,7 @@ class EventFeedResource(Resource):
 class SharedInterestsResource(Resource):
     id = fields.CharField(attribute='id')
     total_count = fields.IntegerField(attribute='total_count')
-    shared_interests = fields.DictField(attribute='shared_interests')
+    shared_interests = fields.ListField(attribute='shared_interests')
 
     class Meta:
         resource_name = 'shared_interests'
@@ -1013,13 +1013,13 @@ class SharedInterestsResource(Resource):
                 )
             interests = interest_qs.annotate(
                 num_interests=Count('interest')
-            ).order_by('-num_interests').values_list(
-                'description', 'num_interests'
+            ).order_by('-num_interests').values(
+                'description', 'num_interests', 'id'
             )
             shared_interests = ResourseObject(
                 {
                     'id': event_id,
-                    'shared_interests': OrderedDict(interests),
+                    'shared_interests': interests,
                     'total_count': len(interests)
                  }
             )
