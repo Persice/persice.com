@@ -5142,7 +5142,7 @@ li > ul, li > ol {
 
 .reselect__trigger:after {
   content: '';
-  background: url("/assets/images/drop-arrow.svg") center center no-repeat;
+  background: url("../images/drop-arrow.svg") center center no-repeat;
   display: block;
   width: 14px;
   height: 40px;
@@ -5210,7 +5210,7 @@ li > ul, li > ol {
 }
 
 .reselect__drop__list__item.is-selected {
-  background: url("/assets/images/icon-checker.svg") center right no-repeat
+  background: url("../images/icon-checker.svg") center right no-repeat
 }
 
 .reselect__drop__list__item:last-child {
@@ -5836,7 +5836,7 @@ li > ul, li > ol {
 
 .c-checkbox__input:checked + .c-checkbox__trigger:after {
   color: #fff;
-  content: url("/assets/images/checker.svg");
+  content: url("../images/checker.svg");
   width: 13px;
   height: 13px;
   left: 2px;
@@ -6213,7 +6213,7 @@ li > ul, li > ol {
 }
 
 .mob-signup-landing {
-  background-image: url("/assets/images/mob-signup-landing.jpg");
+  background-image: url("../images/mob-signup-landing.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -7641,11 +7641,11 @@ input[type=date] {
 
 .mob-gallery .mob-gallery__arrow--prev {
   left: 20px;
-  background: url("/assets/images/icon-arrow_swipe_left_white.svg") center center no-repeat rgba(32, 37, 39, 0.7)
+  background: url("../images/icon-arrow_swipe_left_white.svg") center center no-repeat rgba(32, 37, 39, 0.7)
 }
 
 .mob-gallery .mob-gallery__arrow--next {
-  background: url("/assets/images/icon-arrow_swipe_right_white.svg") center center no-repeat rgba(32, 37, 39, 0.7);
+  background: url("../images/icon-arrow_swipe_right_white.svg") center center no-repeat rgba(32, 37, 39, 0.7);
   right: 20px
 }
 
@@ -7845,7 +7845,7 @@ input[type=date] {
 
 .minict_wrapper:after {
   content: '';
-  background: url("/assets/images/drop-arrow.svg") center center no-repeat;
+  background: url("../images/drop-arrow.svg") center center no-repeat;
   display: block;
   width: 14px;
   right: 15px;
@@ -7883,7 +7883,7 @@ input[type=date] {
 
 .minict_wrapper ul li.selected:after {
   content: '';
-  background: url("/assets/images/drop-checker.svg") center center no-repeat;
+  background: url("../images/drop-checker.svg") center center no-repeat;
   display: block;
   width: 14px;
   height: 30px;
@@ -8432,21 +8432,21 @@ input[type=date] {
 }
 
 .picker__nav--prev {
-  background: url("/assets/images/arrow_left.svg") center center no-repeat;
+  background: url("../images/arrow_left.svg") center center no-repeat;
   left: 0
 }
 
 .picker__nav--prev:hover {
-  background: url("/assets/images/arrow_left.svg") center center no-repeat
+  background: url("../images/arrow_left.svg") center center no-repeat
 }
 
 .picker__nav--next {
-  background: url("/assets/images/arrow_right.svg") center center no-repeat;
+  background: url("../images/arrow_right.svg") center center no-repeat;
   right: 0
 }
 
 .picker__nav--next:hover {
-  background: url("/assets/images/arrow_right.svg") center center no-repeat
+  background: url("../images/arrow_right.svg") center center no-repeat
 }
 
 .picker__day {
@@ -9640,7 +9640,7 @@ input[type=date] {
   position: absolute;
   top: -25px;
   margin-left: 5px;
-  background-image: url('/assets/images/arrow.png');
+  background-image: url('../images/arrow.png');
   background-size: 60px 45px;
   width: 60px;
   height: 45px;
@@ -10438,7 +10438,7 @@ input[type=date] {
   margin-right: 13px;
   width: 40px;
   height: 40px;
-  background: url("/assets/images/icon-arrow_right.svg") center center no-repeat
+  background: url("../images/icon-arrow_right.svg") center center no-repeat
 }
 
 .remodal__title--small {
@@ -10557,7 +10557,7 @@ input[type=date] {
 
 .remodal--mob-report__list__item.is-selected:after {
   content: '';
-  background: url("/assets/images/drop-checker.svg") center center no-repeat;
+  background: url("../images/drop-checker.svg") center center no-repeat;
   display: block;
   width: 14px;
   height: 30px;
@@ -10716,11 +10716,11 @@ input[type=date] {
 }
 
 .fc-prev-button {
-  background: url("/assets/images/arrow_left.svg") center center no-repeat
+  background: url("../images/arrow_left.svg") center center no-repeat
 }
 
 .fc-next-button {
-  background: url("/assets/images/arrow_right.svg") center center no-repeat;
+  background: url("../images/arrow_right.svg") center center no-repeat;
   right: 0
 }
 
@@ -13818,11 +13818,20 @@ html.remodal-is-locked > body {
   top: 10px !important;
   width: 16px !important;
   height: 16px !important;
-  background: url("/assets/images/close.png") !important;
+  background: url("../images/close.png") !important;
   cursor: pointer !important
 }
 
 /* Disables zoom, use font-size for a better user experience on Mobile browsers */
 input[type="text"], input[type="number"], textarea {
-  font-size: 16px!important;
+  font-size: 16px !important;
 }
+
+.push-menu.cordova, .container.cordova, .mob-header.cordova {
+  margin-top: 20px !important;
+}
+
+.mob-sec-tabs__centered ul {
+  text-align: center;
+}
+
