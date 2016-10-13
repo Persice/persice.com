@@ -711,15 +711,25 @@ class Attendees(ModelResource):
         now = time.time()
         rsvp = request.GET.get('rsvp')
         event_id = request.GET.get('event_id')
+        interest_id = request.GET.get('interest_id')
         if rsvp is None and event_id is None:
             logger.error('rsvp and event_id is required')
             raise BadRequest('rsvp and event_id is required')
         if rsvp not in ('yes', 'no', 'maybe'):
             logger.error('rsvp is incorrect rsvp: {}'.format(rsvp))
             raise BadRequest('Please use correct rsvp: yes, no or maybe')
-        attendees_ids = Membership.objects.filter(
-            rsvp=rsvp, event_id=event_id, is_organizer=False
-        ).values_list('user_id', flat=True)
+        if interest_id:
+            user_ids = Interest.objects.filter(
+                interest_id=interest_id
+            ).values_list('user_id', flat=True)
+            attendees_ids = Membership.objects.filter(
+                rsvp=rsvp, event_id=event_id, is_organizer=False,
+                user_id__in=user_ids
+            ).values_list('user_id', flat=True)
+        else:
+            attendees_ids = Membership.objects.filter(
+                rsvp=rsvp, event_id=event_id, is_organizer=False
+            ).values_list('user_id', flat=True)
 
         if rsvp == 'yes':
             attendees_ids = list(attendees_ids)
