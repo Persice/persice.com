@@ -5,7 +5,7 @@ import { HttpClient } from '../core/http-client';
 
 @Injectable()
 export class EventAttendeesService {
-  static API_URL: string = '/api/v1/attendees/';
+  static API_URL: string =  SERVER_URI +'/api/v1/attendees/';
   next: string = '';
 
   constructor(private http: HttpClient) {

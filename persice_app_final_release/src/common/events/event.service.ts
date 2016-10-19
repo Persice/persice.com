@@ -10,7 +10,7 @@ import { EventValidator } from './event-validator';
 
 @Injectable()
 export class EventService {
-  public static API_URL = '/api/v1/event/';
+  public static API_URL = SERVER_URI + '/api/v1/event/';
 
   private validationErrors = {};
 

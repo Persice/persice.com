@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { IntercomUtil } from '../../common/core/util';
 import { AuthService } from '../../common/auth/auth.service';
-
+declare var window: any;
 @Component({
   selector: 'prs-mobile-navigation',
   templateUrl: './navigation-mobile.html'

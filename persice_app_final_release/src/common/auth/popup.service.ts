@@ -17,7 +17,7 @@ export class PopupService {
         width: width,
         height: height,
         left: window.screenX + ((window.outerWidth - width) / 2),
-        top: window.screenY + ((window.outerHeight - height) / 2.5)
+        top: window.screenY + ((window.outerHeight - height) / 2.5),
       },
       options);
   }
@@ -51,7 +51,7 @@ export class PopupService {
     let UA = window.navigator.userAgent;
     let windowName = (this.config.cordova || UA.indexOf('CriOS') > -1) ? '_blank' : name;
 
-    this.popupWindow = window.open(url, windowName, stringifiedOptions);
+    this.popupWindow = window.open(url, windowName, 'enabled' === CORDOVA_BUILD ? stringifiedOptions + ',location=no,clearsessioncache=yes,clearcache=yes' : stringifiedOptions);
 
     window[ 'popup' ] = this.popupWindow;
 
@@ -64,10 +64,11 @@ export class PopupService {
 
   eventListener(redirectUri: string) {
     return Observable
-      .fromEvent<Event>(this.popupWindow, 'loadstart')
+      .fromEvent<Event>(this.popupWindow, 'loadstart', null, null)
+      .merge(Observable.fromEvent<Event>(this.popupWindow, 'exit', null, null))
       .concatMap((event: Event & { url: string }) => {
-        if (!this.popupWindow || this.popupWindow.closed) {
-          return [ 'Popup Window Closed' ];
+        if (!this.popupWindow || this.popupWindow.closed || event.type === 'exit') {
+          return Observable.throw('Popup Window Closed');
         }
         if (event.url.indexOf(redirectUri) !== 0) {
           return [];
@@ -102,7 +103,7 @@ export class PopupService {
       .interval(50)
       .concatMap(() => {
         if (!this.popupWindow || this.popupWindow.closed) {
-          return Observable.throw('popup_closed');
+          return Observable.throw('Popup Window Closed');
         }
         let documentOrigin = document.location.host;
         let popupWindowOrigin = '';

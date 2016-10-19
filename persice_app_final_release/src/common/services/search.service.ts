@@ -5,8 +5,8 @@ import { HttpClient } from '../core/http-client';
 
 @Injectable()
 export class SearchService {
-  static API_URL_USER: string = '/api/v1/auth/user/search/';
-  static API_URL_EVENT: string = '/api/v1/event/search/';
+  static API_URL_USER: string = SERVER_URI + '/api/v1/auth/user/search/';
+  static API_URL_EVENT: string = SERVER_URI + '/api/v1/event/search/';
 
   constructor(private http: HttpClient) {
 

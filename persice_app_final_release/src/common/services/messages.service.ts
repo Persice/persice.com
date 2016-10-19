@@ -13,9 +13,9 @@ const PER_PAGE_LIMIT: number = 12;
 @Injectable()
 export class MessagesService {
 
-  static API_URL = '/api/v1/messages/';
-  static API_USER_URL = '/api/v1/auth/user/';
-  static API_URL_MARK_READ = '/api/v1/inbox/reat_at/';
+  static API_URL = SERVER_URI + '/api/v1/messages/';
+  static API_USER_URL = SERVER_URI + '/api/v1/auth/user/';
+  static API_URL_MARK_READ = SERVER_URI + '/api/v1/inbox/reat_at/';
 
   public messages$: Observable<Message[]>;
   public loading$: Observable<boolean>;

@@ -1,0 +1,20 @@
+<div class="mob-sec-tabs mob-sec-tabs__centered">
+	<ul>
+		<li class="mob-sec-tabs__item mob-sec-tabs__item-centered" [ngClass]="{'is-current': activeTab === 1}"><a (click)="activateTab(1)">TOP
+      INTERESTS</a></li>
+		<li class="mob-sec-tabs__item mob-sec-tabs__item-centered" [ngClass]="{'is-current': activeTab === 2}"><a (click)="activateTab(2)">MY
+      INTERESTS</a></li>
+	</ul>
+</div>
+
+<div>
+	<div class="user-card" *ngFor="let interest of interests$ | async" (click)="viewAttendeesWithInterest(interest)">
+		<div class="flag flag--top flag--small">
+			<div class="flag__body">
+				<div class="user-card__name"> {{interest.name}} </div>
+				<div class="user-card__user-details"> {{interest.personCount}} people </div>
+			</div>
+		</div>
+	</div>
+</div>
+<prs-loading [status]="!!(isLoading$ | async)"></prs-loading>

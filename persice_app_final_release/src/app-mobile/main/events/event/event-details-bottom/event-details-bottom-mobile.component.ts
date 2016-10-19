@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { Event } from '../../../../../common/models/event/index';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'prs-mobile-event-details-bottom',
@@ -8,12 +9,17 @@ import { Event } from '../../../../../common/models/event/index';
 })
 export class EventDetailsBottomMobileComponent implements OnInit {
   @Input() event: Event;
+  @Input() count: number;
 
-  constructor() {
+  constructor(private router: Router) {
   }
 
   ngOnInit() {
 
+  }
+
+  public viewInterests(event: MouseEvent) {
+    this.router.navigateByUrl(`/event/${this.event.id}/interests`);
   }
 }
 

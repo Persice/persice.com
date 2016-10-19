@@ -1,0 +1,15 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPattern": "/api/v2/shared_interests/.*"
+  },
+  "response": {
+    "status": 200,
+    "headers" : {
+      "Access-Control-Allow-Origin" : "*",
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "events/event-interests.response.json",
+    "fixedDelayMilliseconds": 500
+  }
+}

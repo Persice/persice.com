@@ -86,12 +86,6 @@ export abstract class SocialAccountsComponent {
 
   protected onInit() {
     this.getConnectStatus();
-    // this.auth.isLoggingIn().subscribe((loginInProgress: boolean) => {
-    //   if (!!loginInProgress) {
-    //     this.message = SocialAccountsComponent.MESSAGE_CONNECT_IN_PROGRESS;
-    //   }
-    // });
-
   }
 
 }

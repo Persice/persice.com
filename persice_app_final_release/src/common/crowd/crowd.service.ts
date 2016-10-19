@@ -5,7 +5,7 @@ import { HttpClient } from '../core/http-client';
 
 @Injectable()
 export class CrowdService {
-  static API_URL: string = '/api/v1/matchfeed/';
+  static API_URL: string = SERVER_URI + '/api/v1/matchfeed/';
   next: string = '';
 
   constructor(protected http: HttpClient) {}

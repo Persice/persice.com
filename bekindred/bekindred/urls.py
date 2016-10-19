@@ -20,7 +20,8 @@ from events.api.resources import (
     FilterStateResource,
     MembershipResource,
     OrganizerResource,
-    UserProfileResource
+    UserProfileResource,
+    SharedInterestsResource
 )
 from friends.api.resources import (
     ConnectionsResource,
@@ -125,6 +126,7 @@ v2_api.register(TwitterSocialDisconnectResource())
 v2_api.register(LinkedinSocialConnectResource())
 v2_api.register(LinkedinSocialDisconnectResource())
 v2_api.register(OrganizerResource())
+v2_api.register(SharedInterestsResource())
 
 
 urlpatterns = patterns('',

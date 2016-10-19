@@ -1,0 +1,14 @@
+{
+    "request": {
+        "method": "GET",
+        "urlPattern": "/api/v1/mutual/friends/.*&offset=0"
+    },
+    "response": {
+        "status": 200,
+  "headers" : {
+        "Access-Control-Allow-Origin" : "*"
+      },
+        "bodyFileName": "connections/connections-mutual-single.response.json",
+        "fixedDelayMilliseconds": 1000
+    }
+}

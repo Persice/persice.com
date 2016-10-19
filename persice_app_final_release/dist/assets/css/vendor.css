@@ -5664,7 +5664,7 @@ li > ol {
 
 .reselect__trigger:after {
   content: '';
-  background: url("/assets/images/drop-arrow.svg") center center no-repeat;
+  background: url("../images/drop-arrow.svg") center center no-repeat;
   display: block;
   width: 14px;
   height: 40px;
@@ -5732,7 +5732,7 @@ li > ol {
 }
 
 .reselect__drop__list__item.is-selected {
-  background: url("/assets/images/icon-checker.svg") center right no-repeat;
+  background: url("../images/icon-checker.svg") center right no-repeat;
 }
 
 .reselect__drop__list__item:last-child {
@@ -7121,7 +7121,7 @@ li > ol {
 
 .c-checkbox__input:checked + .c-checkbox__trigger:after {
   color: #fff;
-  content: url("/assets/images/checker.svg");
+  content: url("../images/checker.svg");
   width: 13px;
   height: 13px;
   left: 2px;
@@ -8064,7 +8064,7 @@ li > ol {
 
 .minict_wrapper:after {
   content: '';
-  background: url("/assets/images/drop-arrow.svg") center center no-repeat;
+  background: url("../images/drop-arrow.svg") center center no-repeat;
   display: block;
   width: 14px;
   right: 15px;
@@ -8101,7 +8101,7 @@ li > ol {
 
 .minict_wrapper ul li.selected:after {
   content: '';
-  background: url("/assets/images/drop-checker.svg") center center no-repeat;
+  background: url("../images/drop-checker.svg") center center no-repeat;
   display: block;
   width: 14px;
   height: 30px;
@@ -9069,11 +9069,11 @@ li > ol {
 }
 
 .slide-users__prev {
-  background: url("/assets/images/icon-arrow_swipe_left.svg") center center no-repeat;
+  background: url("../images/icon-arrow_swipe_left.svg") center center no-repeat;
 }
 
 .slide-users__next {
-  background: url("/assets/images/icon-arrow_swipe_right.svg") center center no-repeat;
+  background: url("../images/icon-arrow_swipe_right.svg") center center no-repeat;
   right: 0;
 }
 
@@ -9502,11 +9502,11 @@ li > ol {
 
 .modal-gallery .modal-gallery__arrow--prev {
   left: -60px;
-  background: url("/assets/images/icon-arrow_swipe_left_white.svg") center center no-repeat;
+  background: url("../images/icon-arrow_swipe_left_white.svg") center center no-repeat;
 }
 
 .modal-gallery .modal-gallery__arrow--next {
-  background: url("/assets/images/icon-arrow_swipe_right_white.svg") center center no-repeat;
+  background: url("../images/icon-arrow_swipe_right_white.svg") center center no-repeat;
   right: -60px;
 }
 
@@ -9726,7 +9726,7 @@ li > ol {
   margin-right: 13px;
   width: 40px;
   height: 40px;
-  background: url("/assets/images/icon-arrow_right.svg") center center no-repeat;
+  background: url("../images/icon-arrow_right.svg") center center no-repeat;
 }
 
 .remodal__title--small {
@@ -9848,7 +9848,7 @@ li > ol {
 
 .remodal--mob-report__list__item.is-selected:after {
   content: '';
-  background: url("/assets/images/drop-checker.svg") center center no-repeat;
+  background: url("../images/drop-checker.svg") center center no-repeat;
   display: block;
   width: 14px;
   height: 30px;
@@ -9941,7 +9941,7 @@ li > ol {
 }
 
 .signup-landing {
-  background-image: url("/assets/images/signup-landing.jpg");
+  background-image: url("../images/signup-landing.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -10074,7 +10074,7 @@ li > ol {
   left: 100%;
   content: '';
   display: block;
-  background: url("/assets/images/icon-arrow_right.svg") center center no-repeat;
+  background: url("../images/icon-arrow_right.svg") center center no-repeat;
   width: 36px;
   height: 36px;
   top: 50%;
@@ -10171,21 +10171,21 @@ li > ol {
 }
 
 .picker__nav--prev {
-  background: url("/assets/images/arrow_left.svg") center center no-repeat;
+  background: url("../images/arrow_left.svg") center center no-repeat;
   left: 0;
 }
 
 .picker__nav--prev:hover {
-  background: url("/assets/images/arrow_left.svg") center center no-repeat;
+  background: url("../images/arrow_left.svg") center center no-repeat;
 }
 
 .picker__nav--next {
-  background: url("/assets/images/arrow_right.svg") center center no-repeat;
+  background: url("../images/arrow_right.svg") center center no-repeat;
   right: 0;
 }
 
 .picker__nav--next:hover {
-  background: url("/assets/images/arrow_right.svg") center center no-repeat;
+  background: url("../images/arrow_right.svg") center center no-repeat;
 }
 
 .picker__day {
@@ -11602,11 +11602,11 @@ ul.tagit li.tagit-choice .tagit-close {
 }
 
 .fc-prev-button {
-  background: url("/assets/images/icon-arrow_left.svg") center center no-repeat;
+  background: url("../images/icon-arrow_left.svg") center center no-repeat;
 }
 
 .fc-next-button {
-  background: url("/assets/images/icon-arrow_right.svg") center center no-repeat;
+  background: url("../images/icon-arrow_right.svg") center center no-repeat;
   right: 0;
 }
 
@@ -15733,7 +15733,7 @@ li.features-list__match {
   top: 10px !important;
   width: 16px !important;
   height: 16px !important;
-  background: url("/assets/images/close.png") !important;
+  background: url("../images/close.png") !important;
   cursor: pointer !important;
 }
 

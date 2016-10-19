@@ -13,7 +13,7 @@ interface EventsMapped {
 
 @Injectable()
 export class EventsService {
-  public static API_URL = '/api/v1/events2/';
+  public static API_URL = SERVER_URI + '/api/v1/events2/';
 
   public events$: Observable<Event[]>;
   public isLoading$: Observable<boolean>;

@@ -5,7 +5,7 @@ import { HttpClient } from '../core/http-client';
 
 @Injectable()
 export class EventMembersService {
-  static API_URL: string = '/api/v1/member/';
+  static API_URL: string = SERVER_URI + '/api/v1/member/';
 
   constructor(private http: HttpClient) { }
 
@@ -21,13 +21,13 @@ export class EventMembersService {
   }
 
   public findOneByUri(resourceUri: string): Observable<any> {
-    return this.http.get(resourceUri).map((res: Response) => res.json());
+    return this.http.get(SERVER_URI + resourceUri).map((res: Response) => res.json());
   }
 
   public updateOneByUri(resourceUri: string, data: any): Observable<any> {
     const body = JSON.stringify(data);
     return this.http.patch(
-      resourceUri,
+      SERVER_URI + resourceUri,
       body)
       .map((res: Response) => res.json());
   }
@@ -41,7 +41,7 @@ export class EventMembersService {
   }
 
   public deleteOneByUri(resourceUri: string): Observable<any> {
-    return this.http.delete(resourceUri);
+    return this.http.delete(SERVER_URI + resourceUri);
   }
 
 }

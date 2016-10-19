@@ -44,6 +44,7 @@ export class Event {
   private _resourceUri: string;
   private _eventHost: EventHost;
   private _isHost: boolean;
+  private _sharedInterestsCount: number;
 
   constructor() {}
 
@@ -108,6 +109,7 @@ export class Event {
     this._eventHost = dto.organizer ? new EventHost(dto.organizer) : null;
     this._hostedBy = this._eventHost ? this._eventHost.name : '';
     this._isHost = this._eventHost ? (this._eventHost.username === TokenUtil.getValue('username') ? true : false) : false;
+    this._sharedInterestsCount = !!dto.shared_interests_count ? dto.shared_interests_count : 0;
   }
 
   public clone(): Event {
@@ -526,6 +528,14 @@ export class Event {
 
   set eventHost(eventHost: EventHost) {
     this._eventHost = eventHost;
+  }
+
+  get sharedInterestsCount(): number {
+    return this._sharedInterestsCount;
+  }
+
+  set sharedInterestsCount(count: number) {
+    this._sharedInterestsCount = count;
   }
 
   private _parseEventDateFromField(dateField: any): EventDate {

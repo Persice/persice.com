@@ -5,4 +5,5 @@ import { Component } from '@angular/core';
   templateUrl: './info-header-mobile.html'
 })
 export class InfoHeaderMobileComponent {
+  isCordova = 'enabled' === CORDOVA_BUILD;
 }

@@ -1,3 +1,4 @@
+from collections import OrderedDict
 from datetime import timedelta, date
 import json
 from unittest import skip
@@ -16,6 +17,7 @@ from events.models import Event, Membership, EventFilterState
 from friends.models import Friend
 from friends.utils import NeoFourJ
 from goals.models import Subject, Goal, Offer, MatchFilterState
+from interests.models import InterestSubject, Interest
 from match_engine.tests.test_models import BaseTestCase
 from world.models import UserLocation
 
@@ -538,3 +540,57 @@ class TestOrganizerResource(JWTResourceTestCase):
         )
         resp = self.deserialize(response)
         self.assertEqual(resp['first_name'], u'Andrii')
+
+
+class TestSharedInterestsResource(JWTResourceTestCase):
+    def setUp(self):
+        super(TestSharedInterestsResource, self).setUp()
+        self.user = FacebookCustomUser.objects. \
+            create_user(username='user_a', password='test', facebook_id=123,
+                        first_name='Andrii', last_name='Soldatenko')
+        self.user1 = FacebookCustomUser.objects. \
+            create_user(username='user_b', password='test', facebook_id=124,
+                        first_name='First Name', last_name='Last Name')
+        s = InterestSubject.objects.create(description='learn django')
+        s2 = InterestSubject.objects.create(description='learn python')
+        s3 = InterestSubject.objects.create(description='learn ruby')
+        Interest.objects.create(user=self.user, interest=s)
+        Interest.objects.create(user=self.user, interest=s2)
+        Interest.objects.create(user=self.user1, interest=s)
+        Interest.objects.create(user=self.user1, interest=s2)
+        Interest.objects.create(user=self.user1, interest=s3)
+        self.event = Event.objects. \
+            create(starts_on='2055-06-13T05:15:22.792659',
+                   ends_on='2055-06-14T05:15:22.792659',
+                   name="Play piano", location=[7000, 22965.83])
+        self.membership = Membership.objects. \
+            create(user=self.user, event=self.event,
+                   is_organizer=True, rsvp='yes')
+        self.membership1 = Membership.objects. \
+            create(user=self.user1, event=self.event, rsvp='yes')
+        assign_perm('view_event', self.user, self.event)
+        assign_perm('view_event', self.user1, self.event)
+        self.detail_url = '/api/v2/shared_interests/{0}/'.format(self.event.pk)
+        self.neo = NeoFourJ()
+        self.neo.graph.delete_all()
+
+    def test_get_shared_interests(self):
+        response = self.api_client.get(
+            '/api/v2/shared_interests/{}/'.format(self.event.id), format='json',
+            authentication=self.get_credentials()
+        )
+        resp = self.deserialize(response)
+        self.assertEqual(resp['shared_interests']['learn django'], 2)
+        self.assertEqual(resp['shared_interests']['learn python'], 2)
+        self.assertEqual(resp['shared_interests']['learn ruby'], 1)
+        self.assertEqual(resp['total_count'], 3)
+
+    def test_get_my_shared_interests(self):
+        response = self.api_client.get(
+            '/api/v2/shared_interests/{}/'.format(self.event.id), format='json',
+            authentication=self.get_credentials(), data={'only_my': 'true'},
+        )
+        resp = self.deserialize(response)
+        self.assertEqual(resp['shared_interests']['learn django'], 2)
+        self.assertEqual(resp['shared_interests']['learn python'], 2)
+        self.assertEqual(resp['total_count'], 2)

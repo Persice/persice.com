@@ -1,0 +1,14 @@
+{
+    "request": {
+        "method": "GET",
+        "urlPattern": "/api/v1/mutual_likes/.*&offset=0"
+    },
+    "response": {
+        "status": 200,
+        "fixedDelayMilliseconds": 2000,
+        "headers" : {
+              "Access-Control-Allow-Origin" : "*"
+            },
+        "bodyFileName": "likes/likes.response.json"
+    }
+}

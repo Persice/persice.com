@@ -19,7 +19,7 @@ export abstract class ManageGoalsOffersComponent {
   MAXIMUM_ITEM_LENGTH: number = 300;
 
   // API endpoint for autocomplete search in input
-  AUTOCOMPLETE_API_ENDPOINT = '/api/v1/subject/';
+  AUTOCOMPLETE_API_ENDPOINT = SERVER_URI + '/api/v1/subject/';
 
   // Attribute of API response, used for showing autocomplete search results
   AUTOCOMPLETE_API_ATTRIBUTE = 'description';
@@ -68,10 +68,6 @@ export abstract class ManageGoalsOffersComponent {
         });
   }
 
-  /**
-   * Load more items
-   * @param {DOM event} event
-   */
   public loadMoreItems(event) {
     if (this.next && !this.loading) {
       this.getList();
@@ -159,7 +155,7 @@ export abstract class ManageGoalsOffersComponent {
   }
 
   private _delete(item: Item) {
-    let idx = findIndex(this.items, item);
+    let idx = findIndex(this.items, <any>item);
     if (this.items[ idx ]) {
       this.listService.delete(item.resource_uri)
         .subscribe(() => {
@@ -186,7 +182,7 @@ export abstract class ManageGoalsOffersComponent {
 
     if (this.items.length > 0) {
       let more = data.objects;
-      for (var i = 0; i <= more.length - 1; i++) {
+      for (let i = 0; i <= more.length - 1; i++) {
         this.items.push(new Item(more[ i ].id, more[ i ].subject, more[ i ].resource_uri));
       }
     } else {
@@ -205,7 +201,7 @@ export abstract class ManageGoalsOffersComponent {
   };
 
   private exists(subject: string): boolean {
-    let idx = findIndex(this.items, { 'subject': subject });
+    let idx = findIndex(this.items, <any>{ 'subject': subject });
     return idx > -1;
   }
 

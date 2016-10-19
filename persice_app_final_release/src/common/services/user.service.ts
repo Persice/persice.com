@@ -8,8 +8,8 @@ import { TokenUtil } from '../core/util';
 
 @Injectable()
 export class UserService {
-  static API_URL: string = '/api/v1/auth/user/';
-  static DEFAULT_IMAGE: string = '/assets/images/empty_avatar.png';
+  static API_URL: string = SERVER_URI + '/api/v1/auth/user/';
+  static DEFAULT_IMAGE: string = 'assets/images/empty_avatar.png';
   user: AuthUserModel;
   image: string = UserService.DEFAULT_IMAGE;
   name: string = '';

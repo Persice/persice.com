@@ -1,0 +1,22 @@
+{
+  "total_count": 2,
+  "shared_interests": [
+    {
+      "num_interests": 2,
+      "description": "learn django",
+      "id": 1
+    },
+    {
+      "num_interests": 2,
+      "description": "learn python",
+      "id": 2
+    },
+    {
+      "num_interests": 3,
+      "description": "learn angular2",
+      "id": 3
+    }
+  ],
+  "id": "1",
+  "resource_uri": "/api/v2/shared_interests/1/"
+}

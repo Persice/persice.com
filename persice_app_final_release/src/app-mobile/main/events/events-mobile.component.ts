@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EventsService } from '../../../common/events/events.service';
 import { EventMembersService } from '../../../common/services/eventmembers.service';
@@ -17,7 +17,8 @@ export class EventsMobileComponent extends EventsComponent implements OnInit, On
     eventsService: EventsService,
     private appStateService: AppStateService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private cd: ChangeDetectorRef
   ) {
     super(eventsService);
   }
@@ -34,6 +35,15 @@ export class EventsMobileComponent extends EventsComponent implements OnInit, On
         this.loadEvents();
       }
     );
+
+    this.isLoadingSub = this.eventsService.isLoading$.subscribe(
+      (state: boolean) => {
+        if (!state) {
+          this.cd.detectChanges();
+        }
+      }
+    );
+
   }
 
   ngOnDestroy(): any {
@@ -41,7 +51,9 @@ export class EventsMobileComponent extends EventsComponent implements OnInit, On
     this.appStateService.setHeaderVisibility(true);
     // TODO: enable add new event button
     // this.appStateService.setFooterButtonVisibility(false);
-
+    if (this.isLoadingSub) {
+      this.isLoadingSub.unsubscribe();
+    }
     this.onDestroy();
   }
 
@@ -56,6 +68,7 @@ export class EventsMobileComponent extends EventsComponent implements OnInit, On
 
   private clickEventsTypeDropdownElement(type: string, event: MouseEvent): void {
     event.stopPropagation();
+    event.preventDefault();
     this.router.navigateByUrl(`/events/${type}/list`);
   }
 

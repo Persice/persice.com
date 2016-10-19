@@ -6,7 +6,7 @@ import { TokenUtil } from '../core/util';
 
 @Injectable()
 export class MyProfileService {
-  static API_URL: string = '/api/v1/user_profile/';
+  static API_URL: string = SERVER_URI + '/api/v1/user_profile/';
 
   constructor(private http: HttpClient) {
 

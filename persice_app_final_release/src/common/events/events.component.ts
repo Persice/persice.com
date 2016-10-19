@@ -16,6 +16,7 @@ export abstract class EventsComponent {
   notFound$: Observable<boolean>;
   isLoadingInitial$: Observable<boolean>;
   isLoadedSub: Subscription;
+  isLoadingSub: Subscription;
   isLoaded: boolean = false;
   routeSub: Subscription;
   username: string;

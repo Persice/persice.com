@@ -10,7 +10,7 @@ const PER_PAGE_LIMIT: number = 12;
 
 @Injectable()
 export class ConversationsService {
-  static API_URL = '/api/v1/inbox/last/';
+  static API_URL = SERVER_URI + '/api/v1/inbox/last/';
 
   public conversations$: Observable<Conversation[]>;
   public selectedConversation$: Observable<Conversation>;

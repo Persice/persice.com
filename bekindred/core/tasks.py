@@ -8,6 +8,8 @@ from celery import task
 from django.core.cache import cache
 from haystack.management.commands import update_index
 
+from core.utils import send_sg_mail
+
 logger = logging.getLogger(__name__)
 
 
@@ -54,3 +56,8 @@ def update_index_delay(*args, **kwargs):
         event_id = kwargs.get('instance').id
     update_index_elastic.delay(user_id=user_id, event_id=event_id)
     refresh_cache2.delay(user_id)
+
+
+@task
+def send_mail(message_id, sender_name, body, to_email):
+    send_sg_mail(message_id, sender_name, body, to_email)

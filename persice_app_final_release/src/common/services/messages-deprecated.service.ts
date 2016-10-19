@@ -6,7 +6,7 @@ import { HttpClient } from '../core/http-client';
 
 @Injectable()
 export class MessagesService {
-  static API_URL = '/api/v1/messages/';
+  static API_URL = SERVER_URI + '/api/v1/messages/';
 
   _dataStore = [];
   _limit: number = 12;

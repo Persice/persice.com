@@ -2,6 +2,8 @@ import json
 import logging
 
 import hashlib
+from collections import OrderedDict
+
 import re
 import time
 from datetime import datetime
@@ -12,6 +14,7 @@ from django.contrib.humanize.templatetags.humanize import intcomma
 from django.core.cache import cache
 from django.core.paginator import InvalidPage, Paginator
 from django.db import IntegrityError
+from django.db.models import Count
 from django.forms import model_to_dict
 from django.http import Http404
 from django.utils.timezone import now
@@ -19,6 +22,7 @@ from guardian.shortcuts import assign_perm
 from haystack.backends import SQ
 from haystack.query import SearchQuerySet
 
+from interests.models import InterestSubject
 from matchfeed.api.resources import A
 from postman.api import pm_write
 from tastypie import fields
@@ -707,15 +711,31 @@ class Attendees(ModelResource):
         now = time.time()
         rsvp = request.GET.get('rsvp')
         event_id = request.GET.get('event_id')
+        try:
+            interest_id = int(request.GET.get('interest_id'))
+        except (ValueError, TypeError):
+            try:
+                interest_id = int(request.GET.get('interest'))
+            except (ValueError, TypeError):
+                interest_id = None
         if rsvp is None and event_id is None:
             logger.error('rsvp and event_id is required')
             raise BadRequest('rsvp and event_id is required')
         if rsvp not in ('yes', 'no', 'maybe'):
             logger.error('rsvp is incorrect rsvp: {}'.format(rsvp))
             raise BadRequest('Please use correct rsvp: yes, no or maybe')
-        attendees_ids = Membership.objects.filter(
-            rsvp=rsvp, event_id=event_id, is_organizer=False
-        ).values_list('user_id', flat=True)
+        if interest_id:
+            user_ids = Interest.objects.filter(
+                interest_id=interest_id
+            ).values_list('user_id', flat=True)
+            attendees_ids = Membership.objects.filter(
+                rsvp=rsvp, event_id=event_id, is_organizer=False,
+                user_id__in=user_ids
+            ).values_list('user_id', flat=True)
+        else:
+            attendees_ids = Membership.objects.filter(
+                rsvp=rsvp, event_id=event_id, is_organizer=False
+            ).values_list('user_id', flat=True)
 
         if rsvp == 'yes':
             attendees_ids = list(attendees_ids)
@@ -869,6 +889,164 @@ class EventFeedResource(Resource):
 
     def obj_get_list(self, bundle, **kwargs):
         # Filtering disabled for brevity...
+        return self.get_object_list(bundle.request)
+
+
+class EventFeedResource(Resource):
+    id = fields.CharField(attribute='id')
+    name = fields.CharField(attribute='name')
+    city = fields.CharField(attribute='city', null=True)
+    country = fields.CharField(attribute='country', null=True)
+    state = fields.CharField(attribute='state', null=True)
+    street = fields.CharField(attribute='street', null=True)
+    repeat = fields.CharField(attribute='repeat', null=True)
+    zipcode = fields.CharField(attribute='zipcode', null=True)
+    full_address = fields.CharField(attribute='full_address', null=True)
+    location = fields.CharField(attribute='location', null=True)
+    location_name = fields.CharField(attribute='location_name', null=True)
+    max_attendees = fields.IntegerField(attribute='max_attendees')
+    event_score = fields.IntegerField(
+        attribute='recommended_event_score')
+    cumulative_match_score = fields.IntegerField(
+        attribute='cumulative_match_score')
+    friend_attendees_count = fields.IntegerField(
+        attribute='friend_attendees_count')
+    description = fields.CharField(attribute='description', null=True)
+    ends_on = fields.DateTimeField(attribute='ends_on', null=True)
+    event_type = fields.CharField(attribute='event_type', null=True)
+    starts_on = fields.DateTimeField(attribute='starts_on')
+    distance = fields.ListField(attribute='distance')
+    attendees_yes = fields.ListField(attribute='attendees_yes')
+    attendees_no = fields.ListField(attribute='attendees_no')
+    attendees_maybe = fields.ListField(attribute='attendees_maybe')
+    event_photo = fields.FileField(attribute="event_photo", null=True,
+                                   blank=True)
+    organizer = fields.DictField(null=True, attribute='organizer')
+
+    class Meta:
+        resource_name = 'events2'
+        list_allowed_methods = ['get']
+        authentication = JSONWebTokenAuthentication()
+        authorization = GuardianAuthorization()
+
+    def detail_uri_kwargs(self, bundle_or_obj):
+        kwargs = {}
+        if isinstance(bundle_or_obj, Bundle):
+            kwargs['pk'] = bundle_or_obj.obj.id
+        else:
+            kwargs['pk'] = bundle_or_obj.id
+
+        return kwargs
+
+    def get_object_list(self, request):
+        match = []
+        if request.GET.get('filter') == 'true':
+            if request.GET.get('feed') == 'my':
+                feed = 'my'
+            elif request.GET.get('feed') == 'all':
+                feed = 'all'
+            elif request.GET.get('feed') == 'connections':
+                feed = 'connections'
+            else:
+                feed = 'all'
+            fs = FilterState.objects.filter(user=request.user.id)
+            attrs = [fs[0].gender, fs[0].min_age, fs[0].max_age,
+                     fs[0].distance, fs[0].distance_unit,
+                     fs[0].order_criteria, fs[0].keyword]
+            filter_updated = '.'.join(map(str, attrs))
+            filter_updated_sha = hashlib.sha1(filter_updated).hexdigest()
+            cache_key = 'e_%s_%s_%s' % (feed, request.user.id,
+                                        filter_updated_sha)
+            cached_match = cache.get(cache_key)
+            if cached_match:
+                match = cached_match
+            else:
+                match = MatchQuerySet. \
+                    all_event(request.user.id, feed=feed,
+                              is_filter=True)
+                cache.set('e_%s_%s_%s' % (feed, request.user.id,
+                                          filter_updated_sha), match, 180)
+            if fs:
+                if fs[0].order_criteria == 'match_score':
+                    return sorted(
+                        match, key=lambda x: -x.cumulative_match_score)
+                elif fs[0].order_criteria == 'event_score':
+                    return sorted(match,
+                                  key=lambda x: -x.recommended_event_score)
+                elif fs[0].order_criteria == 'mutual_friends':
+                    return sorted(
+                        match, key=lambda x: -x.friend_attendees_count)
+                elif fs[0].order_criteria == 'date':
+                    return sorted(match, key=lambda x: x.starts_on)
+        else:
+            match = MatchQuerySet.all_event(request.user.id, feed='my')
+
+        return match
+
+    def obj_get_list(self, bundle, **kwargs):
+        # Filtering disabled for brevity...
+        return self.get_object_list(bundle.request)
+
+
+class SharedInterestsResource(Resource):
+    id = fields.CharField(attribute='id')
+    total_count = fields.IntegerField(attribute='total_count')
+    shared_interests = fields.ListField(attribute='shared_interests')
+
+    class Meta:
+        resource_name = 'shared_interests'
+        list_allowed_methods = ['get']
+        authentication = JSONWebTokenAuthentication()
+        authorization = Authorization()
+
+    def detail_uri_kwargs(self, bundle_or_obj):
+        kwargs = {}
+        if isinstance(bundle_or_obj, Bundle):
+            kwargs['pk'] = bundle_or_obj.obj.id
+        else:
+            kwargs['pk'] = bundle_or_obj.id
+
+        return kwargs
+
+    def obj_get(self, bundle, **kwargs):
+        event_id = int(kwargs.get('pk'))
+        only_my = bundle.request.GET.get('only_my') == 'true'
+        user_id = bundle.request.user.id
+        attendees = Membership.objects.filter(
+            event_id=event_id, rsvp__in=('yes', 'maybe')
+        ).values_list('user_id', flat=True)
+        if attendees:
+            if only_my:
+                my_interests = Interest.objects.filter(
+                    user_id=user_id).values_list('interest', flat=True)
+                interest_qs = InterestSubject.objects.filter(
+                    interest__user__in=attendees,
+                    interest__interest__in=my_interests
+                )
+            else:
+                interest_qs = InterestSubject.objects.filter(
+                    interest__user__in=attendees
+                )
+            interests = interest_qs.annotate(
+                num_interests=Count('interest')
+            ).order_by('-num_interests').values(
+                'description', 'num_interests', 'id'
+            )
+            shared_interests = ResourseObject(
+                {
+                    'id': event_id,
+                    'shared_interests': interests,
+                    'total_count': len(interests)
+                 }
+            )
+            return shared_interests
+        else:
+            raise NotFound("Shared interests not found")
+
+    def get_object_list(self, request):
+        return []
+
+    def obj_get_list(self, bundle, **kwargs):
         return self.get_object_list(bundle.request)
 
 

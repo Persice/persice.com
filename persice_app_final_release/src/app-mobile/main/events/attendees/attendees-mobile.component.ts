@@ -12,7 +12,7 @@ import { HeaderState } from '../../header/header.state';
 @Component({
   selector: 'prs-mobile-attendees',
   templateUrl: './attendees-mobile.html',
-  providers: [ AttendeeService ]
+  providers: [AttendeeService]
 })
 export class AttendeesMobileComponent implements OnInit, OnDestroy {
 
@@ -26,12 +26,15 @@ export class AttendeesMobileComponent implements OnInit, OnDestroy {
   public counterNotGoing$: Observable<number>;
   public activeTab: AttendeeTab = AttendeeTab.Going;
 
+  public interest: string = '';
+  public interestName: string = '';
   public isLoaded: boolean = false;
   public isLoading$: Observable<boolean>;
   private isLoadedSub: Subscription;
 
   private eventId: number;
   private routerSub: Subscription;
+  private queryParamSub: Subscription;
 
   constructor(
     private appStateService: AppStateService,
@@ -39,7 +42,8 @@ export class AttendeesMobileComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private store: Store<AppState>,
-    private actions: SelectedPersonActions
+    private actions: SelectedPersonActions,
+    private headerState: HeaderState
   ) {
 
   }
@@ -47,13 +51,26 @@ export class AttendeesMobileComponent implements OnInit, OnDestroy {
   ngOnInit(): any {
     document.querySelector('html').classList.toggle('bg-gray-3');
 
-    this.appStateService.headerStateEmitter.emit(HeaderState.attendees);
+    this.queryParamSub = this.route
+      .queryParams
+      .subscribe(params => {
+        this.interest = params['interest'] || null;
+        this.interestName = params['title'] || null;
+
+        if (this.interestName) {
+          this.appStateService.headerStateEmitter.emit(
+            this.headerState.backWithTitle(this.interestName, HeaderState.actions.Back)
+          );
+        } else {
+          this.appStateService.headerStateEmitter.emit(HeaderState.attendees);
+        }
+      });
 
     this.isLoading$ = this.attendeeService.isLoading$;
 
-    this.counterGoing$ = this.attendeeService.counters$.map(data => data[ 0 ]);
-    this.counterMaybe$ = this.attendeeService.counters$.map(data => data[ 1 ]);
-    this.counterNotGoing$ = this.attendeeService.counters$.map(data => data[ 2 ]);
+    this.counterGoing$ = this.attendeeService.counters$.map(data => data[0]);
+    this.counterMaybe$ = this.attendeeService.counters$.map(data => data[1]);
+    this.counterNotGoing$ = this.attendeeService.counters$.map(data => data[2]);
 
     this.isLoadedSub = this.attendeeService.isLoaded$.subscribe((state: boolean) => {
       this.isLoaded = state;
@@ -67,12 +84,12 @@ export class AttendeesMobileComponent implements OnInit, OnDestroy {
 
     // Get eventId from route param and start loading attendees and counters
     this.routerSub = this.route.params.subscribe(params => {
-      this.eventId = params[ 'eventId' ];
+      this.eventId = params['eventId'];
       // Start Inital load
       this._loadData(this.activeTab, true);
 
       // Get counters shown in tabs
-      this.attendeeService.getCounters(this.eventId);
+      this.attendeeService.getCounters(this.eventId, this.interest);
     });
   }
 
@@ -83,6 +100,9 @@ export class AttendeesMobileComponent implements OnInit, OnDestroy {
     }
     if (this.routerSub) {
       this.routerSub.unsubscribe();
+    }
+    if (this.queryParamSub) {
+      this.queryParamSub.unsubscribe();
     }
   }
 
@@ -112,10 +132,11 @@ export class AttendeesMobileComponent implements OnInit, OnDestroy {
   }
 
   private _loadData(tab: AttendeeTab, initial: boolean) {
+    let interest = !!this.interest ? this.interest : null;
     if (initial) {
-      this.attendeeService.loadInitial(tab, this.eventId);
+      this.attendeeService.loadInitial(tab, this.eventId, interest);
     } else {
-      this.attendeeService.loadMore(tab, this.eventId);
+      this.attendeeService.loadMore(tab, this.eventId, interest);
     }
 
   }

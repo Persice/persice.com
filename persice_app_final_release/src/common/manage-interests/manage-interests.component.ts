@@ -21,7 +21,7 @@ export abstract class ManageInterestsComponent {
   INTERESTS_LIMIT: number = 1000;
 
   // API endpoint for autocomplete search in input
-  AUTOCOMPLETE_API_ENDPOINT = '/api/v1/interest_subject/';
+  AUTOCOMPLETE_API_ENDPOINT = SERVER_URI + '/api/v1/interest_subject/';
 
   // Attribute of API response, used for showing autocomplete search results
   AUTOCOMPLETE_API_ATTRIBUTE = 'description';
@@ -83,6 +83,8 @@ export abstract class ManageInterestsComponent {
           this.loading = false;
         });
   }
+
+  public afterListLoaded() { }
 
   public itemSelectedFromAutocomplete(event) {
     this.newItemText = event;
@@ -167,7 +169,7 @@ export abstract class ManageInterestsComponent {
     this.interestBeingSaved = true;
 
     // Try to find index of keyword
-    let idx = findIndex(this.items, { 'description': this.newItemText });
+    let idx = findIndex(this.items, <any>{ 'description': this.newItemText });
 
     // If interest is found, check if it is already selected
     if (this.items[ idx ]) {
@@ -224,6 +226,8 @@ export abstract class ManageInterestsComponent {
 
     this.next = data.meta.next;
     this.offset = data.meta.offset;
+
+    this.afterListLoaded();
   }
 
   private _removeInterest(index) {
@@ -265,6 +269,7 @@ export abstract class ManageInterestsComponent {
           this.items[ index ].active = true;
           this.items[ index ].interest_resource = res.resource_uri;
           this.newItemText = '';
+          this.afterListLoaded();
         } else {
           // New keyword is created
           // Create new interest and push to items array
@@ -275,6 +280,7 @@ export abstract class ManageInterestsComponent {
           this.items.push(newItem);
           this.status = 'success';
           this.newItemText = '';
+          this.afterListLoaded();
         }
         if (refresh) {
           this._refreshList();

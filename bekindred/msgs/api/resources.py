@@ -63,6 +63,7 @@ class MessageResource(ModelResource):
         return bundle
 
     def obj_create(self, bundle, **kwargs):
+        from core.tasks import send_mail
         bundle = super(MessageResource, self).obj_create(bundle, **kwargs)
         r = redis.StrictRedis(host='localhost', port=6379, db=0)
         data = bundle.data
@@ -78,6 +79,11 @@ class MessageResource(ModelResource):
         data['sender_name'] = str(bundle.obj.sender.first_name.encode('utf8'))
         data['sender_sender'] = str(bundle.obj.sender.username)
         r.publish('message.%s' % user.id, json.dumps(data))
+        if user.email:
+            send_mail.delay(
+                bundle.obj.sender.id, bundle.obj.sender.first_name,
+                bundle.obj.body, user.email
+            )
         return bundle
 
 

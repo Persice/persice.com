@@ -5,7 +5,7 @@
   <prs-mobile-event-details [event]="event$ | async"></prs-mobile-event-details>
   <prs-mobile-event-attendees-preview (onClick)="openAttendees($event)"
                                       [event]="event$ | async"></prs-mobile-event-attendees-preview>
-  <prs-mobile-event-details-bottom [event]="event$ | async"></prs-mobile-event-details-bottom>
+  <prs-mobile-event-details-bottom [count]="sharedInterestsCount$ | async" [event]="event$ | async"></prs-mobile-event-details-bottom>
 </div>
 <prs-loading [status]="isLoading$ | async"></prs-loading>
 <prs-mobile-event-not-found *ngIf="(notFound$ | async)"></prs-mobile-event-not-found>

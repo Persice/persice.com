@@ -21,9 +21,10 @@ dll/
 .webpack.json
 webpack-assets.json
 /src/assets/bower_components/
-
+/dist_cordova/
 # Coverage #
 /coverage/
+/cordova/platforms/
 
 /output/
 /src/compiled/
