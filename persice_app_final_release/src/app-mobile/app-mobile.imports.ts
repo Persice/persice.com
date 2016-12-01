@@ -12,7 +12,7 @@ export class AuthConfig extends CustomConfig {
   cordova = 'enabled' === CORDOVA_BUILD ? true : false;
   providers = {
     facebook: {
-      url: SERVER_URI + '/api/v2/accounts/facebook/login/',
+      url: SERVER_URI + '/api/v2/accounts/facebook/login/?format=json',
       authorizationEndpoint: 'https://www.facebook.com/v2.7/dialog/oauth',
       redirectUri: SERVER_URI + '/public/close_popup/',
       clientId: FACEBOOK_ID,
@@ -20,19 +20,19 @@ export class AuthConfig extends CustomConfig {
       scope: FACEBOOK_SCOPE.split(',')
     },
     twitter: {
-      url: SERVER_URI + '/api/v2/accounts/twitter/connect/',
+      url: SERVER_URI + '/api/v2/accounts/twitter/connect/?format=json',
       authorizationEndpoint: 'https://api.twitter.com/oauth/authorize',
       redirectUri: SERVER_URI + '/public/close_popup/',
       unlinkUrl: SERVER_URI + '/api/v2/accounts/twitter/disconnect/'
     },
     linkedin: {
       clientId: LINKEDIN_ID,
-      url: SERVER_URI + '/api/v2/accounts/linkedin/connect/',
+      url: SERVER_URI + '/api/v2/accounts/linkedin/connect/?format=json',
       redirectUri: SERVER_URI + '/public/close_popup/',
       scope: [ 'r_basicprofile', 'rw_company_admin', 'r_emailaddress', 'w_share' ],
       scopeDelimiter: ',',
       state: 'ZjUV40DdytBHaLPj',
-      unlinkUrl: SERVER_URI + '/api/v2/accounts/linkedin/disconnect/'
+      unlinkUrl: SERVER_URI + '/api/v2/accounts/linkedin/disconnect/?format=json'
     }
   };
 }

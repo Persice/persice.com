@@ -19,7 +19,7 @@ export abstract class ManageGoalsOffersComponent {
   MAXIMUM_ITEM_LENGTH: number = 300;
 
   // API endpoint for autocomplete search in input
-  AUTOCOMPLETE_API_ENDPOINT = SERVER_URI + '/api/v1/subject/';
+  AUTOCOMPLETE_API_ENDPOINT = SERVER_URI + '/api/v1/subject/?format=json';
 
   // Attribute of API response, used for showing autocomplete search results
   AUTOCOMPLETE_API_ATTRIBUTE = 'description';

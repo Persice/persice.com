@@ -89,7 +89,7 @@ export class LoginMobileComponent extends LoginComponent implements OnInit, OnDe
       responseType: 'code'
     };
 
-    this.http.post('/api/v2/accounts/facebook/login/', JSON.stringify(data), options)
+    this.http.post('/api/v2/accounts/facebook/login/?format=json', JSON.stringify(data), options)
       .subscribe((res: any) => {
         this.auth.setToken(res);
         this.checkOnboardingAndRedirect();
