@@ -214,3 +214,4 @@ HAYSTACK_CONNECTIONS = {
         }
     },
 }
+ELASTICSEARCH_URL = 'http://persice:p3rs1c3!@173.255.255.126:8080/'

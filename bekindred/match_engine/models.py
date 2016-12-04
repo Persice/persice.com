@@ -510,7 +510,7 @@ class ElasticSearchMatchEngineManager(models.Manager):
     def query_builder(user, query, fields, exclude_user_ids, stop_words,
                       is_filter=False, friends_list=(), friends=False,
                       likes=None):
-        client = Elasticsearch()
+        client = Elasticsearch(settings.ELASTICSEARCH_URL)
         index = settings.HAYSTACK_CONNECTIONS['default']['INDEX_NAME']
         body = {}
         likes_ids = likes if likes else []
@@ -670,7 +670,7 @@ class ElasticSearchMatchEngineManager(models.Manager):
 
     @staticmethod
     def user_event_query_builder(user_id, event_id):
-        client = Elasticsearch()
+        client = Elasticsearch(settings.ELASTICSEARCH_URL)
         index = settings.HAYSTACK_CONNECTIONS['default']['INDEX_NAME']
         location = get_user_location(user_id)
         fs = FilterState.objects.filter(user_id=user_id)
@@ -713,7 +713,7 @@ class ElasticSearchMatchEngineManager(models.Manager):
     @staticmethod
     def event_query_builder(user, event_ids, query=None, is_filter=False,
                             stop_words=()):
-        client = Elasticsearch()
+        client = Elasticsearch(settings.ELASTICSEARCH_URL)
         index = settings.HAYSTACK_CONNECTIONS['default']['INDEX_NAME']
         location = get_user_location(user.id)
         fs = FilterState.objects.filter(user=user)
@@ -924,7 +924,7 @@ class ElasticSearchMatchEngineManager(models.Manager):
         query = ElasticSearchMatchEngineManager.prepare_query(current_user, stop_words)
         fields = ["goals", "offers", "interests"]
         location = get_user_location(current_user.id)
-        client = Elasticsearch()
+        client = Elasticsearch(settings.ELASTICSEARCH_URL)
         index = settings.HAYSTACK_CONNECTIONS['default']['INDEX_NAME']
         fs = FilterState.objects.filter(user_id=current_user.id)
         distance_unit = fs[0].distance_unit[:2] if fs else "mi"
@@ -1033,7 +1033,7 @@ class ElasticSearchMatchEngineManager(models.Manager):
                 "unit": "mi"
             }
         }
-        client = Elasticsearch()
+        client = Elasticsearch(settings.ELASTICSEARCH_URL)
 
         s = Search(using=client,
                    index=settings.HAYSTACK_CONNECTIONS['default'][
@@ -1061,7 +1061,7 @@ class ElasticSearchMatchEngineManager(models.Manager):
 
     @staticmethod
     def get_user(user_id):
-        client = Elasticsearch()
+        client = Elasticsearch(settings.ELASTICSEARCH_URL)
 
         s = Search(using=client,
                    index=settings.HAYSTACK_CONNECTIONS['default'][
