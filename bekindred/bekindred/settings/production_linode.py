@@ -203,3 +203,14 @@ AWS_HEADERS = {
 AWS_S3_CUSTOM_DOMAIN = os.getenv('AWS_S3_CUSTOM_DOMAIN')
 
 NEO4J_URL = 'http://neo4j:MmNjNTJj@localhost:7474/db/data/'
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'elasticstack.backends.ConfigurableElasticSearchEngine',
+        'URL': 'http://173.255.255.126:8080/',
+        'INDEX_NAME': 'haystack',
+        'KWARGS': {
+            'http_auth': ('persice', 'p3rs1c3!')
+        }
+    },
+}
