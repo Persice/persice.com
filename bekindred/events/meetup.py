@@ -7,11 +7,11 @@ import requests
 ### Take a list of cities and return all of the meetups within a given radius. ###
 geolocator = Nominatim()
 places = [
-	"los angeles",
+	"austin",
 	"kiev",
 	"zagreb",
 	]
-	# "austin",
+	# "los angeles",
 	# 'chicago',
 	# 'new york',
 	# 'houston',
@@ -60,13 +60,15 @@ places = [
 
 urls = []
 
-host = "https://api.meetup.com/2/open_events?"
-defaults = "and_text=False&offset=0&format=json&limited_events=False&photo-host=public&page=20&desc=False&status=upcoming"
+host = "https://api.meetup.com/find/events?photo-host=public"
+omit = "&omit=group.created%2Cgroup.id%2Cgroup.join_info%2Cgroup.join_mode%2Cgroup.lat%2Cgroup.lon%2Cgroup.membership_dues%2Cgroup.self%2Cgroup.urlname%2Cgroup.who"
+fields = "&fields=group%2Cgroup_category%2Cgroup_photo%2Cgroup_topics%2Cplain_text_description%2Cevent_hosts"
+only = "&only=group%2Cgroup_category%2Cgroup_photo%2Cgroup_topics%2Cplain_text_description%2Cevent_hosts%2Cid%2Cduration%2Cfee%2Cstatus%2Cname%2Cvenue%2Ctime%2Cutc_offset%2Cvisibility%2Cupdated%2Clink"
 radius = "&radius=25.0"
 sig_id = "&sig_id=10555324"
-sig = "&sig=a479130e212432f56a5b31946f1a2275c049ad6e"
+sig = "&sig=0a84af4803c0c2835a365872043db6f5496c8d6e"
 
-base_url = host + defaults + radius + sig_id + sig
+base_url = host + sig_id + omit + fields + only + radius + sig
 
 
 for place in places: 
@@ -80,7 +82,7 @@ events = []
 
 for url in urls:
 	response = requests.get(url).json()
-	events.extend(response['results'])
+	events.extend(response)
 
 
 pprint(events)
