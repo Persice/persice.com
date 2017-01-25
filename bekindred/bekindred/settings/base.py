@@ -245,6 +245,30 @@ FACEBOOK_DEFAULT_EVENTS_FIELDS += [
 ]
 
 
+# Meetup events
+MEETUP_DEFAULT_EVENTS_FIELDS = [
+    "id",
+    "name",
+    "description",
+    "time",
+    "utc_offset",
+    "duration",
+    "venue",
+    "event_hosts"
+]
+
+MEETUP_DEFAULT_EVENTS_FIELDS += [
+    "group_photo",
+    "group_category",
+    "group_topics",
+    "status",
+    "visibility",
+    "link",
+    "fee",
+    "updated"
+]
+
+
 FACEBOOK_DEFAULT_SCOPE = ['email',
                           'user_about_me',
                           'user_birthday',
