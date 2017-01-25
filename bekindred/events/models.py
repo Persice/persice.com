@@ -181,3 +181,34 @@ class FacebookEvent(models.Model):
         except (ValueError, TypeError):
             owner_info = {}
         return owner_info
+
+
+class MeetupEvent(models.Model):
+    meetup_eid = models.BigIntegerField()
+    name = models.TextField(blank=True, null=True)
+    status = models.CharField(max_length=30, blank=True, null=True)
+    yes_rsvp_count = models.IntegerField(blank=True, null=True)
+    plain_text_description = models.TextField(blank=True, null=True)
+    link = models.TextField(blank=True, null=True)
+    time = models.IntegerField(blank=True, null=True)
+    utc_offset = models.IntegerField(blank=True, null=True)
+    duration = models.IntegerField(blank=True, null=True)
+    venue = models.TextField(blank=True, null=True)
+    fee = models.TextField(blank=True, null=True)
+    event_hosts = models.TextField(blank=True, null=True)
+    group_category = models.TextField(blank=True, null=True)
+    group_photo = models.TextField(blank=True, null=True)
+    group_topics = models.TextField(blank=True, null=True)
+    updated = models.DateTimeField(blank=True, null=True)
+    raw_data = models.TextField(blank=True, null=True)
+
+    def __unicode__(self):
+        return u"{} - {}".format(self.meetup_eid, self.name)
+
+    # @property
+    # def owner_info(self):
+    #     try:
+    #         owner_info = json.loads(self.owner)
+    #     except (ValueError, TypeError):
+    #         owner_info = {}
+    #     return owner_info
